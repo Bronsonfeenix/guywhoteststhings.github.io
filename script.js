@@ -37,23 +37,23 @@
     },
     rogue: {
       skill: { name: "Dahis", text: "", model: "models/rogue-skill.glb", lore: "Early attempts at 5-8ing warriors and gouging blinks (techniques that were definitely not standard at the time) are some of the standouts here, add his fairly decent movement and you end up with a very well rounded rogue. 7.5/10", video: "VMCDsXwAEK8", animation: "Stand" },
-      fun:   { name: "Mute (World of Roguecraft)", text: "", model: "models/rogue-fun.glb", lore: "The most influential vanilla PvP videos of all time, if you ever saw someone trying to flex on their enemies while naked, it's probably because of mute. (Released in reverse order, episode 3 was the first in the series)", video: "bqx1CFomKMI", animation: "Stand" }
+      fun:   { name: "Mute (World of Roguecraft)", text: "", model: "models/rogue-fun.glb", lore: "The most influential vanilla PvP videos of all time, if you ever saw someone trying to flex on their enemies while naked, it's probably because of mute. (Released in reverse order, episode 3 was the first in the series)", video: "bqx1CFomKMI", animation: "Stand (ID 0 variation 0)" }
     },
     priest: {
       skill: { name: "There are no good priests apparently", text: "", model: "models/priest-skill.glb", lore: "There are no good priests apparently", video: null, animation: "Stand" },
-      fun:   { name: "Beckon", text: "", model: "models/priest-fun.glb", lore: "is the Hulksmash of holy priests, sit back, relax, and watch this man cast a 40 second holy fire to take someones head off", video: "x_EgBtUtWBM", animation: "Stand" }
+      fun:   { name: "Beckon", text: "", model: "models/priest-fun.glb", lore: "is the Hulksmash of holy priests, sit back, relax, and watch this man cast a 40 second holy fire to take someones head off", video: "x_EgBtUtWBM", animation: "Stand (ID 0 variation 0)" }
     },
     shaman: {
       skill: { name: "Nimhabulove", text: "", model: "models/shaman-skill.glb", lore: " Between totems, shocks, healing and damaging spells shaman has a lot of tools at its disposal, our guy uses them all. And yes, that was a deathcoil that he grounded. 6/10", video: "qxMSzBxxesk", animation: "Stand" },
       fun:   { name: "Cabbarnuke/Unbreakable", text: "", model: "models/shaman-fun.glb", lore: "You have two options here, if you saw Roguecraft and needed more naked pvp Cabbarnuke is your guy, if you're looking for the exact opposite and want to see a man swing a big hammer as hard as he can Unbreakable has got your back", video: "eXE-J13gpNE", animation: "Stand" }
     },
     mage: {
-      skill: { name: "Clazzi", text: "", model: "models/mage-skill.glb", lore: "Crispy movement, cooldown management and a complete confidence in his actions. Perhaps the first known recording of a dirty pop, the opening 1vX is one of the best recorded vanilla fights of all time. 9.5/10", video: "3_Tr5aklJ6U", animation: "Stand" },
-      fun:   { name: "Pathologist", text: "", model: "models/mage-fun.glb", lore: "By far the most unique and creative visual style, Pathologist (Dyf1.6) saw the potential for PvP videos to be more than crit showcases and unedited BG footage, he wanted to make art, not just in video form as half of his soundtracks are his own songs. Had God blessed him with the PvP skill of a Clazzi, he'd be the only name on this list. ", video: "0ZNAWoYEras", animation: "Stand" }
+      skill: { name: "Clazzi", text: "", model: "models/mage-skill.glb", lore: "Crispy movement, cooldown management and a complete confidence in his actions. Perhaps the first known recording of a dirty pop, the opening 1vX is one of the best recorded vanilla fights of all time. 9.5/10", video: "3_Tr5aklJ6U", animation: "Stand (ID 0 variation 0)" },
+      fun:   { name: "Pathologist", text: "", model: "models/mage-fun.glb", lore: "By far the most unique and creative visual style, Pathologist (Dyf1.6) saw the potential for PvP videos to be more than crit showcases and unedited BG footage, he wanted to make art, not just in video form as half of his soundtracks are his own songs. Had God blessed him with the PvP skill of a Clazzi, he'd be the only name on this list. ", video: "0ZNAWoYEras", animation: "Stand (ID 0 variation 0)" }
     },
     warlock: {
-      skill: { name: "Lokilo", text: "", model: "models/warlock-skill.glb", lore: "An actual time traveler, completely cool under pressure with impeccable character control and target selection. What he lacks in flashiness he makes up for in pure cleanliness. 9/10", video: "dPJf4Ocjc-8", animation: "Stand" },
-      fun:   { name: "Drakedog", text: "", model: "models/warlock-fun.glb", lore: "Did we mention we're fans of Pathologist? Drakedog, who is probably the most beloved vanilla warlock, having Pathologist edit his video for him was a crossover that came out of nowhere and we're glad it did.", video: "I918N8wUvRs", animation: "Stand" }
+      skill: { name: "Lokilo", text: "", model: "models/warlock-skill.glb", lore: "An actual time traveler, completely cool under pressure with impeccable character control and target selection. What he lacks in flashiness he makes up for in pure cleanliness. 9/10", video: "dPJf4Ocjc-8", animation: "Stand (ID 0 variation 0)" },
+      fun:   { name: "Drakedog", text: "", model: "models/warlock-fun.glb", lore: "Did we mention we're fans of Pathologist? Drakedog, who is probably the most beloved vanilla warlock, having Pathologist edit his video for him was a crossover that came out of nowhere and we're glad it did.", video: "I918N8wUvRs", animation: "Stand (ID 0 variation 0)" }
     },
     druid: {
       skill: { name: "Tfo", text: "", model: "models/druid-skill.glb", lore: "Very solid player, he has an exceptional grasp on how to use the utility and strengths of this versatile class. 7.5/10", video: "aX93zH6wJeM", animation: "Stand" },
@@ -66,10 +66,64 @@
   let requestedSrc = "";
   let requestedAnimation = "Stand";
   let currentVideoId = null;
+  let hasStartedPreload = false;
 
   // If a model's requested animation clip doesn't exist in the file,
   // try these common alternate names before giving up.
   const ANIMATION_FALLBACKS = ["Stand", "Idle", "idle", "stand", "Idle01", "Stand1"];
+
+  // ---------------------------------------------------------------
+  // Preload everything on page load instead of waiting for a click.
+  // Models: every unique .glb path in CLASS_DATA gets fetched once,
+  // which primes the browser's HTTP cache -- when <model-viewer>
+  // later requests the same URL, it loads instantly from cache
+  // instead of hitting the network. 404s (classes without a real
+  // model yet) fail silently, same as they always have.
+  // Backgrounds: rather than hardcoding a second list of image paths
+  // to keep in sync with style.css, this scans the loaded stylesheet
+  // for every "background-image: url(...)" rule and preloads each
+  // one via a throwaway Image() object, so any image you add to
+  // style.css later gets preloaded automatically with no extra code.
+  // ---------------------------------------------------------------
+  function preloadAllAssets() {
+    const modelPaths = new Set();
+    Object.values(CLASS_DATA).forEach((modes) => {
+      Object.values(modes).forEach((entry) => {
+        if (entry.model) modelPaths.add(entry.model);
+      });
+    });
+    modelPaths.forEach((path) => {
+      fetch(path).catch(() => {});
+    });
+
+    const urlPattern = /url\((['"]?)([^'")]+)\1\)/g;
+    const imageUrls = new Set();
+    try {
+      Array.from(document.styleSheets).forEach((sheet) => {
+        let rules;
+        try {
+          rules = sheet.cssRules;
+        } catch (e) {
+          return; // cross-origin stylesheet (e.g. Google Fonts) -- skip
+        }
+        if (!rules) return;
+        Array.from(rules).forEach((rule) => {
+          const bg = rule.style && rule.style.backgroundImage;
+          if (!bg || bg === "none") return;
+          let match;
+          while ((match = urlPattern.exec(bg)) !== null) {
+            imageUrls.add(match[2]);
+          }
+        });
+      });
+    } catch (e) {
+      console.warn("Couldn't scan stylesheets to preload background images:", e);
+    }
+    imageUrls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+    });
+  }
 
   function updateView() {
     const data = CLASS_DATA[currentClass][currentMode];
@@ -146,6 +200,13 @@
       if (modelPlaceholder && modelViewer.getAttribute("src") === requestedSrc) {
         modelPlaceholder.classList.add("visible");
       }
+      // Even if the initial model fails to load, still kick off
+      // background preloading rather than waiting forever for a
+      // "load" event that will never come.
+      if (!hasStartedPreload) {
+        hasStartedPreload = true;
+        preloadAllAssets();
+      }
     });
 
     modelViewer.addEventListener("load", () => {
@@ -180,6 +241,15 @@
           `Available animations in this file: [${available.join(", ")}]. ` +
           `Set animation: "<one of those>" for this class/mode in CLASS_DATA to fix it.`
         );
+      }
+
+      // Once the very first model (whatever's shown on page load) has
+      // finished loading, quietly start preloading everything else in
+      // the background -- this way the initial model isn't competing
+      // for bandwidth with 17 other downloads at the same time.
+      if (!hasStartedPreload) {
+        hasStartedPreload = true;
+        preloadAllAssets();
       }
     });
   }
