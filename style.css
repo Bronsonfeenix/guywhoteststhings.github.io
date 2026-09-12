@@ -141,12 +141,9 @@ body {
   width: 76px;
   height: 76px;
   padding: 6px 2px 5px;
-  background: rgba(24, 19, 13, 0.75);
-  border: 1px solid rgba(156, 122, 60, 0.45);
-  border-radius: 4px;
   cursor: pointer;
   opacity: 0.6;
-  transition: opacity 150ms ease, border-color 150ms ease, transform 150ms ease;
+  transition: opacity 150ms ease, transform 150ms ease;
 }
 
 .class-btn:hover {
@@ -156,8 +153,6 @@ body {
 
 .class-btn.active {
   opacity: 1;
-  border-color: var(--gold-bright);
-  box-shadow: 0 0 0 1px var(--gold-bright) inset;
 }
 
 /* Icon placeholder -- swap per class later by replacing the inline
@@ -197,10 +192,16 @@ body {
 
 .class-label {
   font-family: "Cinzel", serif;
-  font-size: 0.62rem;
+  font-size: 0.78rem;
   letter-spacing: 0.03em;
   text-align: center;
-  line-height: 1.1;
+  line-height: 1.15;
+  color: var(--parchment);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.6);
+}
+
+.class-btn.active .class-label {
+  color: var(--gold-bright);
 }
 
 /* ----- 3D model stage ----- */
