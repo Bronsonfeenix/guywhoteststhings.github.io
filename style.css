@@ -373,7 +373,7 @@ body {
 
 .lore-text {
   margin: 0;
-  font-family: "Morpheus", "EB Garamond", serif;
+  font-family: "Morpheus", serif;
   font-style: normal;
   font-weight: 600;
   font-size: clamp(1.4rem, 1.9vw, 2rem);
