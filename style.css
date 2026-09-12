@@ -56,9 +56,7 @@ body {
 [data-class="shaman"] {
   background-image:
     radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    url("images/backgroundorc.png");
-  background-size: cover;
-  background-position: center;
+    linear-gradient(180deg, #1c3040 0%, #24475c 30%, #327a95 55%, #142230 100%);
 }
 [data-class="mage"] {
   background-image:
@@ -166,7 +164,21 @@ body {
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
+  border-radius: 0;
+  background: linear-gradient(135deg, #53412D, #1a140d);
 }
+
+/* Each class's icon background is a gradient from its official WoW
+   class color down to a darker shade of the same color. */
+.class-btn[data-class="warrior"] .class-icon { background: linear-gradient(135deg, #C69B6D, #53412D); }
+.class-btn[data-class="paladin"] .class-icon { background: linear-gradient(135deg, #F48CBA, #663A4E); }
+.class-btn[data-class="hunter"] .class-icon  { background: linear-gradient(135deg, #AAD372, #47582F); }
+.class-btn[data-class="rogue"] .class-icon   { background: linear-gradient(135deg, #FFF468, #6B662B); }
+.class-btn[data-class="priest"] .class-icon  { background: linear-gradient(135deg, #FFFFFF, #6B6B6B); }
+.class-btn[data-class="shaman"] .class-icon  { background: linear-gradient(135deg, #0070DD, #002F5C); }
+.class-btn[data-class="mage"] .class-icon    { background: linear-gradient(135deg, #3FC7EB, #1A5362); }
+.class-btn[data-class="warlock"] .class-icon { background: linear-gradient(135deg, #8788EE, #383963); }
+.class-btn[data-class="druid"] .class-icon   { background: linear-gradient(135deg, #FF7C0A, #6B3404); }
 
 .class-icon svg {
   width: 100%;
