@@ -21,59 +21,59 @@ body {
   transition: background 900ms ease;
   background-size: cover;
   background-position: center;
+  /* Neutral placeholder backdrop -- shows until you add a real image
+     for each class below. Not tied to any class color, so it won't be
+     confused with the icon gradients. */
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
+    linear-gradient(180deg, #211d17 0%, #2c261e 45%, #181410 100%);
 }
 
-/* ---- Per-class backdrops (original placeholder gradients, one per
-   class, using tones associated with that class). Replace any of these
-   with real artwork by pointing background-image at your own file:
-   [data-class="warrior"] { background-image: url("images/warrior.jpg"); } ---- */
-
-[data-class="warrior"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #4a3420 0%, #6b4b2a 30%, #97703f 55%, #3a2917 100%);
-}
-[data-class="paladin"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 75%),
-    linear-gradient(180deg, #4a3a4a 0%, #6e4f5c 30%, #b98a9a 55%, #3a2c33 100%);
-}
-[data-class="hunter"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #22331c 0%, #34492a 30%, #587a3c 55%, #1a2615 100%);
-}
-[data-class="rogue"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 75%),
-    linear-gradient(180deg, #201f18 0%, #302d1f 30%, #4a4526 55%, #14130d 100%);
-}
-[data-class="priest"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.5) 75%),
-    linear-gradient(180deg, #3a3d44 0%, #545a63 30%, #8992a0 55%, #2b2e33 100%);
-}
-[data-class="shaman"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #1c3040 0%, #24475c 30%, #327a95 55%, #142230 100%);
-}
-[data-class="mage"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 75%),
-    linear-gradient(180deg, #232b4a 0%, #333e6b 30%, #5a6bb0 55%, #1a2038 100%);
-}
-[data-class="warlock"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 75%),
-    linear-gradient(180deg, #2a1c38 0%, #402955 30%, #5f3d7d 55%, #1c1226 100%);
-}
-[data-class="druid"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #4a2e14 0%, #6e451c 30%, #a3651f 55%, #351f0d 100%);
-}
-
+/* ---- Add your own background image per class AND mode here. Nothing
+   is set by default (every combination currently shows the neutral
+   backdrop above) -- just point background-image at your file. Since
+   backgrounds can differ between "Skill" and "Fun" for the same class,
+   target both attributes together:
+   [data-class="warrior"][data-mode="skill"] {
+     background-image: url("images/warrior-skill.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="warrior"][data-mode="fun"] {
+     background-image: url("images/warrior-fun.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   Repeat for: paladin, hunter, rogue, priest, shaman, mage, warlock,
+   druid -- each with a "-skill" and a "-fun" image if you want them to
+   differ. If you only add one rule for a class (say, just "skill"),
+   the "fun" mode for that class will keep showing the neutral backdrop
+   until you add its own rule too. ---- */
+[data-class="shaman"][data-mode="skill"] {
+     background-image: url("images/backgroundorc.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="shaman"][data-mode="fun"] {
+     background-image: url("images/backgroundorc.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="mage"][data-mode="skill"] {
+     background-image: url("images/backgroundundead.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="warlock "][data-mode="skill"] {
+     background-image: url("images/backgroundundead.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="warlock "][data-mode="fun"] {
+     background-image: url("images/backgroundundead.jpg");
+     background-size: cover;
+     background-position: center;
+   }
 .scene {
   position: relative;
   height: 100vh;

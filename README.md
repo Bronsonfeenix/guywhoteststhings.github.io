@@ -14,26 +14,44 @@ different set of the same for whichever class is currently selected.
 
 ## Everything here is a placeholder
 
-**Class icons:** each button currently shows a plain circle. To add a
-real icon, edit `style.css` and point the relevant class at an image:
-```css
-.class-btn[data-class="warrior"] .class-icon {
-  background-image: url("icons/warrior.png");
-}
+**Class icons:** each button currently shows a simple line-drawn icon
+(an original design — not Blizzard's actual icons, which are
+copyrighted) on top of a gradient background tinted with that class's
+official WoW color. To use your own icon image instead, open
+`index.html`, find that class's button, and replace its `<svg>...</svg>`
+block with an `<img>`:
+```html
+<span class="class-icon">
+  <img src="icons/warrior.png" alt="Warrior">
+</span>
 ```
-Do this once per class (`warrior`, `paladin`, `hunter`, `rogue`,
-`priest`, `shaman`, `mage`, `warlock`, `druid`).
+Put the image files in an `icons/` folder next to `index.html`. The
+color-gradient background stays either way — it's set separately in
+`style.css` under the `.class-btn[data-class="..."] .class-icon` rules,
+so an `<img>` will sit on top of it unless you remove that rule for the
+classes you've swapped in real icons for.
 
-**Backgrounds:** each class has an original gradient backdrop in
-`style.css` (search for `[data-class="warrior"]` etc.), standing in for
-real artwork. Swap any of them for an image the same way as before:
+**Backgrounds:** every class/mode combination currently shows the same
+neutral dark backdrop — nothing is set by default. To add your own
+image, open `style.css`, find the comment block near the top (search
+for "Add your own background image"), and add a rule targeting both
+the class and the mode together, since Skill and Fun can each have a
+different background for the same class:
 ```css
-[data-class="warrior"] {
-  background-image: url("images/warrior.jpg");
+[data-class="warrior"][data-mode="skill"] {
+  background-image: url("images/warrior-skill.jpg");
+  background-size: cover;
+  background-position: center;
+}
+[data-class="warrior"][data-mode="fun"] {
+  background-image: url("images/warrior-fun.jpg");
   background-size: cover;
   background-position: center;
 }
 ```
+Repeat for whichever of the 9 classes × 2 modes (18 combinations total)
+you have art for — any combination left unset just keeps showing the
+neutral backdrop.
 
 **Names, flavor text, and lore:** open `script.js` and find `CLASS_DATA`
 near the top. Every class has a `skill` and a `fun` entry, each with a
