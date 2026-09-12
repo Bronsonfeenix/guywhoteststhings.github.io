@@ -223,8 +223,9 @@ body {
   opacity: 1;
 }
 
-/* Icon placeholder -- swap per class later by replacing the inline
-   SVG in index.html with your own icon markup or an <img>. */
+/* Icon container -- background removed since real icon images are
+   now used (see index.html). If you ever go back to the SVG
+   placeholders, you can re-add a background here if you want one. */
 .class-icon {
   width: 40px;
   height: 40px;
@@ -233,20 +234,7 @@ body {
   justify-content: center;
   flex: 0 0 auto;
   border-radius: 0;
-  background: linear-gradient(135deg, #53412D, #1a140d);
 }
-
-/* Each class's icon background is a gradient from its official WoW
-   class color down to a darker shade of the same color. */
-.class-btn[data-class="warrior"] .class-icon { background: linear-gradient(135deg, #C69B6D, #53412D); }
-.class-btn[data-class="paladin"] .class-icon { background: linear-gradient(135deg, #F48CBA, #663A4E); }
-.class-btn[data-class="hunter"] .class-icon  { background: linear-gradient(135deg, #AAD372, #47582F); }
-.class-btn[data-class="rogue"] .class-icon   { background: linear-gradient(135deg, #FFF468, #6B662B); }
-.class-btn[data-class="priest"] .class-icon  { background: linear-gradient(135deg, #FFFFFF, #6B6B6B); }
-.class-btn[data-class="shaman"] .class-icon  { background: linear-gradient(135deg, #0070DD, #002F5C); }
-.class-btn[data-class="mage"] .class-icon    { background: linear-gradient(135deg, #3FC7EB, #1A5362); }
-.class-btn[data-class="warlock"] .class-icon { background: linear-gradient(135deg, #8788EE, #383963); }
-.class-btn[data-class="druid"] .class-icon   { background: linear-gradient(135deg, #FF7C0A, #6B3404); }
 
 .class-icon svg {
   width: 100%;
