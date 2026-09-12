@@ -211,7 +211,17 @@ body {
   padding: 6px 2px 5px;
   cursor: pointer;
   opacity: 0.6;
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+  outline: none;
   transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.class-btn:focus-visible {
+  outline: 1px solid var(--gold-bright);
+  outline-offset: 2px;
 }
 
 .class-btn:hover {
