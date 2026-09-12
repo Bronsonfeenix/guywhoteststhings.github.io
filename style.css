@@ -160,17 +160,34 @@ body {
   box-shadow: 0 0 0 1px var(--gold-bright) inset;
 }
 
-/* Icon placeholder -- swap per class later, e.g.:
-   .class-btn[data-class="warrior"] .class-icon { background-image: url("icons/warrior.png"); } */
+/* Icon placeholder -- swap per class later by replacing the inline
+   SVG in index.html with your own icon markup or an <img>. */
 .class-icon {
   width: 34px;
   height: 34px;
   border-radius: 50%;
   border: 1px solid var(--gold);
-  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.25), rgba(0,0,0,0.35));
-  background-size: cover;
-  background-position: center;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.18), rgba(0,0,0,0.35));
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
+}
+
+.class-icon svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 150ms ease;
+}
+
+.class-btn:hover .class-icon svg,
+.class-btn.active .class-icon svg {
+  stroke: var(--gold-bright);
 }
 
 .class-label {
@@ -244,9 +261,8 @@ body {
 
 .lore-panel {
   position: absolute;
-  top: 50%;
+  bottom: 20vh;
   right: 4vw;
-  transform: translateY(-50%);
   width: min(560px, 34vw);
   min-width: 320px;
   z-index: 6;
@@ -288,7 +304,7 @@ body {
 @media (max-width: 860px) {
   .lore-panel {
     position: static;
-    transform: none;
+    bottom: auto;
     width: 85vw;
     margin: 12px auto 0;
     text-align: center;
