@@ -66,30 +66,36 @@
     body.dataset.class = currentClass;
     body.dataset.mode = currentMode;
 
-    classText.textContent = data.text;
-    nameInput.value = data.name;
-    loreText.textContent = data.lore;
+    if (classText) classText.textContent = data.text;
+    if (nameInput) nameInput.value = data.name;
+    if (loreText) {
+      loreText.textContent = data.lore;
+    } else {
+      console.warn('script.js expected an element with id="loreText" but did not find one. Make sure index.html, style.css, and script.js are all the latest versions, deployed together.');
+    }
 
     requestedSrc = data.model;
-    modelPlaceholder.classList.remove("visible");
-    placeholderPath.textContent = data.model;
-    modelViewer.setAttribute("src", data.model);
+    if (modelPlaceholder) modelPlaceholder.classList.remove("visible");
+    if (placeholderPath) placeholderPath.textContent = data.model;
+    if (modelViewer) modelViewer.setAttribute("src", data.model);
 
     modeButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.mode === currentMode));
     classButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.class === currentClass));
   }
 
-  modelViewer.addEventListener("error", (event) => {
-    if (modelViewer.getAttribute("src") === requestedSrc) {
-      modelPlaceholder.classList.add("visible");
-    }
-  });
+  if (modelViewer) {
+    modelViewer.addEventListener("error", () => {
+      if (modelPlaceholder && modelViewer.getAttribute("src") === requestedSrc) {
+        modelPlaceholder.classList.add("visible");
+      }
+    });
 
-  modelViewer.addEventListener("load", () => {
-    if (modelViewer.getAttribute("src") === requestedSrc) {
-      modelPlaceholder.classList.remove("visible");
-    }
-  });
+    modelViewer.addEventListener("load", () => {
+      if (modelPlaceholder && modelViewer.getAttribute("src") === requestedSrc) {
+        modelPlaceholder.classList.remove("visible");
+      }
+    });
+  }
 
   modeButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
