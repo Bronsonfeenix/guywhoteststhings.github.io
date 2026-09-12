@@ -23,50 +23,55 @@ body {
   background-position: center;
 }
 
-/* ---- Per-race backdrops (original, non-derivative gradients standing in
-   for each race's homeland). Swap any of these for your own screenshots:
-   just point background-image at your file, e.g.
-   [data-race="orc"] { background-image: url("images/orc.jpg"); } ---- */
+/* ---- Per-class backdrops (original placeholder gradients, one per
+   class, using tones associated with that class). Replace any of these
+   with real artwork by pointing background-image at your own file:
+   [data-class="warrior"] { background-image: url("images/warrior.jpg"); } ---- */
 
-[data-race="orc"] {
+[data-class="warrior"] {
   background-image:
     radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #5a2314 0%, #7a2f16 30%, #a3411a 55%, #4a1c10 100%);
+    linear-gradient(180deg, #4a3420 0%, #6b4b2a 30%, #97703f 55%, #3a2917 100%);
 }
-[data-race="human"] {
+[data-class="paladin"] {
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 75%),
+    linear-gradient(180deg, #4a3a4a 0%, #6e4f5c 30%, #b98a9a 55%, #3a2c33 100%);
+}
+[data-class="hunter"] {
   background-image:
     radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #21351f 0%, #2f4a26 35%, #4c6b2f 60%, #1c2a17 100%);
+    linear-gradient(180deg, #22331c 0%, #34492a 30%, #587a3c 55%, #1a2615 100%);
 }
-[data-race="dwarf"] {
+[data-class="rogue"] {
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 75%),
+    linear-gradient(180deg, #201f18 0%, #302d1f 30%, #4a4526 55%, #14130d 100%);
+}
+[data-class="priest"] {
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.5) 75%),
+    linear-gradient(180deg, #3a3d44 0%, #545a63 30%, #8992a0 55%, #2b2e33 100%);
+}
+[data-class="shaman"] {
   background-image:
     radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #33373d 0%, #495158 35%, #6b7580 60%, #23262b 100%);
+    linear-gradient(180deg, #1c3040 0%, #24475c 30%, #327a95 55%, #142230 100%);
 }
-[data-race="nightelf"] {
+[data-class="mage"] {
   background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #251a3d 0%, #372755 35%, #4d3579 60%, #1a1330 100%);
+    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 75%),
+    linear-gradient(180deg, #232b4a 0%, #333e6b 30%, #5a6bb0 55%, #1a2038 100%);
 }
-[data-race="gnome"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #1f3742 0%, #2c4f5f 35%, #3f7185 60%, #17262d 100%);
-}
-[data-race="undead"] {
+[data-class="warlock"] {
   background-image:
     radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 75%),
-    linear-gradient(180deg, #232b1f 0%, #33422b 35%, #45592f 60%, #171d13 100%);
+    linear-gradient(180deg, #2a1c38 0%, #402955 30%, #5f3d7d 55%, #1c1226 100%);
 }
-[data-race="tauren"] {
+[data-class="druid"] {
   background-image:
     radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #4a3416 0%, #6b4c1e 35%, #93692a 60%, #362510 100%);
-}
-[data-race="troll"] {
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
-    linear-gradient(180deg, #1c3327 0%, #26492f 35%, #37693b 60%, #14241a 100%);
+    linear-gradient(180deg, #4a2e14 0%, #6e451c 30%, #a3651f 55%, #351f0d 100%);
 }
 
 .scene {
@@ -75,190 +80,238 @@ body {
   width: 100vw;
 }
 
-/* ----- Race rail ----- */
+/* ----- Left control column: mode toggle + class grid ----- */
 
-.race-rail {
+.control-column {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: clamp(200px, 18vw, 260px);
-  padding: 6vh 0;
-  background: linear-gradient(90deg, rgba(10,8,6,0.75) 0%, rgba(10,8,6,0.35) 80%, rgba(10,8,6,0) 100%);
+  top: 50%;
+  left: 4vw;
+  transform: translateY(-50%);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 6;
 }
 
-.race-rail ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
+.mode-toggle {
+  display: flex;
+  gap: 8px;
 }
 
-.race-rail li {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 11px 18px 11px 28px;
+.mode-btn {
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--parchment);
+  background: rgba(20, 16, 11, 0.55);
+  border: 1px solid var(--gold);
+  border-radius: 3px;
+  padding: 8px 20px;
   cursor: pointer;
-  opacity: 0.55;
-  transition: opacity 200ms ease, background 200ms ease;
-  border-left: 3px solid transparent;
+  opacity: 0.65;
+  transition: opacity 150ms ease, background 150ms ease;
 }
 
-.race-rail li:hover {
-  opacity: 0.85;
-}
+.mode-btn:hover { opacity: 0.9; }
 
-.race-rail li.active {
+.mode-btn.active {
   opacity: 1;
-  background: rgba(156, 122, 60, 0.14);
-  border-left: 3px solid var(--gold-bright);
+  background: rgba(156, 122, 60, 0.28);
+  border-color: var(--gold-bright);
+  color: var(--gold-bright);
 }
 
-.crest {
-  width: 22px;
-  height: 22px;
+.class-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 76px);
+  grid-template-rows: repeat(3, 76px);
+  gap: 8px;
+  padding: 10px;
+  background: rgba(10, 8, 6, 0.4);
+  border-radius: 6px;
+}
+
+.class-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 76px;
+  height: 76px;
+  padding: 6px 2px 5px;
+  background: rgba(24, 19, 13, 0.75);
+  border: 1px solid rgba(156, 122, 60, 0.45);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.class-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.class-btn.active {
+  opacity: 1;
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 0 1px var(--gold-bright) inset;
+}
+
+/* Icon placeholder -- swap per class later, e.g.:
+   .class-btn[data-class="warrior"] .class-icon { background-image: url("icons/warrior.png"); } */
+.class-icon {
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   border: 1px solid var(--gold);
-  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.25), rgba(0,0,0,0.3));
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.25), rgba(0,0,0,0.35));
+  background-size: cover;
+  background-position: center;
   flex: 0 0 auto;
 }
 
-.race-name {
+.class-label {
   font-family: "Cinzel", serif;
-  font-size: 0.92rem;
-  letter-spacing: 0.04em;
+  font-size: 0.62rem;
+  letter-spacing: 0.03em;
+  text-align: center;
+  line-height: 1.1;
 }
 
-/* ----- 3D model viewport ----- */
+/* ----- 3D model stage ----- */
 
-.race-model {
-  display: none;
+.model-stage {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: min(560px, 42vw);
-  height: min(560px, 62vh);
+  height: min(560px, 58vh);
   min-width: 260px;
   min-height: 260px;
   z-index: 5;
+}
+
+.race-model {
+  width: 100%;
+  height: 100%;
   --poster-color: transparent;
   background-color: transparent;
 }
 
-/* Reveal the model whose data-race matches the current selection. As you
-   add more .glb files, add more <model-viewer data-race="..."> elements
-   in index.html — this rule shows whichever one matches. */
-[data-race="orc"] .race-model[data-race="orc"] {
-  display: block;
-}
-
-@media (max-width: 720px) {
-  .race-model {
-    width: min(320px, 70vw);
-    height: min(320px, 40vh);
-    top: 40%;
-  }
-}
-
-/* ----- Info panel (the only surviving detail box) ----- */
-
-.info-panel {
+.model-placeholder {
   position: absolute;
-  right: 6vw;
-  bottom: 8vh;
-  width: min(420px, 34vw);
-  min-width: 280px;
-  padding: 28px 30px 22px;
-  background: linear-gradient(180deg, rgba(24,19,13,0.88), rgba(15,12,8,0.92));
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px dashed rgba(205, 166, 90, 0.5);
+  border-radius: 8px;
+  background: rgba(10, 8, 6, 0.25);
+  text-align: center;
+  padding: 20px;
+}
+
+.model-placeholder.visible {
+  display: flex;
+}
+
+.placeholder-glyph {
+  font-size: 2rem;
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+.model-placeholder p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--gold);
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+#placeholderPath {
+  font-family: monospace;
+  font-size: 0.75rem;
+}
+
+/* ----- Bottom-center identity panel: flavor text + name field ----- */
+
+.identity-panel {
+  position: absolute;
+  bottom: 5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: min(480px, 70vw);
+  z-index: 6;
+}
+
+.class-text {
+  margin: 0;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--parchment);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}
+
+.name-field {
+  width: 100%;
+}
+
+#classNameInput {
+  width: 100%;
+  text-align: center;
+  font-family: "Cinzel", serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  color: var(--gold-bright);
+  background: linear-gradient(180deg, rgba(24,19,13,0.9), rgba(15,12,8,0.92));
   border: 1px solid var(--gold);
   border-radius: 4px;
-  box-shadow: 0 18px 40px var(--panel-shadow);
+  padding: 12px 16px;
+  cursor: default;
+  box-shadow: 0 10px 26px var(--panel-shadow);
 }
 
-.info-header {
-  font-family: "Cinzel", serif;
-  font-weight: 700;
-  font-size: 1.6rem;
-  letter-spacing: 0.03em;
-  margin: 0 0 12px;
-  color: var(--gold-bright);
+#classNameInput:focus {
   outline: none;
-  border-bottom: 1px solid rgba(156,122,60,0.4);
-  padding-bottom: 8px;
-}
-
-.info-header:focus {
-  border-bottom-color: var(--gold-bright);
-}
-
-.info-text {
-  font-size: 1.05rem;
-  line-height: 1.55;
-  margin: 0;
-  outline: none;
-  min-height: 4.5em;
-}
-
-.info-text:focus {
-  background: rgba(255,255,255,0.03);
-}
-
-.reset-row {
-  margin-top: 16px;
-  text-align: right;
-}
-
-#resetText {
-  font-family: "EB Garamond", serif;
-  font-size: 0.82rem;
-  color: var(--gold);
-  background: none;
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  padding: 5px 12px;
-  cursor: pointer;
-  transition: color 150ms ease, border-color 150ms ease;
-}
-
-#resetText:hover {
-  color: var(--gold-bright);
-  border-color: var(--gold-bright);
 }
 
 /* ----- Small screens ----- */
 
-@media (max-width: 720px) {
-  .race-rail {
-    width: 100%;
-    height: auto;
+@media (max-width: 860px) {
+  .control-column {
+    left: 50%;
     top: auto;
-    bottom: 0;
-    padding: 12px 0;
-    background: linear-gradient(0deg, rgba(10,8,6,0.85) 0%, rgba(10,8,6,0) 100%);
+    bottom: 2vh;
+    transform: translateX(-50%);
+    align-items: center;
   }
-  .race-rail ul {
-    display: flex;
-    overflow-x: auto;
-    gap: 4px;
-    padding: 0 12px;
+  .class-grid {
+    grid-template-columns: repeat(3, 60px);
+    grid-template-rows: repeat(3, 60px);
   }
-  .race-rail li {
-    flex: 0 0 auto;
-    border-left: none;
-    border-bottom: 3px solid transparent;
-    padding: 6px 12px;
+  .class-btn {
+    width: 60px;
+    height: 60px;
   }
-  .race-rail li.active {
-    border-bottom: 3px solid var(--gold-bright);
+  .model-stage {
+    width: min(320px, 70vw);
+    height: min(320px, 38vh);
+    top: 30%;
   }
-  .info-panel {
-    left: 5vw;
-    right: 5vw;
-    width: auto;
-    bottom: 14vh;
+  .identity-panel {
+    bottom: 30vh;
+    width: 85vw;
   }
 }

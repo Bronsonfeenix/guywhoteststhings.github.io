@@ -10,44 +10,83 @@
 <link rel="stylesheet" href="style.css">
 <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
 </head>
-<body data-race="orc">
+<body data-class="warrior" data-mode="skill">
 
   <div class="scene">
 
-    <!-- Race selector, left side -->
-    <nav class="race-rail" aria-label="Choose a race">
-      <ul>
-        <li data-race="human"><span class="crest"></span><span class="race-name">Human</span></li>
-        <li data-race="dwarf"><span class="crest"></span><span class="race-name">Dwarf</span></li>
-        <li data-race="nightelf"><span class="crest"></span><span class="race-name">Night Elf</span></li>
-        <li data-race="gnome"><span class="crest"></span><span class="race-name">Gnome</span></li>
-        <li data-race="orc" class="active"><span class="crest"></span><span class="race-name">Orc</span></li>
-        <li data-race="undead"><span class="crest"></span><span class="race-name">Undead</span></li>
-        <li data-race="tauren"><span class="crest"></span><span class="race-name">Tauren</span></li>
-        <li data-race="troll"><span class="crest"></span><span class="race-name">Troll</span></li>
-      </ul>
-    </nav>
+    <!-- Left control column: mode toggle + 3x3 class grid -->
+    <div class="control-column">
 
-    <!-- 3D model, shown when its race is selected. Only "orc" has a model so far. -->
-    <model-viewer
-      class="race-model"
-      data-race="orc"
-      src="models/orc.glb"
-      camera-controls
-      auto-rotate
-      shadow-intensity="1"
-      exposure="1"
-      alt="3D model of an Orc character"
-    ></model-viewer>
-
-    <!-- The single remaining info panel -->
-    <section class="info-panel" aria-label="Selected race details">
-      <h1 class="info-header" contenteditable="true" spellcheck="false" data-key="panelHeader">Orc</h1>
-      <p class="info-text" contenteditable="true" spellcheck="false" data-key="panelText">Born in the shattered wastes of Draenor, the orcs carry the scars of their past into every battle. Strength is not a virtue among the Horde&thinsp;&mdash;&thinsp;it is a requirement.</p>
-      <div class="reset-row">
-        <button type="button" id="resetText">Reset text</button>
+      <div class="mode-toggle" role="group" aria-label="Choose a mode">
+        <button type="button" class="mode-btn active" data-mode="skill">Skill</button>
+        <button type="button" class="mode-btn" data-mode="fun">Fun</button>
       </div>
-    </section>
+
+      <div class="class-grid" role="group" aria-label="Choose a class">
+        <button type="button" class="class-btn active" data-class="warrior">
+          <span class="class-icon"></span>
+          <span class="class-label">Warrior</span>
+        </button>
+        <button type="button" class="class-btn" data-class="paladin">
+          <span class="class-icon"></span>
+          <span class="class-label">Paladin</span>
+        </button>
+        <button type="button" class="class-btn" data-class="hunter">
+          <span class="class-icon"></span>
+          <span class="class-label">Hunter</span>
+        </button>
+        <button type="button" class="class-btn" data-class="rogue">
+          <span class="class-icon"></span>
+          <span class="class-label">Rogue</span>
+        </button>
+        <button type="button" class="class-btn" data-class="priest">
+          <span class="class-icon"></span>
+          <span class="class-label">Priest</span>
+        </button>
+        <button type="button" class="class-btn" data-class="shaman">
+          <span class="class-icon"></span>
+          <span class="class-label">Shaman</span>
+        </button>
+        <button type="button" class="class-btn" data-class="mage">
+          <span class="class-icon"></span>
+          <span class="class-label">Mage</span>
+        </button>
+        <button type="button" class="class-btn" data-class="warlock">
+          <span class="class-icon"></span>
+          <span class="class-label">Warlock</span>
+        </button>
+        <button type="button" class="class-btn" data-class="druid">
+          <span class="class-icon"></span>
+          <span class="class-label">Druid</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- 3D model, one element reused for whichever class/mode is active -->
+    <div class="model-stage">
+      <model-viewer
+        id="classModel"
+        class="race-model"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1"
+        exposure="1"
+        alt="3D model of the selected class"
+      ></model-viewer>
+      <div class="model-placeholder" id="modelPlaceholder">
+        <span class="placeholder-glyph">&#9670;</span>
+        <p>3D model placeholder<br><span id="placeholderPath"></span></p>
+      </div>
+    </div>
+
+    <!-- Bottom-center: flavor text + read-only name field, like the game's screen -->
+    <div class="identity-panel">
+      <p class="class-text" id="classText"></p>
+      <div class="name-field">
+        <input type="text" id="classNameInput" readonly aria-label="Character name" tabindex="-1">
+      </div>
+    </div>
 
   </div>
 
