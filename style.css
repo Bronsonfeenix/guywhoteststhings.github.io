@@ -49,7 +49,97 @@ body {
    differ. If you only add one rule for a class (say, just "skill"),
    the "fun" mode for that class will keep showing the neutral backdrop
    until you add its own rule too. ---- */
+[data-class="warrior"][data-mode="skill"] {
+     background-image: url("images/backgroundorc.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="warrior"][data-mode="fun"] {
+     background-image: url("images/backgroundsnq.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="paladin"][data-mode="skill"] {
+     background-image: url("images/backgroundpaladin.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="paladin"][data-mode="fun"] {
+     background-image: url("images/backgroundpaladin.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="hunter"][data-mode="skill"] {
+     background-image: url("images/backgroundnightelf.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="hunter"][data-mode="fun"] {
+     background-image: url("images/backgroundnightelf.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="rogue"][data-mode="skill"] {
+     background-image: url("images/backgroundhuman.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="rogue"][data-mode="fun"] {
+     background-image: url("images/backgroundundead.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="priest"][data-mode="skill"] {
+     background-image: url("images/warrior-skill.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="priest"][data-mode="fun"] {
+     background-image: url("images/backgroundundead.jpg");
+     background-size: cover;
+     background-position: center;
+   }
 
+   [data-class="shaman"][data-mode="skill"] {
+     background-image: url("images/backgroundorc.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="shaman"][data-mode="fun"] {
+     background-image: url("images/backgroundorc.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="mage"][data-mode="skill"] {
+     background-image: url("images/backgroundundead.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="mage"][data-mode="fun"] {
+     background-image: url("images/backgroundundead.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="warlock"][data-mode="skill"] {
+     background-image: url("images/backgroundundead.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="warlock"][data-mode="fun"] {
+     background-image: url("images/backgroundundead.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="druid"][data-mode="skill"] {
+     background-image: url("images/backgroundnightelf.png");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="druid"][data-mode="fun"] {
+     background-image: url("images/backgroundnightelf.png");
+     background-size: cover;
+     background-position: center;
+   }
 .scene {
   position: relative;
   height: 100vh;

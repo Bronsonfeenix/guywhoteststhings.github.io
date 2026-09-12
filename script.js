@@ -24,40 +24,40 @@
   // ---------------------------------------------------------------
   const CLASS_DATA = {
     warrior: {
-      skill: { name: "Thoradin Ironhide", text: "A veteran of a hundred battles, trusting steel and discipline over magic.", model: "models/warrior-skill.glb", lore: "Add elegant lore text for warrior / skill here.", video: null },
-      fun:   { name: "Sir Punches-A-Lot", text: "Solves every problem by hitting it until it stops being a problem.", model: "models/warrior-fun.glb", lore: "Add elegant lore text for warrior / fun here.", video: null }
+      skill: { name: "Bobo", text: "", model: "models/warrior-skill.glb", lore: "The rest of the skilled section were picked for their individual skill, Bobo however was picked because the demons he chose to fight could have made it to this list on their own (one of them did). By far the cleanest and most impressive warrior at the time, you could easily believe some of these duels were recorded yesterday and not 20 years ago. 9/10", video: "23MOz4cc0Uk" },
+      fun:   { name: "S&Q Inc Group PVP", text: "", model: "models/warrior-fun.glb", lore: "One of the classiest PvP videos in all of vanilla, the editing, the soundtrack and the 2vX lens they filmed through, S&Q Inc is nothing if not fun. A shoutout to Wheeliecool & Champ for a similar vibe but for us it's gotta be S&Q Inc.", video: "sHJS1bqu6yw" }
     },
     paladin: {
-      skill: { name: "Aldrena Lightbringer", text: "Channels the Light to shield allies and smite those who threaten them.", model: "models/paladin-skill.glb", lore: "Add elegant lore text for paladin / skill here.", video: null },
-      fun:   { name: "Captain Sparklefist", text: "Fights crime with a glowing hammer and an unshakeable sense of optimism.", model: "models/paladin-fun.glb", lore: "Add elegant lore text for paladin / fun here.", video: null }
+      skill: { name: "Arthus", text: "", model: "models/paladin-skill.glb", lore: " Is friends with bobo 6/10", video: "S9XitQA-dkE" },
+      fun:   { name: "Zalgradis", text: "", model: "models/paladin-fun.glb", lore: "Sketches, engineering, bad voice acting, and a unique playstyle come together in a love letter full of references to other videos of the era", video: "NOXrGmulbMk" }
     },
     hunter: {
-      skill: { name: "Kelthir Swiftarrow", text: "Tracks prey across any terrain, striking from a distance before it knows he's there.", model: "models/hunter-skill.glb", lore: "Add elegant lore text for hunter / skill here.", video: null },
-      fun:   { name: "Bowzo the Pet Collector", text: "Has more animal friends than actual friends, and is fine with that.", model: "models/hunter-fun.glb", lore: "Add elegant lore text for hunter / fun here.", video: null }
+      skill: { name: "Junglle", text: "", model: "models/hunter-skill.glb", lore: "If Dysphoria had 1 second of PvP in his video he'd be on this side. 5/10", video: "QrXL4bxtymk" },
+      fun:   { name: "Dysphoria", text: "", model: "models/hunter-fun.glb", lore: " A completely fresh soundtrack for the time and a mental that says nothing is impossible Hunter Vs. World is an all time classic series.", video: "nu7XgF_P9Ddjkll" }
     },
     rogue: {
-      skill: { name: "Vex Nightshade", text: "Moves unseen through shadow, striking once and vanishing before the echo fades.", model: "models/rogue-skill.glb", lore: "Early attempts at 5-8ing warriors and gouging blinks (techniques that were definitely not standard at the time) are some of the standouts here, add his fairly decent movement and you end up with a very well rounded rogue.", video: "VMCDsXwAEK8" },
-      fun:   { name: "Sticky Fingers Sam", text: "Definitely didn't take your coin purse. Definitely.", model: "models/rogue-fun.glb", lore: "Add elegant lore text for rogue / fun here.", video: null }
+      skill: { name: "Dahis", text: "", model: "models/rogue-skill.glb", lore: "Early attempts at 5-8ing warriors and gouging blinks (techniques that were definitely not standard at the time) are some of the standouts here, add his fairly decent movement and you end up with a very well rounded rogue. 7.5/10", video: "VMCDsXwAEK8" },
+      fun:   { name: "Mute (World of Roguecraft)", text: "", model: "models/rogue-fun.glb", lore: "The most influential vanilla PvP videos of all time, if you ever saw someone trying to flex on their enemies while naked, it's probably because of mute. (Released in reverse order, episode 3 was the first in the series)", video: "bqx1CFomKMI" }
     },
     priest: {
-      skill: { name: "Sister Elowen", text: "Devoted to the Light, mending wounds others thought beyond saving.", model: "models/priest-skill.glb", lore: "Add elegant lore text for priest / skill here.", video: null },
-      fun:   { name: "Bandage McHealsalot", text: "Heals first, asks questions never.", model: "models/priest-fun.glb", lore: "Add elegant lore text for priest / fun here.", video: null }
+      skill: { name: "There are no good priests apparently", text: "", model: "models/priest-skill.glb", lore: "There are no good priests apparently", video: null },
+      fun:   { name: "Beckon", text: "", model: "models/priest-fun.glb", lore: "is the Hulksmash of holy priests, sit back, relax, and watch this man cast a 40 second holy fire to take someones head off", video: "x_EgBtUtWBM" }
     },
     shaman: {
-      skill: { name: "Grondar Stormcaller", text: "Speaks with wind, earth, fire, and water, and asks them politely for favors.", model: "models/shaman-skill.glb", lore: "Add elegant lore text for shaman / skill here.", video: null },
-      fun:   { name: "Sham the Salamander", text: "Talks to lightning bolts like they're old friends. They talk back.", model: "models/shaman-fun.glb", lore: "Add elegant lore text for shaman / fun here.", video: null }
+      skill: { name: "Nimhabulove", text: "", model: "models/shaman-skill.glb", lore: " Between totems, shocks, healing and damaging spells shaman has a lot of tools at its disposal, our guy uses them all. And yes, that was a deathcoil that he grounded. 6/10", video: "qxMSzBxxesk" },
+      fun:   { name: "Cabbarnuke/Unbreakable", text: "", model: "models/shaman-fun.glb", lore: "You have two options here, if you saw Roguecraft and needed more naked pvp Cabbarnuke is your guy, if you're looking for the exact opposite and want to see a man swing a big hammer as hard as he can Unbreakable has got your back", video: "eXE-J13gpNE" }
     },
     mage: {
-      skill: { name: "Y'sera Frostweave", text: "Bends raw arcane energy into precise, devastating shapes.", model: "models/mage-skill.glb", lore: "Add elegant lore text for mage / skill here.", video: null },
-      fun:   { name: "Poof the Portal Guy", text: "Can teleport across the continent but still loses their car keys.", model: "models/mage-fun.glb", lore: "Add elegant lore text for mage / fun here.", video: null }
+      skill: { name: "Clazzi", text: "", model: "models/mage-skill.glb", lore: "Crispy movement, cooldown management and a complete confidence in his actions. Perhaps the first known recording of a dirty pop, the opening 1vX is one of the best recorded vanilla fights of all time. 9.5/10", video: "3_Tr5aklJ6U" },
+      fun:   { name: "Pathologist", text: "", model: "models/mage-fun.glb", lore: "By far the most unique and creative visual style, Pathologist (Dyf1.6) saw the potential for PvP videos to be more than crit showcases and unedited BG footage, he wanted to make art, not just in video form as half of his soundtracks are his own songs. Had God blessed him with the PvP skill of a Clazzi, he'd be the only name on this list. ", video: "0ZNAWoYEras" }
     },
     warlock: {
-      skill: { name: "Malgrathe the Bound", text: "Trades in pacts and shadow, commanding forces most would flee from.", model: "models/warlock-skill.glb", lore: "Add elegant lore text for warlock / skill here.", video: null },
-      fun:   { name: "Impy McDemonface", text: "Summoned a demon mostly for the company.", model: "models/warlock-fun.glb", lore: "Add elegant lore text for warlock / fun here.", video: null }
+      skill: { name: "Lokilo", text: "", model: "models/warlock-skill.glb", lore: "An actual time traveler, completely cool under pressure with impeccable character control and target selection. What he lacks in flashiness he makes up for in pure cleanliness. 9/10", video: "dPJf4Ocjc-8" },
+      fun:   { name: "Drakedog", text: "", model: "models/warlock-fun.glb", lore: "Did we mention we're fans of Pathologist? Drakedog, who is probably the most beloved vanilla warlock, having Pathologist edit his video for him was a crossover that came out of nowhere and we're glad it did.", video: "I918N8wUvRs" }
     },
     druid: {
-      skill: { name: "Fernwhisper", text: "Shifts between forms to protect the balance between the wild and the world.", model: "models/druid-skill.glb", lore: "Add elegant lore text for druid / skill here.", video: null },
-      fun:   { name: "Bear-ly Trying", text: "Turns into a bear to avoid awkward conversations.", model: "models/druid-fun.glb", lore: "Add elegant lore text for druid / fun here.", video: null }
+      skill: { name: "Tfo", text: "", model: "models/druid-skill.glb", lore: "Very solid player, he has an exceptional grasp on how to use the utility and strengths of this versatile class. 7.5/10", video: "aX93zH6wJeM" },
+      fun:   { name: "N E V E R ", text: "", model: "models/druid-fun.glb", lore: "You thought druids were weak in vanilla? Ferahgo and Boro came together to show you otherwise.", video: "J7DN_w0LQUI" }
     }
   };
 
