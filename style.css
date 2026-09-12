@@ -193,10 +193,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 4px;
-  padding: 4px 8px;
   max-width: 92vw;
-  background: rgba(10, 8, 6, 0.22);
-  border-radius: 3px;
 }
 
 .class-btn {
@@ -244,6 +241,7 @@ body {
   justify-content: center;
   flex: 0 0 auto;
   border-radius: 0;
+  border: 1px solid rgba(210, 212, 218, 0.5);
 }
 
 .class-icon svg {
