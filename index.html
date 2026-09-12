@@ -82,7 +82,10 @@
 
     <!-- Right side: elegant free-flowing lore text for the selected class/mode -->
     <aside class="lore-panel" aria-label="Class description">
-      <p class="lore-text" id="loreText"></p>
+      <div class="lore-box">
+        <p class="lore-text" id="loreText"></p>
+      </div>
+      <button type="button" class="accept-btn" id="acceptBtn">Accept</button>
     </aside>
 
     <!-- Bottom-center: flavor text + read-only name field, like the game's screen -->
@@ -93,6 +96,22 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Fullscreen video overlay, opened by the "Accept" button -->
+  <div class="video-modal" id="videoModal" aria-hidden="true">
+    <button type="button" class="video-close" id="videoClose" aria-label="Close video">&times;</button>
+    <div class="video-frame-wrap" id="videoFrameWrap">
+      <iframe
+        id="videoFrame"
+        title="Class video"
+        src=""
+        frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <p class="video-missing" id="videoMissing">No video has been set for this class / mode yet.</p>
   </div>
 
   <script src="script.js"></script>

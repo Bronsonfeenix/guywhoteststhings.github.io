@@ -250,18 +250,43 @@ body {
   width: min(340px, 26vw);
   min-width: 240px;
   z-index: 6;
-  padding-left: 20px;
-  border-left: 1px solid rgba(205, 166, 90, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lore-box {
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  padding: 22px 24px;
+  background: rgba(10, 8, 6, 0.25);
 }
 
 .lore-text {
   margin: 0;
   font-family: "EB Garamond", serif;
   font-style: italic;
-  font-size: 1.15rem;
-  line-height: 1.75;
+  font-size: 1.05rem;
+  line-height: 1.7;
   color: var(--parchment);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+}
+
+.accept-btn {
+  font-family: "Cinzel", serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: var(--gold-bright);
+  background: linear-gradient(180deg, rgba(24,19,13,0.9), rgba(15,12,8,0.92));
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
+}
+
+.accept-btn:hover {
+  border-color: var(--gold-bright);
+  background: rgba(156, 122, 60, 0.2);
 }
 
 @media (max-width: 860px) {
@@ -270,12 +295,72 @@ body {
     transform: none;
     width: 85vw;
     margin: 12px auto 0;
-    padding-left: 0;
-    padding-top: 12px;
-    border-left: none;
-    border-top: 1px solid rgba(205, 166, 90, 0.35);
-    text-align: center;
   }
+}
+
+/* ----- Fullscreen video modal ----- */
+
+.video-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(6, 5, 3, 0.95);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.video-modal.open {
+  display: flex;
+}
+
+.video-frame-wrap {
+  width: min(1280px, 92vw);
+  aspect-ratio: 16 / 9;
+}
+
+.video-frame-wrap iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.video-close {
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: rgba(24, 19, 13, 0.8);
+  color: var(--gold-bright);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.video-close:hover {
+  border-color: var(--gold-bright);
+}
+
+.video-missing {
+  display: none;
+  font-family: "EB Garamond", serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--gold);
+  text-align: center;
+  padding: 0 20px;
+}
+
+.video-modal.no-video .video-frame-wrap {
+  display: none;
+}
+
+.video-modal.no-video .video-missing {
+  display: block;
 }
 
 /* ----- Bottom-center identity panel: flavor text + name field ----- */
