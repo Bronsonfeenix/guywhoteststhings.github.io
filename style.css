@@ -352,9 +352,28 @@ body {
   z-index: 6;
 }
 
+/* ---- Morpheus font for the lore text -----------------------------
+   "Morpheus" isn't a Google/CDN-hosted font -- it's shareware (free
+   for personal use, paid license for commercial use). To use it:
+   1. Download it from a source like fontspace.com or fonts4free.net
+      (search "Morpheus font Kiwi Media").
+   2. Put the font file in a `fonts/` folder next to index.html, e.g.
+      fonts/Morpheus.ttf (or .woff2 if you convert it, which loads
+      faster -- see https://cloudconvert.com/ttf-to-woff2).
+   3. Uncomment the @font-face rule below and adjust the path/format
+      if needed.
+   Until you do this, .lore-text falls back to EB Garamond. ---- */
+
+@font-face {
+  font-family: "Morpheus";
+  src: url("fonts/Morpheus.ttf") format("truetype");
+  font-display: swap;
+}
+
+
 .lore-text {
   margin: 0;
-  font-family: "EB Garamond", serif;
+  font-family: "Morpheus", "EB Garamond", serif;
   font-style: normal;
   font-weight: 600;
   font-size: clamp(1.4rem, 1.9vw, 2rem);
