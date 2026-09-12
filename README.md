@@ -35,11 +35,14 @@ real artwork. Swap any of them for an image the same way as before:
 }
 ```
 
-**Names and flavor text:** open `script.js` and find `CLASS_DATA` near
-the top. Every class has a `skill` and a `fun` entry, each with a `name`
-and `text` — edit those strings directly. These are **not** editable by
-visitors; only you (in the code) can change them, since the page shows
-whichever one matches the current class/mode selection.
+**Names, flavor text, and lore:** open `script.js` and find `CLASS_DATA`
+near the top. Every class has a `skill` and a `fun` entry, each with a
+`name`, a short `text`, and a longer `lore` string (shown in the elegant
+italic panel on the right) — edit those strings directly. Only Rogue /
+Skill has real lore text so far; every other slot has a placeholder
+reminding you to fill it in. None of these are editable by visitors;
+only you (in the code) can change them, since the page shows whichever
+one matches the current class/mode selection.
 
 **3D models:** each class/mode combination expects a file at
 `models/{class}-{mode}.glb` — e.g. `models/warrior-skill.glb`,
