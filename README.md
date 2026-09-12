@@ -40,6 +40,40 @@ backend, so edits are local to each browser, not shared between visitors.
 If you want the text to be the same for everyone site-wide, just edit the
 default text directly in `index.html` instead.
 
+## 3D model
+
+Selecting **Orc** shows a 3D model in the center of the screen, using
+[`<model-viewer>`](https://modelviewer.dev) (loaded from a CDN in
+`index.html`, no install needed). The model file lives at
+`models/orc.glb` and is wired up in `index.html`:
+
+```html
+<model-viewer
+  class="race-model"
+  data-race="orc"
+  src="models/orc.glb"
+  camera-controls
+  auto-rotate
+></model-viewer>
+```
+
+Visitors can drag to rotate and scroll to zoom (that's `camera-controls`),
+and it auto-rotates when idle.
+
+To add a model for another race later:
+1. Drop the `.glb` file into `models/`, e.g. `models/human.glb`.
+2. Copy the `<model-viewer>` block in `index.html`, change `data-race` and
+   `src` to match.
+3. In `style.css`, add a matching show rule next to the Orc one:
+   ```css
+   [data-race="human"] .race-model[data-race="human"] { display: block; }
+   ```
+
+GitHub Pages serves `.glb` files fine with no extra configuration, but
+note that large models increase page load time — if a model is many
+megabytes, consider compressing it (e.g. with `gltf-transform` or
+Blender's glTF export compression) before publishing.
+
 ## Deploying to GitHub Pages
 
 1. Create a new GitHub repository (or use an existing one).

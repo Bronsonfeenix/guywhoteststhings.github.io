@@ -132,6 +132,38 @@ body {
   letter-spacing: 0.04em;
 }
 
+/* ----- 3D model viewport ----- */
+
+.race-model {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(560px, 42vw);
+  height: min(560px, 62vh);
+  min-width: 260px;
+  min-height: 260px;
+  z-index: 5;
+  --poster-color: transparent;
+  background-color: transparent;
+}
+
+/* Reveal the model whose data-race matches the current selection. As you
+   add more .glb files, add more <model-viewer data-race="..."> elements
+   in index.html — this rule shows whichever one matches. */
+[data-race="orc"] .race-model[data-race="orc"] {
+  display: block;
+}
+
+@media (max-width: 720px) {
+  .race-model {
+    width: min(320px, 70vw);
+    height: min(320px, 40vh);
+    top: 40%;
+  }
+}
+
 /* ----- Info panel (the only surviving detail box) ----- */
 
 .info-panel {

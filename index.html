@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
 </head>
 <body data-race="orc">
 
@@ -26,6 +27,18 @@
         <li data-race="troll"><span class="crest"></span><span class="race-name">Troll</span></li>
       </ul>
     </nav>
+
+    <!-- 3D model, shown when its race is selected. Only "orc" has a model so far. -->
+    <model-viewer
+      class="race-model"
+      data-race="orc"
+      src="models/orc.glb"
+      camera-controls
+      auto-rotate
+      shadow-intensity="1"
+      exposure="1"
+      alt="3D model of an Orc character"
+    ></model-viewer>
 
     <!-- The single remaining info panel -->
     <section class="info-panel" aria-label="Selected race details">
