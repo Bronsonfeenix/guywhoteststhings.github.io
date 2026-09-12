@@ -192,11 +192,11 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 6px;
-  padding: 6px 10px;
+  gap: 4px;
+  padding: 4px 8px;
   max-width: 92vw;
-  background: rgba(10, 8, 6, 0.3);
-  border-radius: 4px;
+  background: rgba(10, 8, 6, 0.22);
+  border-radius: 3px;
 }
 
 .class-btn {
@@ -208,7 +208,7 @@ body {
   gap: 4px;
   width: 66px;
   height: 72px;
-  padding: 6px 2px 5px;
+  padding: 3px 2px 3px;
   cursor: pointer;
   opacity: 0.6;
   appearance: none;
