@@ -49,31 +49,7 @@ body {
    differ. If you only add one rule for a class (say, just "skill"),
    the "fun" mode for that class will keep showing the neutral backdrop
    until you add its own rule too. ---- */
-[data-class="shaman"][data-mode="skill"] {
-     background-image: url("images/backgroundorc.png");
-     background-size: cover;
-     background-position: center;
-   }
-   [data-class="shaman"][data-mode="fun"] {
-     background-image: url("images/backgroundorc.png");
-     background-size: cover;
-     background-position: center;
-   }
-   [data-class="mage"][data-mode="skill"] {
-     background-image: url("images/backgroundundead.jpg");
-     background-size: cover;
-     background-position: center;
-   }
-   [data-class="warlock "][data-mode="skill"] {
-     background-image: url("images/backgroundundead.jpg");
-     background-size: cover;
-     background-position: center;
-   }
-   [data-class="warlock "][data-mode="fun"] {
-     background-image: url("images/backgroundundead.jpg");
-     background-size: cover;
-     background-position: center;
-   }
+
 .scene {
   position: relative;
   height: 100vh;
@@ -84,12 +60,13 @@ body {
 
 .control-column {
   position: absolute;
-  top: 50%;
-  left: 4vw;
-  transform: translateY(-50%);
+  top: 4vh;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  align-items: center;
+  gap: 14px;
   z-index: 6;
 }
 
@@ -122,11 +99,12 @@ body {
 }
 
 .class-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 76px);
-  grid-template-rows: repeat(3, 76px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
   padding: 10px;
+  max-width: 92vw;
   background: rgba(10, 8, 6, 0.4);
   border-radius: 6px;
 }
@@ -138,8 +116,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  width: 76px;
-  height: 76px;
+  width: 66px;
+  height: 72px;
   padding: 6px 2px 5px;
   cursor: pointer;
   opacity: 0.6;
@@ -158,8 +136,8 @@ body {
 /* Icon placeholder -- swap per class later by replacing the inline
    SVG in index.html with your own icon markup or an <img>. */
 .class-icon {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -454,30 +432,25 @@ body {
 @media (max-width: 860px) {
   .control-column {
     left: 50%;
-    top: auto;
-    bottom: 2vh;
+    top: 2vh;
     transform: translateX(-50%);
     align-items: center;
   }
-  .class-grid {
-    grid-template-columns: repeat(3, 60px);
-    grid-template-rows: repeat(3, 60px);
-  }
   .class-btn {
-    width: 60px;
+    width: 52px;
     height: 60px;
   }
   .class-icon {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
   }
   .model-stage {
     width: min(320px, 70vw);
     height: min(320px, 38vh);
-    top: 30%;
+    top: 35%;
   }
   .identity-panel {
-    bottom: 30vh;
+    bottom: 22vh;
     width: 85vw;
   }
 }
