@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Character Select</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-race="orc">
+
+  <div class="scene">
+
+    <!-- Race selector, left side -->
+    <nav class="race-rail" aria-label="Choose a race">
+      <ul>
+        <li data-race="human"><span class="crest"></span><span class="race-name">Human</span></li>
+        <li data-race="dwarf"><span class="crest"></span><span class="race-name">Dwarf</span></li>
+        <li data-race="nightelf"><span class="crest"></span><span class="race-name">Night Elf</span></li>
+        <li data-race="gnome"><span class="crest"></span><span class="race-name">Gnome</span></li>
+        <li data-race="orc" class="active"><span class="crest"></span><span class="race-name">Orc</span></li>
+        <li data-race="undead"><span class="crest"></span><span class="race-name">Undead</span></li>
+        <li data-race="tauren"><span class="crest"></span><span class="race-name">Tauren</span></li>
+        <li data-race="troll"><span class="crest"></span><span class="race-name">Troll</span></li>
+      </ul>
+    </nav>
+
+    <!-- The single remaining info panel -->
+    <section class="info-panel" aria-label="Selected race details">
+      <h1 class="info-header" contenteditable="true" spellcheck="false" data-key="panelHeader">Orc</h1>
+      <p class="info-text" contenteditable="true" spellcheck="false" data-key="panelText">Born in the shattered wastes of Draenor, the orcs carry the scars of their past into every battle. Strength is not a virtue among the Horde&thinsp;&mdash;&thinsp;it is a requirement.</p>
+      <div class="reset-row">
+        <button type="button" id="resetText">Reset text</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
