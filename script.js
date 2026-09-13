@@ -97,8 +97,8 @@
       note: "An incredibly close competition, each rogue has moments where they outshine the others, we just had to pick one"
     },
     priest: {
-      skill: [{ name: "There are no honorable priests apparently", lore: "", video: null }],
-      fun: [{ name: "There are no honorable priests apparently", lore: "", video: null }],
+      skill: [],
+      fun: [],
       note: "There are no honorable priests apparently"
     },
     shaman: {

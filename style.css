@@ -733,11 +733,16 @@ body.honorable-open .honorable-scene {
   position: absolute;
   top: 14vh;
   bottom: 8vh;
-  width: min(360px, 27vw);
-  min-width: 260px;
+  max-width: min(360px, 27vw);
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
+  overflow-x: hidden;
+  display: grid;
+  /* Sizes the column to fit the widest entry's content -- every row
+     then stretches to that same shared width (grid's default
+     justify-items: stretch), so all the boxes end up the same size,
+     scaled to whichever name is longest, rather than each other
+     filling the full list width. */
+  grid-template-columns: max-content;
   gap: 8px;
   padding-right: 6px;
 }
