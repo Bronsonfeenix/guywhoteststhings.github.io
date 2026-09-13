@@ -6,7 +6,7 @@
   const modelPlaceholder = document.getElementById("modelPlaceholder");
   const placeholderPath = document.getElementById("placeholderPath");
   const classText = document.getElementById("classText");
-  const nameInput = document.getElementById("classNameInput");
+  const loreName = document.getElementById("loreName");
   const loreText = document.getElementById("loreText");
   const acceptBtn = document.getElementById("acceptBtn");
   const videoModal = document.getElementById("videoModal");
@@ -79,6 +79,41 @@
   const NEUTRAL_BG =
     'radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%), ' +
     'linear-gradient(180deg, #211d17 0%, #2c261e 45%, #181410 100%)';
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  // ---------------------------------------------------------------
+  // If a lore string ends with a "X/10" or "X.X/10" rating, pull it
+  // out and render it as a separate review-score badge (stars + a
+  // large number), the way a movie trailer displays a critic score,
+  // instead of leaving it as plain trailing text in the paragraph.
+  // Lore strings without a trailing rating just render as-is.
+  // ---------------------------------------------------------------
+  function renderLore(rawLore) {
+    const match = /^([\s\S]*?)\s*(\d{1,2}(?:\.\d)?)\s*\/\s*10\s*$/.exec((rawLore || "").trim());
+
+    if (!match) {
+      return `<p class="lore-text">${escapeHtml((rawLore || "").trim())}</p>`;
+    }
+
+    const mainText = match[1].trim();
+    const score = match[2];
+    const filledStars = Math.min(5, Math.max(0, Math.round(parseFloat(score) / 2)));
+    const stars = "★".repeat(filledStars) + "☆".repeat(5 - filledStars);
+
+    return (
+      `<p class="lore-text">${escapeHtml(mainText)}</p>` +
+      `<p class="lore-rating">` +
+      `<span class="rating-stars">${stars}</span>` +
+      `<span class="rating-score">${escapeHtml(score)}<span class="rating-outof">/10</span></span>` +
+      `</p>`
+    );
+  }
 
   // ---------------------------------------------------------------
   // Crossfades the background. Rather than a second copy of every
@@ -178,9 +213,9 @@
     updateBackground();
 
     if (classText) classText.textContent = data.text;
-    if (nameInput) nameInput.value = data.name;
+    if (loreName) loreName.textContent = data.name;
     if (loreText) {
-      loreText.textContent = data.lore;
+      loreText.innerHTML = renderLore(data.lore);
     } else {
       console.warn('script.js expected an element with id="loreText" but did not find one. Make sure index.html, style.css, and script.js are all the latest versions, deployed together.');
     }

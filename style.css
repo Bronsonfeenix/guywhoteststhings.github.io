@@ -400,11 +400,24 @@ body {
 
 .lore-panel {
   position: absolute;
-  bottom: 20vh;
+  /* Aligns the top of this panel (the name header, now the first
+     line) with the top edge of the model-viewer box, which sits
+     vertically centered at 50vh with a height of min(560px, 58vh). */
+  top: calc(50vh - min(560px, 58vh) / 2);
   right: 4vw;
   width: min(560px, 34vw);
   min-width: 320px;
   z-index: 6;
+}
+
+.lore-name {
+  margin: 0 0 14px;
+  font-family: "Jost", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+  letter-spacing: 0.02em;
+  color: var(--gold-bright);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
 }
 
 /* ---- Morpheus font -- currently unused ---------------------------
@@ -430,6 +443,37 @@ body {
   line-height: 1.65;
   color: var(--parchment);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+/* Movie-trailer-style critic score, shown when a lore string ends
+   with a trailing "X/10" rating (see renderLore() in script.js). */
+.lore-rating {
+  margin: 14px 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: "Jost", sans-serif;
+  color: var(--gold-bright);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+}
+
+.rating-stars {
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  color: #ffd76a;
+}
+
+.rating-score {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.rating-outof {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.75;
+  margin-left: 2px;
 }
 
 .accept-btn {
@@ -462,6 +506,9 @@ body {
     width: 85vw;
     margin: 12px auto 0;
     text-align: center;
+  }
+  .lore-rating {
+    justify-content: center;
   }
   .accept-btn {
     position: static;
@@ -545,7 +592,7 @@ body {
   display: block;
 }
 
-/* ----- Bottom-center identity panel: flavor text + name field ----- */
+/* ----- Bottom-center identity panel: shorter flavor text ----- */
 
 .identity-panel {
   position: absolute;
@@ -567,29 +614,6 @@ body {
   line-height: 1.5;
   color: var(--parchment);
   text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-}
-
-.name-field {
-  width: 100%;
-}
-
-#classNameInput {
-  width: 100%;
-  text-align: center;
-  font-family: "Jost", sans-serif;
-  font-size: 1.1rem;
-  letter-spacing: 0.04em;
-  color: var(--gold-bright);
-  background: linear-gradient(180deg, rgba(24,19,13,0.9), rgba(15,12,8,0.92));
-  border: 1px solid var(--gold);
-  border-radius: 4px;
-  padding: 12px 16px;
-  cursor: default;
-  box-shadow: 0 10px 26px var(--panel-shadow);
-}
-
-#classNameInput:focus {
-  outline: none;
 }
 
 /* ----- Small screens ----- */
