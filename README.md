@@ -1,91 +1,93 @@
 # Character Select Page
 
-A character-select-style landing page: pick a class from the 3x3 grid on
-the left, and the background, 3D model, name, and flavor text all
-switch. A "Skill" / "Fun" toggle above the grid swaps in a second,
-different set of the same for whichever class is currently selected.
+A character-select-style landing page: pick a class from the row of 9
+icons at the top of the screen, and the background, 3D model, name,
+and lore text all switch. A "Skill" / "Fun" toggle above the row swaps
+in a second, different set of the same for whichever class is
+currently selected.
 
 ## Files
 - `index.html` — structure
-- `style.css` — styling, including one background theme per class
-- `script.js` — all the placeholder data, and the logic that swaps
-  everything when you click a class or a mode
+- `style.css` — styling, including one background theme per class/mode
+  and the class icon row
+- `script.js` — `CLASS_DATA` (all the names, lore, videos, models, and
+  animations) plus the logic that swaps everything when you click a
+  class or a mode, and preloads assets in the background
 - `models/` — `.glb` 3D model files
+- `icons/` — class icon images
+- `images/` — background images per class/mode
+- `fonts/` — for the Morpheus font file (see below)
 
-## Everything here is a placeholder
+## Reference
 
-**Class icons:** each button currently shows a simple line-drawn icon
-(an original design — not Blizzard's actual icons, which are
-copyrighted) on top of a gradient background tinted with that class's
-official WoW color. To use your own icon image instead, open
-`index.html`, find that class's button, and replace its `<svg>...</svg>`
-block with an `<img>`:
-```html
-<span class="class-icon">
-  <img src="icons/warrior.png" alt="Warrior">
-</span>
-```
-Put the image files in an `icons/` folder next to `index.html`. The
-color-gradient background stays either way — it's set separately in
-`style.css` under the `.class-btn[data-class="..."] .class-icon` rules,
-so an `<img>` will sit on top of it unless you remove that rule for the
-classes you've swapped in real icons for.
+**Class icons:** each button shows a real icon image
+(`icons/classicon_{class}.png`) inside a thin silver-bordered square.
+To change one, just replace the corresponding file in `icons/` — no
+code changes needed as long as the filename stays the same.
 
-**Backgrounds:** every class/mode combination currently shows the same
-neutral dark backdrop — nothing is set by default. To add your own
-image, open `style.css`, find the comment block near the top (search
-for "Add your own background image"), and add a rule targeting both
-the class and the mode together, since Skill and Fun can each have a
-different background for the same class:
+**Backgrounds:** set per class *and* mode in `style.css`, since Skill
+and Fun can each look different for the same class:
 ```css
 [data-class="warrior"][data-mode="skill"] {
   background-image: url("images/warrior-skill.jpg");
   background-size: cover;
   background-position: center;
 }
-[data-class="warrior"][data-mode="fun"] {
-  background-image: url("images/warrior-fun.jpg");
-  background-size: cover;
-  background-position: center;
-}
 ```
-Repeat for whichever of the 9 classes × 2 modes (18 combinations total)
-you have art for — any combination left unset just keeps showing the
-neutral backdrop.
+Any class/mode combination without its own rule falls back to a
+neutral dark backdrop.
 
-**Names, flavor text, and lore:** open `script.js` and find `CLASS_DATA`
-near the top. Every class has a `skill` and a `fun` entry, each with a
-`name`, a short `text`, and a longer `lore` string (shown in the elegant
-italic box on the right) — edit those strings directly. Only Rogue /
-Skill has real lore text so far; every other slot has a placeholder
-reminding you to fill it in. None of these are editable by visitors;
-only you (in the code) can change them, since the page shows whichever
-one matches the current class/mode selection.
+**Names, flavor text, and lore:** all in `script.js` under
+`CLASS_DATA`. Each class has a `skill` and a `fun` entry with:
+- `name` — shown in the read-only name field at the bottom (visitors
+  can't edit it)
+- `text` — a shorter flavor line (currently empty on every entry; fill
+  it in if you want that line to show something)
+- `lore` — the longer text shown in the right-hand panel
 
-**Accept button + video:** below the lore box, the "Accept" button opens
-a fullscreen video overlay. Each `CLASS_DATA` entry has a `video` field
-— set it to a YouTube video id (the part after `v=` in a YouTube URL,
-e.g. `"dQw4w9WgXcQ"`) to enable it for that class/mode. Only Rogue /
-Skill has one set right now (`"VMCDsXwAEK8"`). If `video` is `null`, the
-button still opens, but shows "No video has been set for this class /
-mode yet." instead — so you always get feedback rather than nothing
-happening.
+**Accept button + video:** the "Accept" button opens a fullscreen
+YouTube embed for the current class/mode's `video` field (the id from
+the YouTube URL, e.g. `"dQw4w9WgXcQ"`). If `video` is `null`, it opens
+the overlay with "No video has been set for this class / mode yet."
+instead of failing silently.
 
-**3D models:** each class/mode combination expects a file at
-`models/{class}-{mode}.glb` — e.g. `models/warrior-skill.glb`,
-`models/warrior-fun.glb`. Right now only Shaman has real files
-(reusing the model you uploaded, under `models/shaman-skill.glb` and
-`models/shaman-fun.glb`). Every other slot points at a file that
-doesn't exist yet, so you'll see a dashed placeholder box with the
-expected path until you add one — as soon as a matching `.glb` is
-dropped into `models/`, it takes over automatically with no code
-changes needed.
+**3D models + animations:** each entry points at
+`models/{class}-{mode}.glb` and names which animation clip to play via
+`animation` (defaults to `"Stand"`). If a model doesn't have a clip by
+that name, the code automatically tries a few common alternates
+("Idle", "Stand1", etc.), and if none of those match either, it plays
+the file's first animation and logs a console warning listing that
+file's actual animation names — check DevTools → Console if a
+character is playing the wrong animation. Any class/mode without a
+model file yet shows a dashed placeholder box with the expected path.
+
+**Morpheus font:** `.lore-text` is set to use "Morpheus" (the
+blackletter-style font used in WoW's UI), which isn't available via
+Google Fonts or any CDN — it's shareware, free for personal use only.
+To enable it:
+1. Download it (search "Morpheus font Kiwi Media").
+2. Put the file at `fonts/Morpheus.ttf`.
+3. It should just work — the `@font-face` rule in `style.css` is
+   already active and pointing at that path. If it doesn't show up,
+   check the Network tab in DevTools for a 404 on `Morpheus.ttf` —
+   that usually means a filename/case mismatch or the file didn't get
+   pushed to the repo.
+Until the font file is present, `.lore-text` falls back to EB
+Garamond automatically.
+
+**Preloading:** on page load, once the first model (Warrior/Skill)
+finishes loading, the page automatically starts fetching every other
+model and background image in the background — no clicking required
+for them to warm up. This means the very first visit downloads
+everything eventually, so if your `.glb` files are large, keeping them
+compressed (see below) matters more than it otherwise would.
 
 ## Deploying to GitHub Pages
 
 1. Create a new GitHub repository (or use an existing one).
-2. Add `index.html`, `style.css`, `script.js`, and the `models/` folder
-   to the repo root — or into a `/docs` folder if you prefer.
+2. Add `index.html`, `style.css`, `script.js`, and the `models/`,
+   `icons/`, `images/`, and `fonts/` folders to the repo root — or into
+   a `/docs` folder if you prefer.
 3. Commit and push.
 4. In the repo, go to **Settings → Pages**.
 5. Under "Build and deployment", set **Source** to "Deploy from a
@@ -94,6 +96,12 @@ changes needed.
 6. GitHub will give you a URL like `https://yourusername.github.io/yourrepo/`
    within a minute or two.
 
-No build step is required — this is plain HTML/CSS/JS. `.glb` files can
-be large; if load time matters, consider compressing them (e.g. with
-`gltf-transform` or Blender's glTF export compression) before publishing.
+No build step is required — this is plain HTML/CSS/JS. GitHub Pages'
+filesystem is case-sensitive, so double check filenames/folders match
+exactly what's referenced in the code if something 404s.
+
+**Keeping `.glb` files small:** try [gltf.report](https://gltf.report/)
+(drag-and-drop optimizer, nothing uploaded anywhere) or the
+`gltf-transform` CLI (`npm install -g @gltf-transform/cli`, then
+`gltf-transform optimize in.glb out.glb`) — texture compression is
+usually where the biggest size wins are.

@@ -11,16 +11,17 @@
   const acceptBtn = document.getElementById("acceptBtn");
   const videoModal = document.getElementById("videoModal");
   const videoFrame = document.getElementById("videoFrame");
-  const videoFrameWrap = document.getElementById("videoFrameWrap");
   const videoClose = document.getElementById("videoClose");
 
   // ---------------------------------------------------------------
-  // PLACEHOLDER DATA -- everything here is meant to be replaced.
+  // PLACEHOLDER DATA -- some of this is still meant to be filled in.
   // For each class, "skill" and "fun" each hold a name, a line of
-  // flavor text, and a path to a .glb model. Only Shaman currently
-  // has real model files (models/shaman-skill.glb / shaman-fun.glb);
-  // every other class points at a file that doesn't exist yet, so a
-  // dashed placeholder box appears until you add one at that path.
+  // flavor text, a path to a .glb model, an animation clip name, and
+  // a longer "lore" string. "text" is currently empty on every entry
+  // (fill it in if you want the bottom flavor-text line to show
+  // anything). "model" points at models/{class}-{mode}.glb -- any
+  // combination without a matching file in models/ shows a dashed
+  // placeholder box until you add one, no code changes needed.
   // ---------------------------------------------------------------
   const CLASS_DATA = {
     warrior: {
