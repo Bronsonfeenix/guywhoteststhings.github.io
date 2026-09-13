@@ -132,7 +132,7 @@ body {
      background-position: center;
    }
    [data-class="priest"][data-mode="skill"] {
-     background-image: url("images/backgroundpriest.jpg");
+     background-image: url("images/warrior-skill.jpg");
      background-size: cover;
      background-position: center;
    }
@@ -326,6 +326,7 @@ body {
   min-width: 260px;
   min-height: 260px;
   z-index: 5;
+  overflow: hidden;
 }
 
 .race-model {
