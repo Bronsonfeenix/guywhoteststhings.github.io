@@ -461,7 +461,31 @@ body {
 .rating-stars {
   font-size: 1.05rem;
   letter-spacing: 0.04em;
+}
+
+.star {
+  display: inline-block;
+  color: rgba(236, 224, 196, 0.25);
+}
+
+.star-full {
   color: #ffd76a;
+}
+
+/* Half-filled star: a gold-to-transparent gradient clipped to the
+   star glyph's own shape, split exactly down the middle. */
+.star-half {
+  background: linear-gradient(
+    90deg,
+    #ffd76a 0%,
+    #ffd76a 50%,
+    rgba(236, 224, 196, 0.25) 50%,
+    rgba(236, 224, 196, 0.25) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .rating-score {

@@ -103,8 +103,20 @@
 
     const mainText = match[1].trim();
     const score = match[2];
-    const filledStars = Math.min(10, Math.max(0, Math.round(parseFloat(score))));
-    const stars = "★".repeat(filledStars) + "☆".repeat(10 - filledStars);
+    // Round to the nearest half-star (10-point scale, so nearest 0.5)
+    // and build 10 individual star spans, each explicitly full, half,
+    // or empty -- rather than one string of glyphs -- so a rating
+    // like 7.5 renders a genuine half-filled 8th star instead of
+    // rounding up to a full one.
+    const clamped = Math.min(10, Math.max(0, parseFloat(score)));
+    const rounded = Math.round(clamped * 2) / 2;
+    let stars = "";
+    for (let i = 1; i <= 10; i++) {
+      let state = "empty";
+      if (rounded >= i) state = "full";
+      else if (rounded >= i - 0.5) state = "half";
+      stars += `<span class="star star-${state}">★</span>`;
+    }
 
     return (
       `<p class="lore-text">${escapeHtml(mainText)}</p>` +
