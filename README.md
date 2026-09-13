@@ -86,6 +86,22 @@ for them to warm up. This means the very first visit downloads
 everything eventually, so if your `.glb` files are large, keeping them
 compressed (see below) matters more than it otherwise would.
 
+**Honorable Mentions:** the button at the bottom of the main screen
+slides the whole page up and out, replaced by a second scene sliding
+up from below (see `body.honorable-open` in `style.css` for the
+transition). That scene has the same 9 class icons in a vertical
+column down the center — click one to populate a list of names on
+each side ("Fun" on the left, "Skill" on the right). This data lives
+separately from the main `CLASS_DATA`, in `HONORABLE_MENTIONS` further
+down in `script.js`: each class has a `skill` and `fun` array, and you
+can add or remove entries freely — each is just
+`{ name: "...", lore: "...", video: "..." }` (use `video: null` if
+there's no video for that entry yet). Clicking a name expands it in
+place to show its lore text and video, if any; only one entry per side
+stays expanded at a time. Entries without lore or a video just show
+"No details added for this entry yet." — the "Back" button at the
+bottom returns to the main scene.
+
 ## Deploying to GitHub Pages
 
 1. Create a new GitHub repository (or use an existing one).

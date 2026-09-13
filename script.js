@@ -13,6 +13,11 @@
   const bgProbe = document.getElementById("bgProbe");
   const bgLayerA = document.getElementById("bgLayerA");
   const bgLayerB = document.getElementById("bgLayerB");
+  const honorableBtn = document.getElementById("honorableBtn");
+  const honorableBackBtn = document.getElementById("honorableBackBtn");
+  const honorableClassButtons = document.querySelectorAll(".honorable-class-btn");
+  const honorableListFun = document.getElementById("honorableListFun");
+  const honorableListSkill = document.getElementById("honorableListSkill");
 
   // ---------------------------------------------------------------
   // PLACEHOLDER DATA -- some of this is still meant to be filled in.
@@ -42,7 +47,7 @@
       fun:   { name: "Mute (World of Roguecraft)", text: "", model: "models/rogue-fun.glb", lore: "The most influential vanilla PvP videos of all time, if you ever saw someone trying to flex on their enemies while naked, it's probably because of mute. (Released in reverse order, episode 3 was the first in the series)", video: "bqx1CFomKMI", animation: "Stand (ID 0 variation 0)" }
     },
     priest: {
-      skill: { name: "", text: "", model: "models/priest-skill.glb", lore: "There are no good priests apparently", video: "X9737mnPejQ", animation: "Stand" },
+      skill: { name: "There are no good priests apparently", text: "", model: "models/priest-skill.glb", lore: "There are no good priests apparently", video: "X9737mnPejQ", animation: "Stand" },
       fun:   { name: "Beckon", text: "", model: "models/priest-fun.glb", lore: "is the Hulksmash of holy priests, sit back, relax, and watch this man cast a 40 second holy fire to take someones head off", video: "x_EgBtUtWBM", animation: "Stand (ID 0 variation 0)" }
     },
     shaman: {
@@ -60,6 +65,54 @@
     druid: {
       skill: { name: "Tfo", text: "", model: "models/druid-skill.glb", lore: "Very solid player, he has an exceptional grasp on how to use the utility and strengths of this versatile class. 7.5/10", video: "aX93zH6wJeM", animation: "Stand" },
       fun:   { name: "N E V E R ", text: "", model: "models/druid-fun.glb", lore: "You thought druids were weak in vanilla? Ferahgo and Boro came together to show you otherwise.", video: "J7DN_w0LQUI", animation: "Stand" }
+    }
+  };
+
+  // ---------------------------------------------------------------
+  // Honorable Mentions -- a longer list per class/mode, each entry
+  // just a name plus optional lore text and an optional YouTube
+  // video id. Unlike the main CLASS_DATA entry above, these are
+  // collapsed by default and expand on click. Add or remove entries
+  // freely -- each is just { name: "...", lore: "...", video: "..." }
+  // or { name: "...", lore: "", video: null } if you only have a name
+  // so far.
+  // ---------------------------------------------------------------
+  const HONORABLE_MENTIONS = {
+    warrior: {
+      skill: [{ name: "Laintime", lore: "People think of Laintime as the godfather of warriors, we remember him as the lone pillar holding up the tuber industry. The people of Felwood thank you, Laintime", video: "LFkSidbQu2o" }],
+      fun: [{ name: "Swifty", lore: "", video: "HUPexEfCG7g" }, { name: "Pat", lore: "", video: "nuRGBnjELkgokll" }, { name: "Maydie", lore: "", video: "SwSR1SHYZRI" }, { name: "Illusion", lore: "", video: "STq43Pxqgc4" }, { name: "Spinister", lore: "", video: "hW8ButI6mns" }, { name: "Hulksmash", lore: "", video: "IAR1CsAXLCw" }, { name: "Xahlior", lore: "", video: "oKQNJL5IL2s" }]
+    },
+    paladin: {
+      skill: [{ name: "Chipman", lore: "", video: "b2EfsrD_Mqk" }, { name: "Kirill", lore: "", video: "fhnEhZVzo3I" }],
+      fun: []
+    },
+    hunter: {
+      skill: [{ name: "Biuret", lore: "", video: "m-IzBxFa8yg" }, { name: "Kishra", lore: "", video: "eIW0i5tch1E" }],
+      fun: [{ name: "Fubarius(Huntology)", lore: "", video: "k5DdYPLoItU" }]
+    },
+    rogue: {
+      skill: [{ name: "Cielz", lore: "", video: "qN9GtoGnTxc" }, { name: "Corrupt", lore: "", video: "CkRIrlmQRYQ" }, { name: "Ming", lore: "", video: "aDXXr3ad3is" }, { name: "Happyminti", lore: "", video: "YvQoYMq8_Ng" }, { name: "Oozo", lore: "", video: "1C7Uvt_0oYs" }],
+      fun: [{ name: "Caen", lore: "", video: "CGZiwuUPFMo" }, { name: "Perkulator ", lore: "", video: "ID192rw5Whw" }, { name: "Grim", lore: "", video: "oWNt_8xcOZw" }]
+    },
+    priest: {
+      skill: [{ name: "There are no honorable priests apparently", lore: "", video: null }],
+      fun: [{ name: "There are no honorable priests apparently", lore: "", video: null }]
+    },
+    shaman: {
+      skill: [],
+      fun: [{ name: "Arashmano", lore: "", video: "8-w9Wl8v6ZA" }]
+    },
+    mage: {
+      skill: [{ name: "Drifting", lore: "", video: "VXh_kZZ-GQo" }, { name: "Zachary", lore: "", video: "ohTYLIi1ghY" }, { name: "Gameking", lore: "", video: "RfY8Egsd6C8" }, { name: "Alca", lore: "", video: "MMnmuU8mOsw" }, { name: "Vurtne", lore: "", video: "k5Wieh9MMmc" }],
+      fun: [{ name: "Zelta", lore: "", video: "WYSbkW__6MI" }, { name: "Faxmonkey", lore: "", video: "3O_pNDc73MM" }, { name: "Voidim", lore: "", video: "fSn46eGGW7s" }, { name: "Otherguy(Sorrow Hill)", lore: "", video: "2FwMRW1ra0E" }]
+    },
+    warlock: {
+      skill: [{ name: "Shining", lore: "", video: "SqlJUxRd9WU" }, { name: "May", lore: "", video: "fwvpcN72K98" }, { name: "Diivil", lore: "", video: "BV5iAVmiqF8" }],
+      fun: []
+    },
+    druid: {
+      skill: [{ name: "Unstoppable", lore: "", video: "_QLmuHDy0Qs" }, { name: "Azgaz", lore: "", video: "xlXOnYi5tAU" }],
+      fun: []
     }
   };
 
@@ -394,6 +447,98 @@
       updateView();
     });
   });
+
+  // ---------------------------------------------------------------
+  // Honorable Mentions scene. Slides in/out via the "honorable-open"
+  // class on <body> (see style.css for the actual slide transition).
+  // Clicking a class in the vertical icon column renders that class's
+  // HONORABLE_MENTIONS entries into the Fun (left) and Skill (right)
+  // lists. Clicking a name expands it in place to reveal its lore
+  // text and (if set) an embedded video -- built as a plain iframe
+  // rather than the YouTube IFrame API used on the main scene, since
+  // there can be many of these and only ever one is expanded at a
+  // time, so the simpler approach is enough here. The iframe's src is
+  // only set when an entry is expanded (never before), which means
+  // nothing autoplays and nothing loads until it's actually opened.
+  // ---------------------------------------------------------------
+  function renderHonorableList(container, entries) {
+    if (!container) return;
+
+    if (!entries || entries.length === 0) {
+      container.innerHTML = '<p class="honorable-placeholder">No entries yet.</p>';
+      return;
+    }
+
+    container.innerHTML = entries
+      .map((entry, i) => {
+        const hasLore = entry.lore && entry.lore.trim();
+        const hasVideo = !!entry.video;
+        return (
+          `<div class="honorable-entry" data-index="${i}">` +
+          `<button type="button" class="honorable-entry-name">${escapeHtml(entry.name)}</button>` +
+          `<div class="honorable-entry-details">` +
+          (hasLore ? `<p class="honorable-entry-lore">${escapeHtml(entry.lore)}</p>` : "") +
+          (hasVideo ? `<div class="honorable-entry-video" data-video-id="${escapeHtml(entry.video)}"></div>` : "") +
+          (!hasLore && !hasVideo ? `<p class="honorable-entry-lore">No details added for this entry yet.</p>` : "") +
+          `</div>` +
+          `</div>`
+        );
+      })
+      .join("");
+  }
+
+  function renderHonorableLists(className) {
+    const data = HONORABLE_MENTIONS[className];
+    if (!data) return;
+    renderHonorableList(honorableListFun, data.fun);
+    renderHonorableList(honorableListSkill, data.skill);
+  }
+
+  // Expand/collapse entries via event delegation, since the list
+  // contents are rebuilt from scratch every time a class is picked.
+  [honorableListFun, honorableListSkill].forEach((list) => {
+    if (!list) return;
+    list.addEventListener("click", (e) => {
+      const nameBtn = e.target.closest(".honorable-entry-name");
+      if (!nameBtn) return;
+
+      const entry = nameBtn.closest(".honorable-entry");
+      const alreadyOpen = entry.classList.contains("expanded");
+
+      // Only one entry open at a time within this list.
+      list.querySelectorAll(".honorable-entry.expanded").forEach((el) => el.classList.remove("expanded"));
+
+      if (alreadyOpen) return;
+
+      entry.classList.add("expanded");
+
+      const videoEl = entry.querySelector(".honorable-entry-video");
+      if (videoEl && !videoEl.dataset.loaded) {
+        const videoId = videoEl.dataset.videoId;
+        videoEl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0" title="Honorable mention video" frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+        videoEl.dataset.loaded = "true";
+      }
+    });
+  });
+
+  honorableClassButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      honorableClassButtons.forEach((b) => b.classList.toggle("active", b === btn));
+      renderHonorableLists(btn.dataset.class);
+    });
+  });
+
+  if (honorableBtn) {
+    honorableBtn.addEventListener("click", () => {
+      body.classList.add("honorable-open");
+    });
+  }
+
+  if (honorableBackBtn) {
+    honorableBackBtn.addEventListener("click", () => {
+      body.classList.remove("honorable-open");
+    });
+  }
 
   updateView();
   loadYouTubeApi();

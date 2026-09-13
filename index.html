@@ -143,6 +143,69 @@
       <p class="class-text" id="classText"></p>
     </div>
 
+    <!-- Bottom-center: opens the Honorable Mentions scene -->
+    <button type="button" class="honorable-btn" id="honorableBtn">Honorable Mentions</button>
+
+  </div>
+
+  <!-- Honorable Mentions scene: slides up from below when honorableBtn
+       is clicked, while .scene above slides up and out (see
+       "body.honorable-open" rules in style.css). Mirrored layout: a
+       vertical column of the same 9 class icons down the center,
+       "Fun" entries on the left, "Skill" entries on the right. -->
+  <div class="honorable-scene" id="honorableScene">
+
+    <h2 class="honorable-header honorable-header-fun">Fun</h2>
+    <h2 class="honorable-header honorable-header-skill">Skill</h2>
+
+    <div class="honorable-icon-column" id="honorableIconColumn" role="group" aria-label="Choose a class">
+      <button type="button" class="honorable-class-btn" data-class="warrior">
+        <span class="class-icon"><img src="icons/classicon_warrior.png" alt="Warrior"></span>
+        <span class="class-label">Warrior</span>
+      </button>
+      <button type="button" class="honorable-class-btn" data-class="paladin">
+        <span class="class-icon"><img src="icons/classicon_paladin.png" alt="Paladin"></span>
+        <span class="class-label">Paladin</span>
+      </button>
+      <button type="button" class="honorable-class-btn" data-class="hunter">
+        <span class="class-icon"><img src="icons/classicon_hunter.png" alt="Hunter"></span>
+        <span class="class-label">Hunter</span>
+      </button>
+      <button type="button" class="honorable-class-btn" data-class="rogue">
+        <span class="class-icon"><img src="icons/classicon_rogue.png" alt="Rogue"></span>
+        <span class="class-label">Rogue</span>
+      </button>
+      <button type="button" class="honorable-class-btn" data-class="priest">
+        <span class="class-icon"><img src="icons/classicon_priest.png" alt="Priest"></span>
+        <span class="class-label">Priest</span>
+      </button>
+      <button type="button" class="honorable-class-btn" data-class="shaman">
+        <span class="class-icon"><img src="icons/classicon_shaman.png" alt="Shaman"></span>
+        <span class="class-label">Shaman</span>
+      </button>
+      <button type="button" class="honorable-class-btn" data-class="mage">
+        <span class="class-icon"><img src="icons/classicon_mage.png" alt="Mage"></span>
+        <span class="class-label">Mage</span>
+      </button>
+      <button type="button" class="honorable-class-btn" data-class="warlock">
+        <span class="class-icon"><img src="icons/classicon_warlock.png" alt="Warlock"></span>
+        <span class="class-label">Warlock</span>
+      </button>
+      <button type="button" class="honorable-class-btn" data-class="druid">
+        <span class="class-icon"><img src="icons/classicon_druid.png" alt="Druid"></span>
+        <span class="class-label">Druid</span>
+      </button>
+    </div>
+
+    <div class="honorable-list honorable-list-fun" id="honorableListFun">
+      <p class="honorable-placeholder">Select a class to see its honorable mentions.</p>
+    </div>
+    <div class="honorable-list honorable-list-skill" id="honorableListSkill">
+      <p class="honorable-placeholder">Select a class to see its honorable mentions.</p>
+    </div>
+
+    <button type="button" class="honorable-back-btn" id="honorableBackBtn">&larr; Back</button>
+
   </div>
 
   <script src="script.js"></script>
