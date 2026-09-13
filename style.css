@@ -132,7 +132,7 @@ body {
      background-position: center;
    }
    [data-class="priest"][data-mode="skill"] {
-     background-image: url("images/backgroundpriest.jpg");
+     background-image: url("images/backgroundpriest.png");
      background-size: cover;
      background-position: center;
    }
@@ -759,15 +759,16 @@ body.honorable-open .honorable-scene {
 }
 
 /* Free-flowing text next to the lists, for classes with a "note" set
-   in HONORABLE_MENTIONS (currently Rogue and Mage). Sits centered,
-   just below the icon column, between the two lists -- hidden
-   entirely (via JS toggling ".visible") for classes without one. */
+   in HONORABLE_MENTIONS (currently Rogue and Mage). Vertically
+   aligned with that class's own icon in the column (JS sets "top" as
+   an inline style to match) -- hidden entirely (via JS toggling
+   ".visible") for classes without one. */
 .honorable-note {
   display: none;
   position: absolute;
-  top: 66vh;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   width: min(420px, 30vw);
   margin: 0;
   text-align: center;
@@ -781,6 +782,21 @@ body.honorable-open .honorable-scene {
 
 .honorable-note.visible {
   display: block;
+}
+
+/* Blinking cursor at the end of the text while it's "typing" (see
+   .typing-cursor toggled in script.js) and briefly after, mimicking a
+   typewriter. */
+.honorable-note.typing::after {
+  content: "|";
+  margin-left: 2px;
+  animation: honorable-cursor-blink 0.8s step-start infinite;
+}
+
+@keyframes honorable-cursor-blink {
+  50% {
+    opacity: 0;
+  }
 }
 
 .honorable-entry {

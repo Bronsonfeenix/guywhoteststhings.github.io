@@ -490,6 +490,45 @@
       .join("");
   }
 
+  let typewriterTimer = null;
+
+  function stopTypewriter() {
+    if (typewriterTimer) {
+      clearInterval(typewriterTimer);
+      typewriterTimer = null;
+    }
+  }
+
+  // Reveals text one character at a time, like it's being typed.
+  function typeWriterEffect(el, text) {
+    stopTypewriter();
+    el.textContent = "";
+    el.classList.add("typing");
+    let i = 0;
+    typewriterTimer = setInterval(() => {
+      el.textContent += text.charAt(i);
+      i++;
+      if (i >= text.length) {
+        stopTypewriter();
+        el.classList.remove("typing");
+      }
+    }, 35);
+  }
+
+  // Vertically aligns the note with the given class's own icon in the
+  // vertical column, so it reads as sitting "in line with" that icon
+  // rather than at some fixed height. Only applies on desktop, where
+  // the column and note are both absolutely positioned relative to
+  // the viewport; the mobile layout overrides this with position:
+  // static in style.css, so the inline "top" gets ignored there.
+  function alignNoteWithIcon(className) {
+    if (!honorableNote) return;
+    const iconBtn = document.querySelector(`.honorable-class-btn[data-class="${className}"]`);
+    if (!iconBtn) return;
+    const rect = iconBtn.getBoundingClientRect();
+    honorableNote.style.top = rect.top + rect.height / 2 + "px";
+  }
+
   function renderHonorableLists(className) {
     const data = HONORABLE_MENTIONS[className];
     if (!data) return;
@@ -497,12 +536,14 @@
     renderHonorableList(honorableListSkill, data.skill);
 
     if (honorableNote) {
+      stopTypewriter();
       if (data.note) {
-        honorableNote.textContent = data.note;
+        alignNoteWithIcon(className);
         honorableNote.classList.add("visible");
+        typeWriterEffect(honorableNote, data.note);
       } else {
         honorableNote.textContent = "";
-        honorableNote.classList.remove("visible");
+        honorableNote.classList.remove("visible", "typing");
       }
     }
   }
@@ -534,11 +575,18 @@
     });
   });
 
+  let currentHonorableClass = null;
+
   honorableClassButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       honorableClassButtons.forEach((b) => b.classList.toggle("active", b === btn));
-      renderHonorableLists(btn.dataset.class);
+      currentHonorableClass = btn.dataset.class;
+      renderHonorableLists(currentHonorableClass);
     });
+  });
+
+  window.addEventListener("resize", () => {
+    if (currentHonorableClass) alignNoteWithIcon(currentHonorableClass);
   });
 
   if (honorableBtn) {

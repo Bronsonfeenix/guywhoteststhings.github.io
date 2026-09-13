@@ -103,9 +103,12 @@ stays expanded at a time. Entries without lore or a video just show
 returns to the main scene.
 
 A class can also have an optional `note` field (a sibling of `skill`
-and `fun`, not inside them) — free-flowing text shown centered between
-the two lists, below the icon column. Right now only Rogue and Mage
-have one set; any class without a `note` just shows nothing there.
+and `fun`, not inside them) — free-flowing text shown next to the
+lists, typed out letter-by-letter when a class is selected, and
+vertically aligned with that class's own icon in the column (so it
+reads as sitting "in line with" that icon, not at some arbitrary
+height). Right now only Rogue and Mage have one set; any class without
+a `note` just shows nothing there.
 
 The Honorable Mentions scene has its own background, separate from the
 main screen's per-class ones — search `style.css` for `.honorable-scene`
