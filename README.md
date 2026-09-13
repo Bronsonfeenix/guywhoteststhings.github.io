@@ -99,8 +99,19 @@ can add or remove entries freely — each is just
 there's no video for that entry yet). Clicking a name expands it in
 place to show its lore text and video, if any; only one entry per side
 stays expanded at a time. Entries without lore or a video just show
-"No details added for this entry yet." — the "Back" button at the
-bottom returns to the main scene.
+"No details added for this entry yet." — the "Back" button at the top
+returns to the main scene.
+
+A class can also have an optional `note` field (a sibling of `skill`
+and `fun`, not inside them) — free-flowing text shown centered between
+the two lists, below the icon column. Right now only Rogue and Mage
+have one set; any class without a `note` just shows nothing there.
+
+The Honorable Mentions scene has its own background, separate from the
+main screen's per-class ones — search `style.css` for `.honorable-scene`
+for the comment showing how to point it at an image. It's one image
+for the whole scene (not per-class), and shows a solid dark color
+until you set one.
 
 ## Deploying to GitHub Pages
 

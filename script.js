@@ -18,6 +18,7 @@
   const honorableClassButtons = document.querySelectorAll(".honorable-class-btn");
   const honorableListFun = document.getElementById("honorableListFun");
   const honorableListSkill = document.getElementById("honorableListSkill");
+  const honorableNote = document.getElementById("honorableNote");
 
   // ---------------------------------------------------------------
   // PLACEHOLDER DATA -- some of this is still meant to be filled in.
@@ -80,7 +81,7 @@
   const HONORABLE_MENTIONS = {
     warrior: {
       skill: [{ name: "Laintime", lore: "People think of Laintime as the godfather of warriors, we remember him as the lone pillar holding up the tuber industry. The people of Felwood thank you, Laintime", video: "LFkSidbQu2o" }],
-      fun: [{ name: "Swifty", lore: "", video: "HUPexEfCG7g" }, { name: "Pat", lore: "", video: "nuRGBnjELkgokll" }, { name: "Maydie", lore: "", video: "SwSR1SHYZRI" }, { name: "Illusion", lore: "", video: "STq43Pxqgc4" }, { name: "Spinister", lore: "", video: "hW8ButI6mns" }, { name: "Hulksmash", lore: "", video: "IAR1CsAXLCw" }, { name: "Xahlior", lore: "", video: "oKQNJL5IL2s" }]
+      fun: [{ name: "Swifty", lore: "", video: "HUPexEfCG7g" }, { name: "Pat", lore: "", video: "RGBnjELkgok" }, { name: "Maydie", lore: "", video: "SwSR1SHYZRI" }, { name: "Illusion", lore: "", video: "STq43Pxqgc4" }, { name: "Spinister", lore: "", video: "hW8ButI6mns" }, { name: "Hulksmash", lore: "", video: "IAR1CsAXLCw" }, { name: "Xahlior", lore: "", video: "oKQNJL5IL2s" }]
     },
     paladin: {
       skill: [{ name: "Chipman", lore: "", video: "b2EfsrD_Mqk" }, { name: "Kirill", lore: "", video: "fhnEhZVzo3I" }],
@@ -92,7 +93,8 @@
     },
     rogue: {
       skill: [{ name: "Cielz", lore: "", video: "qN9GtoGnTxc" }, { name: "Corrupt", lore: "", video: "CkRIrlmQRYQ" }, { name: "Ming", lore: "", video: "aDXXr3ad3is" }, { name: "Happyminti", lore: "", video: "YvQoYMq8_Ng" }, { name: "Oozo", lore: "", video: "1C7Uvt_0oYs" }],
-      fun: [{ name: "Caen", lore: "", video: "CGZiwuUPFMo" }, { name: "Perkulator ", lore: "", video: "ID192rw5Whw" }, { name: "Grim", lore: "", video: "oWNt_8xcOZw" }]
+      fun: [{ name: "Caen", lore: "", video: "CGZiwuUPFMo" }, { name: "Perkulator ", lore: "", video: "ID192rw5Whw" }, { name: "Grim", lore: "", video: "oWNt_8xcOZw" }],
+      note: "Add your free-flowing rogue note text here."
     },
     priest: {
       skill: [{ name: "There are no honorable priests apparently", lore: "", video: null }],
@@ -104,7 +106,8 @@
     },
     mage: {
       skill: [{ name: "Drifting", lore: "", video: "VXh_kZZ-GQo" }, { name: "Zachary", lore: "", video: "ohTYLIi1ghY" }, { name: "Gameking", lore: "", video: "RfY8Egsd6C8" }, { name: "Alca", lore: "", video: "MMnmuU8mOsw" }, { name: "Vurtne", lore: "", video: "k5Wieh9MMmc" }],
-      fun: [{ name: "Zelta", lore: "", video: "WYSbkW__6MI" }, { name: "Faxmonkey", lore: "", video: "3O_pNDc73MM" }, { name: "Voidim", lore: "", video: "fSn46eGGW7s" }, { name: "Otherguy(Sorrow Hill)", lore: "", video: "2FwMRW1ra0E" }]
+      fun: [{ name: "Zelta", lore: "", video: "WYSbkW__6MI" }, { name: "Faxmonkey", lore: "", video: "3O_pNDc73MM" }, { name: "Voidim", lore: "", video: "fSn46eGGW7s" }, { name: "Otherguy(Sorrow Hill)", lore: "", video: "2FwMRW1ra0E" }],
+      note: "Add your free-flowing mage note text here."
     },
     warlock: {
       skill: [{ name: "Shining", lore: "", video: "SqlJUxRd9WU" }, { name: "May", lore: "", video: "fwvpcN72K98" }, { name: "Diivil", lore: "", video: "BV5iAVmiqF8" }],
@@ -492,6 +495,16 @@
     if (!data) return;
     renderHonorableList(honorableListFun, data.fun);
     renderHonorableList(honorableListSkill, data.skill);
+
+    if (honorableNote) {
+      if (data.note) {
+        honorableNote.textContent = data.note;
+        honorableNote.classList.add("visible");
+      } else {
+        honorableNote.textContent = "";
+        honorableNote.classList.remove("visible");
+      }
+    }
   }
 
   // Expand/collapse entries via event delegation, since the list

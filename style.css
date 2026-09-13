@@ -204,6 +204,17 @@ body.honorable-open .scene {
   inset: 0;
   z-index: 15;
   background-color: #14110d;
+  background-size: cover;
+  background-position: center;
+  background-image: url("images/honorablementions.jpg");
+  /* ---- To set a background image for this whole scene, add an
+     image and point this at it, e.g.:
+     .honorable-scene {
+       background-image: url("images/honorable-mentions-bg.jpg");
+     }
+     Nothing is set by default, so it just shows the solid dark color
+     above until you add one. This is one image for the whole scene,
+     not per-class like the main screen. ---- */
   transform: translateY(100%);
   transition: transform 700ms ease;
   overflow: hidden;
@@ -742,8 +753,34 @@ body.honorable-open .honorable-scene {
 .honorable-placeholder {
   font-family: "Jost", sans-serif;
   font-style: italic;
+  font-size: 1.2rem;
   color: var(--gold);
   opacity: 0.8;
+}
+
+/* Free-flowing text next to the lists, for classes with a "note" set
+   in HONORABLE_MENTIONS (currently Rogue and Mage). Sits centered,
+   just below the icon column, between the two lists -- hidden
+   entirely (via JS toggling ".visible") for classes without one. */
+.honorable-note {
+  display: none;
+  position: absolute;
+  top: 66vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, 30vw);
+  margin: 0;
+  text-align: center;
+  font-family: "Jost", sans-serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--parchment);
+  z-index: 2;
+}
+
+.honorable-note.visible {
+  display: block;
 }
 
 .honorable-entry {
@@ -802,7 +839,7 @@ body.honorable-open .honorable-scene {
 
 .honorable-back-btn {
   position: absolute;
-  bottom: 2vh;
+  top: 4vh;
   left: 50%;
   transform: translateX(-50%);
   font-family: "Jost", sans-serif;
@@ -816,6 +853,7 @@ body.honorable-open .honorable-scene {
   cursor: pointer;
   opacity: 0.75;
   transition: opacity 150ms ease, background 150ms ease;
+  z-index: 3;
 }
 
 .honorable-back-btn:hover {
@@ -840,6 +878,12 @@ body.honorable-open .honorable-scene {
     width: 90vw;
     margin: 0 auto 12px;
     max-height: 22vh;
+  }
+  .honorable-note {
+    position: static;
+    transform: none;
+    width: 90vw;
+    margin: 0 auto 12px;
   }
   .honorable-scene {
     overflow-y: auto;
