@@ -103,8 +103,8 @@
 
     const mainText = match[1].trim();
     const score = match[2];
-    const filledStars = Math.min(5, Math.max(0, Math.round(parseFloat(score) / 2)));
-    const stars = "★".repeat(filledStars) + "☆".repeat(5 - filledStars);
+    const filledStars = Math.min(10, Math.max(0, Math.round(parseFloat(score))));
+    const stars = "★".repeat(filledStars) + "☆".repeat(10 - filledStars);
 
     return (
       `<p class="lore-text">${escapeHtml(mainText)}</p>` +

@@ -450,6 +450,7 @@ body {
 .lore-rating {
   margin: 14px 0 0;
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 14px;
   font-family: "Jost", sans-serif;
@@ -458,8 +459,8 @@ body {
 }
 
 .rating-stars {
-  font-size: 1.4rem;
-  letter-spacing: 0.08em;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
   color: #ffd76a;
 }
 
