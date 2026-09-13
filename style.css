@@ -132,7 +132,7 @@ body {
      background-position: center;
    }
    [data-class="priest"][data-mode="skill"] {
-     background-image: url("images/backgroundpriest.png");
+     background-image: url("images/backgroundpriest.jpg");
      background-size: cover;
      background-position: center;
    }
@@ -759,19 +759,20 @@ body.honorable-open .honorable-scene {
 }
 
 /* Free-flowing text next to the lists, for classes with a "note" set
-   in HONORABLE_MENTIONS (currently Rogue and Mage). Vertically
-   aligned with that class's own icon in the column (JS sets "top" as
-   an inline style to match) -- hidden entirely (via JS toggling
-   ".visible") for classes without one. */
+   in HONORABLE_MENTIONS (currently Rogue and Mage). "top" and "left"
+   are set as inline styles by script.js to match the icon's own row
+   in the vertical column (see alignNoteWithIcon()) -- top-anchored so
+   the text grows downward as it's typed rather than expanding upward
+   from a vertical center. Hidden entirely (via JS toggling
+   ".visible") for classes without a note. */
 .honorable-note {
   display: none;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(420px, 30vw);
+  top: 0;
+  left: 0;
+  width: min(320px, 24vw);
   margin: 0;
-  text-align: center;
+  text-align: left;
   font-family: "Jost", sans-serif;
   font-style: italic;
   font-size: 1.1rem;

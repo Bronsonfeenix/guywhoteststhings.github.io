@@ -515,18 +515,18 @@
     }, 35);
   }
 
-  // Vertically aligns the note with the given class's own icon in the
-  // vertical column, so it reads as sitting "in line with" that icon
-  // rather than at some fixed height. Only applies on desktop, where
-  // the column and note are both absolutely positioned relative to
-  // the viewport; the mobile layout overrides this with position:
-  // static in style.css, so the inline "top" gets ignored there.
+  // Positions the note to start at the same row as the given class's
+  // own icon in the vertical column, immediately to its right --
+  // "next to the icon" rather than centered on screen. Top-anchored
+  // (not vertically centered) so multi-line text grows downward from
+  // that row instead of expanding upward over the icons above it.
   function alignNoteWithIcon(className) {
     if (!honorableNote) return;
     const iconBtn = document.querySelector(`.honorable-class-btn[data-class="${className}"]`);
     if (!iconBtn) return;
     const rect = iconBtn.getBoundingClientRect();
-    honorableNote.style.top = rect.top + rect.height / 2 + "px";
+    honorableNote.style.top = rect.top + "px";
+    honorableNote.style.left = rect.right + 20 + "px";
   }
 
   function renderHonorableLists(className) {
