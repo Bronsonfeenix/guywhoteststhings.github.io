@@ -277,6 +277,7 @@ body {
    now used (see index.html). If you ever go back to the SVG
    placeholders, you can re-add a background here if you want one. */
 .class-icon {
+  position: relative;
   width: 40px;
   height: 40px;
   display: flex;
@@ -285,6 +286,39 @@ body {
   flex: 0 0 auto;
   border-radius: 0;
   border: 1px solid rgba(210, 212, 218, 0.5);
+}
+
+/* Shiny rotating highlight around the border of the currently
+   selected class's icon. Built as a ring (via the mask trick below,
+   which punches a hole the size of the icon out of a filled square,
+   leaving only the border-width ring visible) with a bright arc of
+   light that spins continuously. */
+.class-btn.active .class-icon::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  padding: 2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 80%,
+    #fff6d8 88%,
+    var(--gold-bright) 92%,
+    #fff6d8 96%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: class-icon-shine 2.2s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes class-icon-shine {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* If you ever add an SVG icon for a class instead of an <img>, add a
