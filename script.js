@@ -98,7 +98,8 @@
     },
     priest: {
       skill: [{ name: "There are no honorable priests apparently", lore: "", video: null }],
-      fun: [{ name: "There are no honorable priests apparently", lore: "", video: null }]
+      fun: [{ name: "There are no honorable priests apparently", lore: "", video: null }],
+      note: "There are no honorable priests apparently"
     },
     shaman: {
       skill: [],
