@@ -10,6 +10,11 @@
 html, body {
   height: 100%;
   margin: 0;
+  /* Dark fallback so a still-loading (or not-yet-cached) background
+     image shows this instead of the browser's default white canvas
+     for the instant before the image paints -- this is what causes
+     the white flash when switching classes. */
+  background-color: #181410;
 }
 
 body {
