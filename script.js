@@ -37,7 +37,7 @@
     },
     hunter: {
       skill: { name: "Junglle", text: "", model: "models/hunter-skill.glb", lore: "If Dysphoria had 1 second of PvP in his video he'd be on this side. 5/10", video: "QrXL4bxtymk", animation: "Stand" },
-      fun:   { name: "Dysphoria", text: "", model: "models/hunter-fun.glb", lore: " A completely fresh soundtrack for the time and a mental that says nothing is impossible Hunter Vs. World is an all time classic series.", video: "nu7XgF_P9Ddjkll", animation: "Stand" }
+      fun:   { name: "Dysphoria", text: "", model: "models/hunter-fun.glb", lore: " A completely fresh soundtrack for the time and a mental that says nothing is impossible Hunter Vs. World is an all time classic series.", video: "7XgF_P9Ddjk", animation: "Stand" }
     },
     rogue: {
       skill: { name: "Dahis", text: "", model: "models/rogue-skill.glb", lore: "Early attempts at 5-8ing warriors and gouging blinks (techniques that were definitely not standard at the time) are some of the standouts here, add his fairly decent movement and you end up with a very well rounded rogue. 7.5/10", video: "VMCDsXwAEK8", animation: "Stand" },
