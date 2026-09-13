@@ -219,10 +219,6 @@
 
     videoModal.classList.add("open");
     videoModal.setAttribute("aria-hidden", "false");
-
-    if (videoModal.requestFullscreen) {
-      videoModal.requestFullscreen().catch(() => {});
-    }
   }
 
   function closeVideoModal() {
@@ -230,9 +226,6 @@
     videoModal.classList.remove("open");
     videoModal.setAttribute("aria-hidden", "true");
     videoFrame.src = "";
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
-    }
   }
 
   if (acceptBtn) acceptBtn.addEventListener("click", openVideoModal);

@@ -132,7 +132,7 @@ body {
      background-position: center;
    }
    [data-class="priest"][data-mode="skill"] {
-     background-image: url("images/backgroundpriest.jpg");
+     background-image: url("images/warrior-skill.jpg");
      background-size: cover;
      background-position: center;
    }
@@ -460,25 +460,34 @@ body {
   }
 }
 
-/* ----- Fullscreen video modal ----- */
+/* ----- Video popup ----- */
 
 .video-modal {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(6, 5, 3, 0.95);
+  background: rgba(6, 5, 3, 0.75);
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 }
 
 .video-modal.open {
   display: flex;
 }
 
+.video-popup {
+  position: relative;
+  width: min(720px, 80vw);
+  background: linear-gradient(180deg, rgba(24,19,13,0.97), rgba(15,12,8,0.98));
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
 .video-frame-wrap {
-  width: min(1280px, 92vw);
+  width: 100%;
   aspect-ratio: 16 / 9;
 }
 
@@ -490,15 +499,15 @@ body {
 
 .video-close {
   position: absolute;
-  top: 22px;
-  right: 28px;
-  width: 44px;
-  height: 44px;
+  top: -16px;
+  right: -16px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 1px solid var(--gold);
-  background: rgba(24, 19, 13, 0.8);
+  background: rgba(24, 19, 13, 0.95);
   color: var(--gold-bright);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   line-height: 1;
   cursor: pointer;
 }
@@ -514,7 +523,7 @@ body {
   font-size: 1.1rem;
   color: var(--gold);
   text-align: center;
-  padding: 0 20px;
+  padding: 30px 10px;
 }
 
 .video-modal.no-video .video-frame-wrap {
