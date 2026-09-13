@@ -400,10 +400,11 @@ body {
 
 .lore-panel {
   position: absolute;
-  /* Aligns the top of this panel (the name header, now the first
-     line) with the top edge of the model-viewer box, which is now
-     bottom-anchored with a height of min(1120px, 92vh). */
-  top: calc(100vh - min(1120px, 92vh));
+  /* Fixed position rather than tied to the model box -- once the
+     model got much bigger and bottom-anchored, aligning to its top
+     edge pushed this panel up into the icon row. This value places
+     it comfortably below the icon row instead. */
+  top: 17vh;
   right: 4vw;
   width: min(560px, 34vw);
   min-width: 320px;
