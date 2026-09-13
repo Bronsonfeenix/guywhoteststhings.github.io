@@ -743,6 +743,11 @@ body.honorable-open .honorable-scene {
      scaled to whichever name is longest, rather than each other
      filling the full list width. */
   grid-template-columns: max-content;
+  /* Without this, grid's default is to stretch the rows to fill any
+     leftover space in this (fairly tall) container when there are
+     only a few short entries -- align-content: start packs them
+     tightly from the top instead, at their natural height. */
+  align-content: start;
   gap: 8px;
   padding-right: 6px;
 }
@@ -814,6 +819,9 @@ body.honorable-open .honorable-scene {
 
 .honorable-entry-name {
   width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
   text-align: left;
   font-family: "Jost", sans-serif;
   font-weight: 600;
@@ -821,7 +829,7 @@ body.honorable-open .honorable-scene {
   color: var(--parchment);
   background: none;
   border: none;
-  padding: 8px 12px;
+  padding: 0 12px;
   cursor: pointer;
 }
 
