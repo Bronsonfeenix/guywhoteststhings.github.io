@@ -230,6 +230,13 @@
 
   if (acceptBtn) acceptBtn.addEventListener("click", openVideoModal);
   if (videoClose) videoClose.addEventListener("click", closeVideoModal);
+  if (videoModal) {
+    videoModal.addEventListener("click", (e) => {
+      // Only close when the backdrop itself was clicked, not something
+      // inside the popup card (the video, the close button, etc.).
+      if (e.target === videoModal) closeVideoModal();
+    });
+  }
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && videoModal && videoModal.classList.contains("open")) closeVideoModal();
   });
