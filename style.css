@@ -334,6 +334,12 @@ body {
   height: 100%;
   --poster-color: transparent;
   background-color: transparent;
+  /* Hides model-viewer's built-in loading progress bar -- we already
+     show our own custom placeholder (.model-placeholder) while a
+     model is loading or missing, so the default one is redundant and
+     was showing up as a dark bar at the top of the model area. */
+  --progress-bar-height: 0px;
+  --progress-bar-color: transparent;
 }
 
 .model-placeholder {
