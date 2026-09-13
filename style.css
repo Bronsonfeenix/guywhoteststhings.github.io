@@ -334,13 +334,13 @@ body {
 
 .model-stage {
   position: absolute;
-  top: 50%;
+  bottom: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(560px, 42vw);
-  height: min(560px, 58vh);
-  min-width: 260px;
-  min-height: 260px;
+  transform: translateX(-50%);
+  width: min(1120px, 84vw);
+  height: min(1120px, 92vh);
+  min-width: 520px;
+  min-height: 520px;
   z-index: 5;
   overflow: hidden;
 }
@@ -401,9 +401,9 @@ body {
 .lore-panel {
   position: absolute;
   /* Aligns the top of this panel (the name header, now the first
-     line) with the top edge of the model-viewer box, which sits
-     vertically centered at 50vh with a height of min(560px, 58vh). */
-  top: calc(50vh - min(560px, 58vh) / 2);
+     line) with the top edge of the model-viewer box, which is now
+     bottom-anchored with a height of min(1120px, 92vh). */
+  top: calc(100vh - min(1120px, 92vh));
   right: 4vw;
   width: min(560px, 34vw);
   min-width: 320px;
@@ -659,9 +659,11 @@ body {
     height: 32px;
   }
   .model-stage {
-    width: min(320px, 70vw);
-    height: min(320px, 38vh);
-    top: 35%;
+    width: min(640px, 92vw);
+    height: min(640px, 68vh);
+    min-width: 300px;
+    min-height: 300px;
+    bottom: 0;
   }
   .identity-panel {
     bottom: 22vh;
