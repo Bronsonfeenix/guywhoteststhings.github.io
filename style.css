@@ -18,7 +18,7 @@ html, body {
 }
 
 body {
-  font-family: "EB Garamond", serif;
+  font-family: "Jost", sans-serif;
   color: var(--parchment);
   overflow: hidden;
   background-size: cover;
@@ -209,7 +209,7 @@ body {
 }
 
 .mode-btn {
-  font-family: "Cinzel", serif;
+  font-family: "Jost", sans-serif;
   font-size: 0.85rem;
   letter-spacing: 0.05em;
   color: var(--parchment);
@@ -317,7 +317,7 @@ body {
 }
 
 .class-label {
-  font-family: "Cinzel", serif;
+  font-family: "Jost", sans-serif;
   font-size: 0.78rem;
   letter-spacing: 0.03em;
   text-align: center;
@@ -407,17 +407,12 @@ body {
   z-index: 6;
 }
 
-/* ---- Morpheus font for the lore text -----------------------------
-   "Morpheus" isn't a Google/CDN-hosted font -- it's shareware (free
-   for personal use, paid license for commercial use). To use it:
-   1. Download it from a source like fontspace.com or fonts4free.net
-      (search "Morpheus font Kiwi Media").
-   2. Put the font file in a `fonts/` folder next to index.html, e.g.
-      fonts/Morpheus.ttf (or .woff2 if you convert it, which loads
-      faster -- see https://cloudconvert.com/ttf-to-woff2).
-   3. Uncomment the @font-face rule below and adjust the path/format
-      if needed.
-   Until you do this, .lore-text falls back to EB Garamond. ---- */
+/* ---- Morpheus font -- currently unused ---------------------------
+   The whole site uses "Jost" now, so .lore-text no longer references
+   Morpheus. This @font-face is left here in case you ever want to
+   switch back or use Morpheus somewhere specific: it expects a file
+   at fonts/Morpheus.ttf, and you'd add font-family: "Morpheus", ...
+   to whichever rule you want it on. ---- */
 
 @font-face {
   font-family: "Morpheus";
@@ -428,7 +423,7 @@ body {
 
 .lore-text {
   margin: 0;
-  font-family: "Morpheus", serif;
+  font-family: "Jost", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: clamp(1.4rem, 1.9vw, 2rem);
@@ -443,7 +438,7 @@ body {
   right: 4vw;
   width: min(220px, 22vw);
   z-index: 6;
-  font-family: "Cinzel", serif;
+  font-family: "Jost", sans-serif;
   font-size: 0.95rem;
   letter-spacing: 0.05em;
   color: var(--gold-bright);
@@ -534,7 +529,7 @@ body {
 
 .video-missing {
   display: none;
-  font-family: "EB Garamond", serif;
+  font-family: "Jost", sans-serif;
   font-style: italic;
   font-size: 1.1rem;
   color: var(--gold);
@@ -581,7 +576,7 @@ body {
 #classNameInput {
   width: 100%;
   text-align: center;
-  font-family: "Cinzel", serif;
+  font-family: "Jost", sans-serif;
   font-size: 1.1rem;
   letter-spacing: 0.04em;
   color: var(--gold-bright);
