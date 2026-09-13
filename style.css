@@ -288,36 +288,18 @@ body {
   border: 1px solid rgba(210, 212, 218, 0.5);
 }
 
-/* Shiny rotating highlight around the border of the currently
-   selected class's icon. Built as a ring (via the mask trick below,
-   which punches a hole the size of the icon out of a filled square,
-   leaving only the border-width ring visible) with a bright arc of
-   light that spins continuously. */
-.class-btn.active .class-icon::after {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  padding: 2px;
-  border-radius: inherit;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0%,
-    transparent 80%,
-    #fff6d8 88%,
-    var(--gold-bright) 92%,
-    #fff6d8 96%,
-    transparent 100%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: class-icon-shine 2.2s linear infinite;
-  pointer-events: none;
+/* Pulsing glowing border on the currently selected class's icon. */
+.class-btn.active .class-icon {
+  border-color: var(--gold-bright);
+  animation: class-icon-glow 1.8s ease-in-out infinite alternate;
 }
 
-@keyframes class-icon-shine {
+@keyframes class-icon-glow {
+  from {
+    box-shadow: 0 0 4px 1px rgba(205, 166, 90, 0.45);
+  }
   to {
-    transform: rotate(360deg);
+    box-shadow: 0 0 10px 3px rgba(205, 166, 90, 0.9);
   }
 }
 
