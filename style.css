@@ -21,15 +21,54 @@ body {
   font-family: "EB Garamond", serif;
   color: var(--parchment);
   overflow: hidden;
-  transition: background 900ms ease;
   background-size: cover;
   background-position: center;
   /* Neutral placeholder backdrop -- shows until you add a real image
      for each class below. Not tied to any class color, so it won't be
-     confused with the icon gradients. */
+     confused with the icon gradients. This still applies to body
+     itself (harmless, fully hidden behind .bg-stage below) so the
+     rules further down don't need to change at all. */
   background-image:
     radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%),
     linear-gradient(180deg, #211d17 0%, #2c261e 45%, #181410 100%);
+}
+
+/* ----- Background crossfade ----------------------------------------
+   Two full-viewport layers stacked behind everything. JS sets the
+   incoming layer's background-image and toggles the ".visible" class,
+   which fades it in via the opacity transition below while the other
+   layer's ".visible" gets removed at the same time, fading it out. */
+
+.bg-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background-color: #181410;
+}
+
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1000ms ease;
+}
+
+.bg-layer.visible {
+  opacity: 1;
+}
+
+/* Invisible -- exists only so JS can read its resolved
+   background-image via getComputedStyle(). Takes no visual space. */
+#bgProbe {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* ---- Add your own background image per class AND mode here. Nothing
@@ -93,7 +132,7 @@ body {
      background-position: center;
    }
    [data-class="priest"][data-mode="skill"] {
-     background-image: url("images/warrior-skill.jpg");
+     background-image: url("images/backgroundpriest.jpg");
      background-size: cover;
      background-position: center;
    }
@@ -145,6 +184,7 @@ body {
    }
 .scene {
   position: relative;
+  z-index: 1;
   height: 100vh;
   width: 100vw;
 }

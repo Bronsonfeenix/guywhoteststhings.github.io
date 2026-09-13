@@ -12,6 +12,21 @@
 </head>
 <body data-class="warrior" data-mode="skill">
 
+  <!-- Two stacked layers that crossfade between background images.
+       JS fades the incoming one in while fading the outgoing one out,
+       which is smoother than swapping background-image directly on
+       body (browsers can't animate between two different images). -->
+  <div class="bg-stage">
+    <div class="bg-layer" id="bgLayerA"></div>
+    <div class="bg-layer" id="bgLayerB"></div>
+  </div>
+
+  <!-- Invisible element that mirrors body's data-class/data-mode so
+       the existing [data-class][data-mode] rules in style.css keep
+       working unchanged -- JS reads the resolved background-image off
+       this element rather than needing a second copy of those rules. -->
+  <div id="bgProbe" aria-hidden="true"></div>
+
   <div class="scene">
 
     <!-- Left control column: mode toggle + 3x3 class grid -->

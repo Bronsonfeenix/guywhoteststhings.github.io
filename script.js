@@ -12,6 +12,9 @@
   const videoModal = document.getElementById("videoModal");
   const videoFrame = document.getElementById("videoFrame");
   const videoClose = document.getElementById("videoClose");
+  const bgProbe = document.getElementById("bgProbe");
+  const bgLayerA = document.getElementById("bgLayerA");
+  const bgLayerB = document.getElementById("bgLayerB");
 
   // ---------------------------------------------------------------
   // PLACEHOLDER DATA -- some of this is still meant to be filled in.
@@ -68,6 +71,46 @@
   let requestedAnimation = "Stand";
   let currentVideoId = null;
   let hasStartedPreload = false;
+  let activeBgLayer = bgLayerA;
+
+  // Mirrors the neutral placeholder gradient from style.css -- used
+  // as the crossfade layer's image when the probe resolves to "none"
+  // (i.e. no background rule exists yet for this class/mode).
+  const NEUTRAL_BG =
+    'radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 75%), ' +
+    'linear-gradient(180deg, #211d17 0%, #2c261e 45%, #181410 100%)';
+
+  // ---------------------------------------------------------------
+  // Crossfades the background. Rather than a second copy of every
+  // background rule in style.css, this mirrors body's data-class /
+  // data-mode onto the hidden #bgProbe element, so the exact same
+  // [data-class][data-mode] rules already in style.css resolve on it
+  // too -- then reads the resulting image off it with
+  // getComputedStyle() and hands that to whichever of the two
+  // .bg-layer divs is currently hidden, fading it in while fading the
+  // other one out.
+  // ---------------------------------------------------------------
+  function updateBackground() {
+    if (!bgProbe || !bgLayerA || !bgLayerB) return;
+
+    bgProbe.dataset.class = currentClass;
+    bgProbe.dataset.mode = currentMode;
+
+    const resolved = getComputedStyle(bgProbe).backgroundImage;
+    const image = !resolved || resolved === "none" ? NEUTRAL_BG : resolved;
+
+    const incoming = activeBgLayer === bgLayerA ? bgLayerB : bgLayerA;
+    incoming.style.backgroundImage = image;
+
+    // Force layout before adding the class, so the browser registers
+    // the new image first and actually animates the opacity change
+    // instead of jumping straight to the end state.
+    void incoming.offsetWidth;
+
+    incoming.classList.add("visible");
+    activeBgLayer.classList.remove("visible");
+    activeBgLayer = incoming;
+  }
 
   // If a model's requested animation clip doesn't exist in the file,
   // try these common alternate names before giving up.
@@ -131,6 +174,8 @@
 
     body.dataset.class = currentClass;
     body.dataset.mode = currentMode;
+
+    updateBackground();
 
     if (classText) classText.textContent = data.text;
     if (nameInput) nameInput.value = data.name;
