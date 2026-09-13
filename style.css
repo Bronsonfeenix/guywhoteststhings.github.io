@@ -420,12 +420,11 @@ body {
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
 }
 
-/* ---- Morpheus font -- currently unused ---------------------------
-   The whole site uses "Jost" now, so .lore-text no longer references
-   Morpheus. This @font-face is left here in case you ever want to
-   switch back or use Morpheus somewhere specific: it expects a file
-   at fonts/Morpheus.ttf, and you'd add font-family: "Morpheus", ...
-   to whichever rule you want it on. ---- */
+/* ---- Morpheus font for the lore text -----------------------------
+   Everything else on the site uses "Jost"; .lore-text specifically
+   uses "Morpheus" instead. This expects a file at fonts/Morpheus.ttf
+   -- if that file is missing or 404s, .lore-text falls back to the
+   generic "serif" in its font stack rather than breaking. ---- */
 
 @font-face {
   font-family: "Morpheus";
@@ -436,7 +435,7 @@ body {
 
 .lore-text {
   margin: 0;
-  font-family: "Jost", sans-serif;
+  font-family: "Morpheus", serif;
   font-style: normal;
   font-weight: 600;
   font-size: clamp(1.4rem, 1.9vw, 2rem);
@@ -452,6 +451,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
+  justify-content: flex-end;
   gap: 14px;
   font-family: "Jost", sans-serif;
   color: var(--gold-bright);
