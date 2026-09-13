@@ -8,10 +8,8 @@
   const classText = document.getElementById("classText");
   const loreName = document.getElementById("loreName");
   const loreText = document.getElementById("loreText");
-  const acceptBtn = document.getElementById("acceptBtn");
-  const videoModal = document.getElementById("videoModal");
-  const videoFrame = document.getElementById("videoFrame");
-  const videoClose = document.getElementById("videoClose");
+  const videoStage = document.getElementById("videoStage");
+  const videoMissing = document.getElementById("videoMissing");
   const bgProbe = document.getElementById("bgProbe");
   const bgLayerA = document.getElementById("bgLayerA");
   const bgLayerB = document.getElementById("bgLayerB");
@@ -69,7 +67,6 @@
   let currentMode = "skill";
   let requestedSrc = "";
   let requestedAnimation = "Stand";
-  let currentVideoId = null;
   let hasStartedPreload = false;
   let activeBgLayer = bgLayerA;
 
@@ -241,52 +238,89 @@
       modelViewer.setAttribute("animation-name", requestedAnimation);
     }
 
-    currentVideoId = data.video || null;
+    applyVideoId(data.video || null);
 
     modeButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.mode === currentMode));
     classButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.class === currentClass));
   }
 
   // ---------------------------------------------------------------
-  // Fullscreen video modal, opened by the "Accept" button. Each
-  // class/mode's YouTube video id lives on its CLASS_DATA entry
-  // (the "video" field above) -- set it to a real id, e.g.
-  // video: "dQw4w9WgXcQ", to enable the button for that combination.
+  // Embedded video for the current class/mode, using the YouTube
+  // IFrame API rather than a plain <iframe src="...">. Two reasons:
+  // 1. cueVideoById() loads a video's thumbnail/metadata and gets it
+  //    ready to play WITHOUT autoplaying it -- a plain iframe with
+  //    ?autoplay=0 still sometimes autoplays depending on browser/
+  //    embed settings, whereas "cue" (vs. "load") is explicitly the
+  //    non-autoplaying variant.
+  // 2. onStateChange lets us detect actual play/pause state, which
+  //    drives the fade-in-when-playing behavior in style.css (see
+  //    ".video-stage.playing"), not just hover.
+  //
+  // "Loading in the background" for a YouTube embed doesn't map onto
+  // the same technique as preloading an image or .glb file -- you
+  // can't pre-fetch a video's bytes without a player instance, and
+  // instantiating 18 hidden players (one per class/mode) would be
+  // wasteful and could itself trigger unwanted playback. The
+  // equivalent here is starting the IFrame API script loading
+  // immediately on page load (see loadYouTubeApi() near the bottom of
+  // this file) rather than waiting for any interaction, so the player
+  // itself is ready well before the visitor hovers or clicks it.
   // ---------------------------------------------------------------
-  function openVideoModal() {
-    if (!videoModal) return;
+  let ytPlayer = null;
+  let pendingVideoId; // set if a class/mode is selected before the API finishes loading
 
-    if (currentVideoId) {
-      videoModal.classList.remove("no-video");
-      videoFrame.src = "https://www.youtube.com/embed/" + currentVideoId + "?autoplay=1&rel=0";
-    } else {
-      videoModal.classList.add("no-video");
-      videoFrame.src = "";
+  function applyVideoId(videoId) {
+    if (videoStage) videoStage.classList.remove("playing");
+
+    if (!ytPlayer || typeof ytPlayer.cueVideoById !== "function") {
+      pendingVideoId = videoId;
+      return;
     }
 
-    videoModal.classList.add("open");
-    videoModal.setAttribute("aria-hidden", "false");
+    if (videoId) {
+      if (videoMissing) videoMissing.classList.remove("visible");
+      ytPlayer.cueVideoById(videoId);
+    } else {
+      if (videoMissing) videoMissing.classList.add("visible");
+      if (typeof ytPlayer.stopVideo === "function") ytPlayer.stopVideo();
+    }
   }
 
-  function closeVideoModal() {
-    if (!videoModal) return;
-    videoModal.classList.remove("open");
-    videoModal.setAttribute("aria-hidden", "true");
-    videoFrame.src = "";
-  }
+  function initYouTubePlayer() {
+    if (!window.YT || !window.YT.Player || !document.getElementById("videoFrame")) return;
 
-  if (acceptBtn) acceptBtn.addEventListener("click", openVideoModal);
-  if (videoClose) videoClose.addEventListener("click", closeVideoModal);
-  if (videoModal) {
-    videoModal.addEventListener("click", (e) => {
-      // Only close when the backdrop itself was clicked, not something
-      // inside the popup card (the video, the close button, etc.).
-      if (e.target === videoModal) closeVideoModal();
+    ytPlayer = new YT.Player("videoFrame", {
+      host: "https://www.youtube-nocookie.com",
+      playerVars: {
+        rel: 0,
+        modestbranding: 1,
+        playsinline: 1
+      },
+      events: {
+        onReady: () => {
+          if (pendingVideoId !== undefined) {
+            applyVideoId(pendingVideoId);
+            pendingVideoId = undefined;
+          }
+        },
+        onStateChange: (event) => {
+          if (!videoStage || !window.YT) return;
+          videoStage.classList.toggle("playing", event.data === YT.PlayerState.PLAYING);
+        }
+      }
     });
   }
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && videoModal && videoModal.classList.contains("open")) closeVideoModal();
-  });
+
+  function loadYouTubeApi() {
+    if (window.YT && window.YT.Player) {
+      initYouTubePlayer();
+      return;
+    }
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+    window.onYouTubeIframeAPIReady = initYouTubePlayer;
+  }
 
   if (modelViewer) {
     modelViewer.addEventListener("error", () => {
@@ -362,4 +396,5 @@
   });
 
   updateView();
+  loadYouTubeApi();
 })();

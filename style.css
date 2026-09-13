@@ -502,29 +502,6 @@ body {
   margin-left: 2px;
 }
 
-.accept-btn {
-  position: absolute;
-  bottom: 5vh;
-  right: 4vw;
-  width: min(220px, 22vw);
-  z-index: 6;
-  font-family: "Jost", sans-serif;
-  font-size: 0.95rem;
-  letter-spacing: 0.05em;
-  color: var(--gold-bright);
-  background: linear-gradient(180deg, rgba(24,19,13,0.9), rgba(15,12,8,0.92));
-  border: 1px solid var(--gold);
-  border-radius: 4px;
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
-}
-
-.accept-btn:hover {
-  border-color: var(--gold-bright);
-  background: rgba(156, 122, 60, 0.2);
-}
-
 @media (max-width: 860px) {
   .lore-panel {
     position: static;
@@ -536,86 +513,60 @@ body {
   .lore-rating {
     justify-content: center;
   }
-  .accept-btn {
+  .video-stage {
     position: static;
-    width: min(220px, 60vw);
+    width: min(400px, 85vw);
     margin: 14px auto 0;
-    display: block;
   }
 }
 
-/* ----- Video popup ----- */
+/* ----- Embedded video (left side) -----------------------------------
+   Faded out by default; brightens on hover, and stays bright while
+   actually playing (the ".playing" class is toggled by script.js via
+   the YouTube IFrame API's onStateChange event) even if the mouse
+   isn't over it anymore. */
 
-.video-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: rgba(6, 5, 3, 0.75);
-  align-items: center;
-  justify-content: center;
-}
-
-.video-modal.open {
-  display: flex;
-}
-
-.video-popup {
-  position: relative;
-  width: min(720px, 80vw);
-  background: linear-gradient(180deg, rgba(24,19,13,0.97), rgba(15,12,8,0.98));
-  border: 1px solid var(--gold);
-  border-radius: 6px;
-  padding: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-}
-
-.video-frame-wrap {
-  width: 100%;
+.video-stage {
+  position: absolute;
+  top: 25vh;
+  left: 4vw;
+  width: min(560px, 32vw);
   aspect-ratio: 16 / 9;
+  z-index: 4;
+  opacity: 0.32;
+  transition: opacity 400ms ease;
+  border: 1px solid rgba(210, 212, 218, 0.4);
+  background: rgba(0, 0, 0, 0.45);
+  overflow: hidden;
 }
 
-.video-frame-wrap iframe {
+.video-stage:hover,
+.video-stage.playing {
+  opacity: 1;
+}
+
+.video-stage iframe {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-.video-close {
-  position: absolute;
-  top: -16px;
-  right: -16px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--gold);
-  background: rgba(24, 19, 13, 0.95);
-  color: var(--gold-bright);
-  font-size: 1.4rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.video-close:hover {
-  border-color: var(--gold-bright);
-}
-
 .video-missing {
   display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
   font-family: "Jost", sans-serif;
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--gold);
-  text-align: center;
-  padding: 30px 10px;
 }
 
-.video-modal.no-video .video-frame-wrap {
-  display: none;
-}
-
-.video-modal.no-video .video-missing {
-  display: block;
+.video-missing.visible {
+  display: flex;
 }
 
 /* ----- Bottom-center identity panel: shorter flavor text ----- */

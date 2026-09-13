@@ -45,11 +45,15 @@ neutral dark backdrop.
   it in if you want that line to show something)
 - `lore` — the longer text shown in the right-hand panel
 
-**Accept button + video:** the "Accept" button opens a fullscreen
-YouTube embed for the current class/mode's `video` field (the id from
-the YouTube URL, e.g. `"dQw4w9WgXcQ"`). If `video` is `null`, it opens
-the overlay with "No video has been set for this class / mode yet."
-instead of failing silently.
+**Embedded video:** a video player sits on the left side of the
+screen for the current class/mode's `video` field (the id from the
+YouTube URL, e.g. `"dQw4w9WgXcQ"`). It's faded to low opacity until
+you hover over it or start playing it (it stays fully visible while
+actually playing, even after your mouse leaves). It never autoplays —
+switching class/mode loads the new video's thumbnail via YouTube's
+"cue" API, ready to play on click, rather than starting it
+automatically. If `video` is `null`, the box shows "No video has been
+set for this class / mode yet." instead of an empty player.
 
 **3D models + animations:** each entry points at
 `models/{class}-{mode}.glb` and names which animation clip to play via

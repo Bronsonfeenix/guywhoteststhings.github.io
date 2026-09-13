@@ -103,7 +103,7 @@
         class="race-model"
         camera-controls
         disable-zoom
-        shadow-intensity="1"
+        shadow-intensity="0"
         exposure="1"
         autoplay
         animation-name="Stand"
@@ -114,7 +114,6 @@
         camera-orbit="90deg 75deg auto"
         disable-pan
         scale="1.8 1.8 1.8"
-        environment-image="neutral"
       ></model-viewer>
       <div class="model-placeholder" id="modelPlaceholder">
         <span class="placeholder-glyph">&#9670;</span>
@@ -128,32 +127,22 @@
       <div id="loreText"></div>
     </aside>
 
-    <!-- Bottom-right: opens the fullscreen video for the selected class/mode -->
-    <button type="button" class="accept-btn" id="acceptBtn">Accept</button>
+    <!-- Left side: embedded video for the selected class/mode. Faded
+         out until hovered or playing (see .video-stage in style.css).
+         Uses the YouTube IFrame API (loaded in script.js) rather than
+         a plain <iframe> so play/pause state can be detected, and so
+         the video can be "cued" (thumbnail loaded, ready to play)
+         without autoplaying. -->
+    <div class="video-stage" id="videoStage">
+      <div id="videoFrame"></div>
+      <div class="video-missing" id="videoMissing">No video has been set for this class / mode yet.</div>
+    </div>
 
     <!-- Bottom-center: shorter flavor text -->
     <div class="identity-panel">
       <p class="class-text" id="classText"></p>
     </div>
 
-  </div>
-
-  <!-- Fullscreen video overlay, opened by the "Accept" button -->
-  <div class="video-modal" id="videoModal" aria-hidden="true">
-    <div class="video-popup">
-      <button type="button" class="video-close" id="videoClose" aria-label="Close video">&times;</button>
-      <div class="video-frame-wrap">
-        <iframe
-          id="videoFrame"
-          title="Class video"
-          src=""
-          frameborder="0"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowfullscreen
-        ></iframe>
-      </div>
-      <p class="video-missing" id="videoMissing">No video has been set for this class / mode yet.</p>
-    </div>
   </div>
 
   <script src="script.js"></script>
