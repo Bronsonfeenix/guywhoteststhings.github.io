@@ -107,7 +107,7 @@ body {
      background-position: center;
    }
    [data-class="paladin"][data-mode="fun"] {
-     background-image: url("images/backgroundpaladin.png");
+     background-image: url("images/Zalgradis.png");
      background-size: cover;
      background-position: center;
    }
@@ -117,7 +117,7 @@ body {
      background-position: center;
    }
    [data-class="hunter"][data-mode="fun"] {
-     background-image: url("images/backgroundnightelf.png");
+     background-image: url("images/Dysphoria2.png");
      background-size: cover;
      background-position: center;
    }
@@ -127,7 +127,7 @@ body {
      background-position: center;
    }
    [data-class="rogue"][data-mode="fun"] {
-     background-image: url("images/backgroundundead.jpg");
+     background-image: url("images/Mute.png");
      background-size: cover;
      background-position: center;
    }
@@ -143,42 +143,42 @@ body {
    }
 
    [data-class="shaman"][data-mode="skill"] {
-     background-image: url("images/backgroundorc.png");
+     background-image: url("images/Cabbarnackle.png");
      background-size: cover;
      background-position: center;
    }
    [data-class="shaman"][data-mode="fun"] {
-     background-image: url("images/backgroundorc.png");
+     background-image: url("images/Unbreakable.png");
      background-size: cover;
      background-position: center;
    }
    [data-class="mage"][data-mode="skill"] {
-     background-image: url("images/backgroundundead.jpg");
+     background-image: url("images/Clazzi.png");
      background-size: cover;
      background-position: center;
    }
    [data-class="mage"][data-mode="fun"] {
-     background-image: url("images/backgroundundead.jpg");
+     background-image: url("images/Path.png");
      background-size: cover;
      background-position: center;
    }
    [data-class="warlock"][data-mode="skill"] {
-     background-image: url("images/backgroundundead.jpg");
+     background-image: url("images/Lokilo.png");
      background-size: cover;
      background-position: center;
    }
    [data-class="warlock"][data-mode="fun"] {
-     background-image: url("images/backgroundundead.jpg");
+     background-image: url("images/Drakedog.png");
      background-size: cover;
      background-position: center;
    }
    [data-class="druid"][data-mode="skill"] {
-     background-image: url("images/backgroundnightelf.png");
+     background-image: url("images/TFODruidSkill.png");
      background-size: cover;
      background-position: center;
    }
    [data-class="druid"][data-mode="fun"] {
-     background-image: url("images/backgroundnightelf.png");
+     background-image: url("images/NEVER.png");
      background-size: cover;
      background-position: center;
    }
