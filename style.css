@@ -132,7 +132,7 @@ body {
      background-position: center;
    }
    [data-class="priest"][data-mode="skill"] {
-     background-image: url("images/warrior-skill.jpg");
+     background-image: url("images/backgroundpriest.jpg");
      background-size: cover;
      background-position: center;
    }
