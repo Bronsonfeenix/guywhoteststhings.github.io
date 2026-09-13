@@ -376,7 +376,11 @@ body.honorable-open .honorable-scene {
   height: min(1120px, 92vh);
   min-width: 520px;
   min-height: 520px;
-  z-index: 5;
+  /* Kept below .video-stage's z-index so that when the two visually
+     overlap (narrower windows especially), the video's clickable
+     area always wins in the overlap region rather than the model's
+     bounding box silently intercepting clicks meant for the video. */
+  z-index: 3;
   overflow: hidden;
 }
 
