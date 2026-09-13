@@ -89,12 +89,12 @@
     },
     hunter: {
       skill: [{ name: "Biuret", lore: "", video: "m-IzBxFa8yg" }, { name: "Kishra", lore: "", video: "eIW0i5tch1E" }],
-      fun: [{ name: "Fubarius(Huntology)", lore: "", video: "k5DdYPLoItU" }]
+      fun: [{ name: "Fubarius(Huntology)", lore: "Can’t really put this one into words, it’s something that just needs to be experienced. Some (most) will hate it and others will love it, for us however, we definitely believe in immersing ourselves in the dream of the hunt.", video: "k5DdYPLoItU" }]
     },
     rogue: {
       skill: [{ name: "Cielz", lore: "", video: "qN9GtoGnTxc" }, { name: "Corrupt", lore: "", video: "CkRIrlmQRYQ" }, { name: "Ming", lore: "", video: "aDXXr3ad3is" }, { name: "Happyminti", lore: "", video: "YvQoYMq8_Ng" }, { name: "Oozo", lore: "", video: "1C7Uvt_0oYs" }],
       fun: [{ name: "Caen", lore: "", video: "CGZiwuUPFMo" }, { name: "Perkulator ", lore: "", video: "ID192rw5Whw" }, { name: "Grim", lore: "", video: "oWNt_8xcOZw" }],
-      note: "Add your free-flowing rogue note text here."
+      note: "An incredibly close competition, each rogue has moments where they outshine the others, we just had to pick one"
     },
     priest: {
       skill: [{ name: "There are no honorable priests apparently", lore: "", video: null }],
@@ -107,10 +107,10 @@
     mage: {
       skill: [{ name: "Drifting", lore: "", video: "VXh_kZZ-GQo" }, { name: "Zachary", lore: "", video: "ohTYLIi1ghY" }, { name: "Gameking", lore: "", video: "RfY8Egsd6C8" }, { name: "Alca", lore: "", video: "MMnmuU8mOsw" }, { name: "Vurtne", lore: "", video: "k5Wieh9MMmc" }],
       fun: [{ name: "Zelta", lore: "", video: "WYSbkW__6MI" }, { name: "Faxmonkey", lore: "", video: "3O_pNDc73MM" }, { name: "Voidim", lore: "", video: "fSn46eGGW7s" }, { name: "Otherguy(Sorrow Hill)", lore: "", video: "2FwMRW1ra0E" }],
-      note: "Add your free-flowing mage note text here."
+      note: "Both Zachary and Drifiting get extra special mentions as standouts, Clazzi is just a cut above everyone else"
     },
     warlock: {
-      skill: [{ name: "Shining", lore: "", video: "SqlJUxRd9WU" }, { name: "May", lore: "", video: "fwvpcN72K98" }, { name: "Diivil", lore: "", video: "BV5iAVmiqF8" }],
+      skill: [{ name: "Shining", lore: "Coiling intercepts and smart use of spellstones, Shining is a strong contender for top spot", video: "SqlJUxRd9WU" }, { name: "May", lore: "", video: "fwvpcN72K98" }, { name: "Diivil", lore: "", video: "BV5iAVmiqF8" }],
       fun: []
     },
     druid: {
