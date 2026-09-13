@@ -117,7 +117,7 @@ body {
      background-position: center;
    }
    [data-class="hunter"][data-mode="fun"] {
-     background-image: url("images/Dysphoria2.png");
+     background-image: url("images/Dysphoria.png");
      background-size: cover;
      background-position: center;
    }
@@ -173,7 +173,7 @@ body {
      background-position: center;
    }
    [data-class="druid"][data-mode="skill"] {
-     background-image: url("images/TFODruidSkill.png");
+     background-image: url("images/tfo.png");
      background-size: cover;
      background-position: center;
    }
