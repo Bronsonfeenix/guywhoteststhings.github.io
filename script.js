@@ -591,10 +591,6 @@
               `</div>`
             : "") +
           `</div>` +
-          // Lore, when present, sits outside the boxed name/video area,
-          // styled to match the class-level note text (see .honorable-note
-          // in style.css) rather than looking like it's "in the box".
-          (hasLore ? `<p class="honorable-entry-lore-outside">${escapeHtml(entry.lore)}</p>` : "") +
           `</div>`
         );
       })
@@ -655,29 +651,43 @@
     iconColumn.style.transform = "translateY(-50%)";
   }
 
+  // Shows the given class's own "note" (if it has one) in the shared
+  // note slot next to the icon column -- this is the default state,
+  // shown whenever no honorable-mention entry's lore is currently
+  // overriding it (see the expand/collapse handler below).
+  function showClassNote(className) {
+    const data = HONORABLE_MENTIONS[className];
+    if (!honorableNote || !data) return;
+    stopTypewriter();
+    if (data.note) {
+      alignNoteWithIcon(className);
+      honorableNote.classList.add("visible");
+      typeWriterEffect(honorableNote, data.note);
+    } else {
+      honorableNote.textContent = "";
+      honorableNote.classList.remove("visible", "typing");
+    }
+  }
+
   function renderHonorableLists(className) {
     const data = HONORABLE_MENTIONS[className];
     if (!data) return;
     renderHonorableList(honorableListFun, data.fun);
     renderHonorableList(honorableListSkill, data.skill);
-
-    if (honorableNote) {
-      stopTypewriter();
-      if (data.note) {
-        alignNoteWithIcon(className);
-        honorableNote.classList.add("visible");
-        typeWriterEffect(honorableNote, data.note);
-      } else {
-        honorableNote.textContent = "";
-        honorableNote.classList.remove("visible", "typing");
-      }
-    }
+    showClassNote(className);
   }
 
   // Expand/collapse entries via event delegation, since the list
   // contents are rebuilt from scratch every time a class is picked.
+  // Expanding an entry with lore shows that lore in the shared note
+  // slot next to the icon column (same spot/style/typewriter effect
+  // as a class-level note), overriding whatever was there by default;
+  // collapsing it (or expanding a different entry without lore)
+  // reverts to the current class's own note, if it has one.
   [honorableListFun, honorableListSkill].forEach((list) => {
     if (!list) return;
+    const sideKey = list === honorableListFun ? "fun" : "skill";
+
     list.addEventListener("click", (e) => {
       const nameBtn = e.target.closest(".honorable-entry-name");
       if (!nameBtn) return;
@@ -688,7 +698,10 @@
       // Only one entry open at a time within this list.
       list.querySelectorAll(".honorable-entry.expanded").forEach((el) => el.classList.remove("expanded"));
 
-      if (alreadyOpen) return;
+      if (alreadyOpen) {
+        showClassNote(currentHonorableClass);
+        return;
+      }
 
       entry.classList.add("expanded");
 
@@ -697,6 +710,19 @@
         const videoId = videoEl.dataset.videoId;
         videoEl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0" title="Honorable mention video" frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
         videoEl.dataset.loaded = "true";
+      }
+
+      const index = parseInt(entry.dataset.index, 10);
+      const entryData = HONORABLE_MENTIONS[currentHonorableClass] && HONORABLE_MENTIONS[currentHonorableClass][sideKey][index];
+      const entryLore = entryData && entryData.lore && entryData.lore.trim();
+
+      if (entryLore) {
+        stopTypewriter();
+        alignNoteWithIcon(currentHonorableClass);
+        honorableNote.classList.add("visible");
+        typeWriterEffect(honorableNote, entryLore);
+      } else {
+        showClassNote(currentHonorableClass);
       }
     });
   });

@@ -1007,25 +1007,6 @@ body.honorable-open .honorable-scene {
   padding: 0 12px 12px;
 }
 
-/* Lore text for an individual honorable-mention entry, when present --
-   styled to match the class-level note text (.honorable-note) rather
-   than sitting inside the bordered/background box with the video, so
-   it visually reads as free-flowing commentary rather than boxed UI. */
-.honorable-entry-lore-outside {
-  display: none;
-  margin: 8px 2px 0;
-  font-family: "Jost", sans-serif;
-  font-style: italic;
-  font-size: calc(1.1rem + 2px);
-  line-height: 1.6;
-  color: var(--parchment);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
-}
-
-.honorable-entry.expanded .honorable-entry-lore-outside {
-  display: block;
-}
-
 .honorable-entry.expanded .honorable-entry-details {
   display: block;
 }
@@ -1041,8 +1022,10 @@ body.honorable-open .honorable-scene {
 }
 
 .honorable-entry-video {
-  width: 100%;
-  aspect-ratio: 16 / 9;
+  width: 280px;
+  height: 158px;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .honorable-entry-video iframe {
