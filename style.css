@@ -171,7 +171,7 @@ body {
    the "fun" mode for that class will keep showing the neutral backdrop
    until you add its own rule too. ---- */
 [data-class="warrior"][data-mode="skill"] {
-     background-image: url("images/backgroundorc.png");
+     background-image: url("images/Bobo.png");
      background-size: cover;
      background-position: center;
    }
@@ -181,7 +181,7 @@ body {
      background-position: center;
    }
    [data-class="paladin"][data-mode="skill"] {
-     background-image: url("images/backgroundpaladin.png");
+     background-image: url("images/Arthus.png");
      background-size: cover;
      background-position: center;
    }
@@ -191,7 +191,7 @@ body {
      background-position: center;
    }
    [data-class="hunter"][data-mode="skill"] {
-     background-image: url("images/backgroundnightelf.png");
+     background-image: url("images/Jungelle.png");
      background-size: cover;
      background-position: center;
    }
@@ -201,7 +201,7 @@ body {
      background-position: center;
    }
    [data-class="rogue"][data-mode="skill"] {
-     background-image: url("images/backgroundhuman.png");
+     background-image: url("images/Cielz.png");
      background-size: cover;
      background-position: center;
    }
@@ -216,13 +216,13 @@ body {
      background-position: center;
    }
    [data-class="priest"][data-mode="fun"] {
-     background-image: url("images/backgroundundead.jpg");
+     background-image: url("images/beckon.png");
      background-size: cover;
      background-position: center;
    }
 
    [data-class="shaman"][data-mode="skill"] {
-     background-image: url("images/Cabbarnackle.png");
+     background-image: url("images/Nimhabulove.png");
      background-size: cover;
      background-position: center;
    }
