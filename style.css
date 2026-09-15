@@ -78,26 +78,36 @@ body {
   color: var(--gold-bright);
 }
 
-.volume-slider {
+.audio-panel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   width: 0;
   opacity: 0;
   margin-left: 0;
+  padding: 0;
   overflow: hidden;
-  pointer-events: none;
-  accent-color: var(--gold-bright);
-  transition: width 250ms ease, opacity 200ms ease, margin-left 250ms ease;
+  background: rgba(20, 16, 11, 0.65);
+  border-radius: 16px;
+  transition: width 250ms ease, opacity 200ms ease, margin-left 250ms ease, padding 250ms ease;
 }
 
-.audio-control.open .volume-slider {
-  width: 130px;
+.audio-control.open .audio-panel {
+  width: 172px;
   opacity: 1;
   margin-left: 10px;
-  pointer-events: auto;
+  padding: 4px 6px 4px 12px;
+}
+
+.volume-slider {
+  width: 120px;
+  flex: 0 0 auto;
+  accent-color: var(--gold-bright);
 }
 
 .audio-pause-btn {
-  width: 0;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   flex: 0 0 auto;
   border: none;
   background: none;
@@ -106,18 +116,7 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  opacity: 0;
-  margin-left: 0;
-  overflow: hidden;
-  pointer-events: none;
-  transition: width 250ms ease, opacity 200ms ease, margin-left 250ms ease, color 150ms ease;
-}
-
-.audio-control.open .audio-pause-btn {
-  width: 26px;
-  opacity: 1;
-  margin-left: 10px;
-  pointer-events: auto;
+  transition: color 150ms ease;
 }
 
 .audio-pause-btn:hover {
