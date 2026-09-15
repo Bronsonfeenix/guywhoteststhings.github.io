@@ -19,6 +19,10 @@
   const honorableListFun = document.getElementById("honorableListFun");
   const honorableListSkill = document.getElementById("honorableListSkill");
   const honorableNote = document.getElementById("honorableNote");
+  const bgMusic = document.getElementById("bgMusic");
+  const audioControl = document.getElementById("audioControl");
+  const audioBtn = document.getElementById("audioBtn");
+  const volumeSlider = document.getElementById("volumeSlider");
 
   // ---------------------------------------------------------------
   // PLACEHOLDER DATA -- some of this is still meant to be filled in.
@@ -599,6 +603,81 @@
   if (honorableBackBtn) {
     honorableBackBtn.addEventListener("click", () => {
       body.classList.remove("honorable-open");
+    });
+  }
+
+  // ---------------------------------------------------------------
+  // Background music. Starts silent, then fades in over a few
+  // seconds once playback actually begins. Browsers generally block
+  // audio-with-sound from autoplaying until the visitor has
+  // interacted with the page in some way, so this tries to play
+  // immediately, and if that's blocked, waits for the first click,
+  // keypress, or touch anywhere on the page and tries again then --
+  // the fade-in timing is the same either way, just measured from
+  // whenever playback actually manages to start rather than from
+  // page load.
+  // ---------------------------------------------------------------
+  const MUSIC_TARGET_VOLUME = 0.5;
+  const MUSIC_FADE_IN_DELAY_MS = 3000;
+  const MUSIC_FADE_IN_DURATION_MS = 4000;
+  let userAdjustedVolume = false;
+
+  function fadeInMusic() {
+    if (!bgMusic) return;
+    let start = null;
+    function step(timestamp) {
+      if (userAdjustedVolume) return; // visitor took the slider -- stop overriding it
+      if (start === null) start = timestamp;
+      const progress = Math.min((timestamp - start) / MUSIC_FADE_IN_DURATION_MS, 1);
+      bgMusic.volume = progress * MUSIC_TARGET_VOLUME;
+      if (volumeSlider) volumeSlider.value = bgMusic.volume;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function startMusic() {
+    if (!bgMusic) return;
+    const playPromise = bgMusic.play();
+    if (playPromise === undefined) {
+      setTimeout(fadeInMusic, MUSIC_FADE_IN_DELAY_MS);
+      return;
+    }
+    playPromise
+      .then(() => {
+        setTimeout(fadeInMusic, MUSIC_FADE_IN_DELAY_MS);
+      })
+      .catch(() => {
+        const resumeOnInteraction = () => {
+          document.removeEventListener("click", resumeOnInteraction);
+          document.removeEventListener("keydown", resumeOnInteraction);
+          document.removeEventListener("touchstart", resumeOnInteraction);
+          bgMusic
+            .play()
+            .then(() => setTimeout(fadeInMusic, MUSIC_FADE_IN_DELAY_MS))
+            .catch(() => {});
+        };
+        document.addEventListener("click", resumeOnInteraction);
+        document.addEventListener("keydown", resumeOnInteraction);
+        document.addEventListener("touchstart", resumeOnInteraction);
+      });
+  }
+
+  if (bgMusic) {
+    bgMusic.volume = 0;
+    startMusic();
+  }
+
+  if (audioBtn && audioControl) {
+    audioBtn.addEventListener("click", () => {
+      audioControl.classList.toggle("open");
+    });
+  }
+
+  if (volumeSlider && bgMusic) {
+    volumeSlider.addEventListener("input", () => {
+      userAdjustedVolume = true;
+      bgMusic.volume = parseFloat(volumeSlider.value);
     });
   }
 

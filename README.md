@@ -116,6 +116,20 @@ for the comment showing how to point it at an image. It's one image
 for the whole scene (not per-class), and shows a solid dark color
 until you set one.
 
+**Background music:** `audio/wow-login-music.mp3` plays on a loop,
+starting silent and fading in to about half volume over a few
+seconds. Browsers generally block audio-with-sound from autoplaying
+until the visitor has interacted with the page somehow (clicked,
+typed, tapped) — the code tries to start playback right away, and if
+that's blocked, waits for the first click/keypress/tap anywhere on the
+page and starts then instead, so it should always start eventually
+either way, just not always instantly. The volume button, top-left and
+visible on both scenes, expands a horizontal slider when clicked; once
+a visitor touches that slider, the auto fade-in stops adjusting the
+volume for them so their choice sticks. To use a different track,
+replace the file at that path (or update the `<audio>` element's `src`
+in `index.html` if you rename it).
+
 ## Deploying to GitHub Pages
 
 1. Create a new GitHub repository (or use an existing one).

@@ -47,6 +47,55 @@ body {
   background-color: #181410;
 }
 
+/* ----- Volume control (top-left, persistent across both scenes) ----- */
+
+.audio-control {
+  position: fixed;
+  top: 3vh;
+  left: 3vw;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+}
+
+.audio-btn {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: rgba(20, 16, 11, 0.65);
+  color: var(--parchment);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+}
+
+.audio-btn:hover {
+  border-color: var(--gold-bright);
+  background: rgba(156, 122, 60, 0.28);
+  color: var(--gold-bright);
+}
+
+.volume-slider {
+  width: 0;
+  opacity: 0;
+  margin-left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  accent-color: var(--gold-bright);
+  transition: width 250ms ease, opacity 200ms ease, margin-left 250ms ease;
+}
+
+.audio-control.open .volume-slider {
+  width: 130px;
+  opacity: 1;
+  margin-left: 10px;
+  pointer-events: auto;
+}
+
 .bg-layer {
   position: absolute;
   inset: 0;
