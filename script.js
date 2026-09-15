@@ -23,6 +23,7 @@
   const audioControl = document.getElementById("audioControl");
   const audioBtn = document.getElementById("audioBtn");
   const volumeSlider = document.getElementById("volumeSlider");
+  const audioPauseBtn = document.getElementById("audioPauseBtn");
 
   // ---------------------------------------------------------------
   // PLACEHOLDER DATA -- some of this is still meant to be filled in.
@@ -366,7 +367,25 @@
         },
         onStateChange: (event) => {
           if (!videoStage || !window.YT) return;
-          videoStage.classList.toggle("playing", event.data === YT.PlayerState.PLAYING);
+          const isPlaying = event.data === YT.PlayerState.PLAYING;
+          videoStage.classList.toggle("playing", isPlaying);
+
+          // Auto-pause the background music while this video plays,
+          // and resume it once the video stops -- but only if the
+          // music was actually playing (and not paused for some other
+          // reason, e.g. the visitor's own pause button) when the
+          // video started.
+          if (bgMusic) {
+            if (isPlaying) {
+              if (!bgMusic.paused) {
+                bgMusic.pause();
+                pausedForVideo = true;
+              }
+            } else if (pausedForVideo) {
+              bgMusic.play().catch(() => {});
+              pausedForVideo = false;
+            }
+          }
         }
       }
     });
@@ -621,6 +640,7 @@
   const MUSIC_FADE_IN_DELAY_MS = 3000;
   const MUSIC_FADE_IN_DURATION_MS = 4000;
   let userAdjustedVolume = false;
+  let pausedForVideo = false;
 
   function fadeInMusic() {
     if (!bgMusic) return;
@@ -696,6 +716,35 @@
     volumeSlider.addEventListener("input", () => {
       userAdjustedVolume = true;
       bgMusic.volume = parseFloat(volumeSlider.value);
+      scheduleCollapse();
+    });
+  }
+
+  // Keeps the pause/play icon in sync with the audio element's real
+  // state regardless of what caused the change (the button itself,
+  // or music auto-pausing because a video started playing).
+  if (bgMusic && audioPauseBtn) {
+    const iconPause = audioPauseBtn.querySelector(".icon-pause");
+    const iconPlay = audioPauseBtn.querySelector(".icon-play");
+
+    function syncPauseIcon() {
+      const isPaused = bgMusic.paused;
+      if (iconPause) iconPause.style.display = isPaused ? "none" : "";
+      if (iconPlay) iconPlay.style.display = isPaused ? "" : "none";
+      audioPauseBtn.setAttribute("aria-label", isPaused ? "Play music" : "Pause music");
+    }
+
+    bgMusic.addEventListener("play", syncPauseIcon);
+    bgMusic.addEventListener("pause", syncPauseIcon);
+    syncPauseIcon();
+
+    audioPauseBtn.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      } else {
+        bgMusic.pause();
+        pausedForVideo = false; // manual pause -- don't auto-resume this later
+      }
       scheduleCollapse();
     });
   }

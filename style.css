@@ -95,6 +95,35 @@ body {
   pointer-events: auto;
 }
 
+.audio-pause-btn {
+  width: 0;
+  height: 30px;
+  flex: 0 0 auto;
+  border: none;
+  background: none;
+  color: var(--parchment);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  margin-left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: width 250ms ease, opacity 200ms ease, margin-left 250ms ease, color 150ms ease;
+}
+
+.audio-control.open .audio-pause-btn {
+  width: 26px;
+  opacity: 1;
+  margin-left: 10px;
+  pointer-events: auto;
+}
+
+.audio-pause-btn:hover {
+  color: var(--gold-bright);
+}
+
 .bg-layer {
   position: absolute;
   inset: 0;

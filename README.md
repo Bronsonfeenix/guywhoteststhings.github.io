@@ -117,18 +117,27 @@ for the whole scene (not per-class), and shows a solid dark color
 until you set one.
 
 **Background music:** `audio/wow-login-music.mp3` plays on a loop,
-starting silent and fading in to about half volume over a few
+starting silent and fading in to about a quarter volume over a few
 seconds. Browsers generally block audio-with-sound from autoplaying
 until the visitor has interacted with the page somehow (clicked,
 typed, tapped) — the code tries to start playback right away, and if
 that's blocked, waits for the first click/keypress/tap anywhere on the
 page and starts then instead, so it should always start eventually
-either way, just not always instantly. The volume button, top-left and
-visible on both scenes, expands a horizontal slider when clicked; once
-a visitor touches that slider, the auto fade-in stops adjusting the
-volume for them so their choice sticks. To use a different track,
-replace the file at that path (or update the `<audio>` element's `src`
-in `index.html` if you rename it).
+either way, just not always instantly. The volume button, bottom-left
+and visible on both scenes, expands a horizontal slider and a
+pause/play button when clicked, and collapses again automatically 3
+seconds after the last interaction with either control. Once a
+visitor touches the slider, the auto fade-in stops adjusting the
+volume for them so their choice sticks. The music also automatically
+pauses itself while the main video player is actually playing, and
+resumes when the video stops — unless the visitor paused the music
+manually, in which case it stays paused either way. (This only applies
+to the main video player, which has real play/state detection via the
+YouTube API; the plain-iframe videos inside Honorable Mentions entries
+don't pause the music, since there's no equivalent way to detect their
+play state.) To use a different track, replace the file at that path
+(or update the `<audio>` element's `src` in `index.html` if you rename
+it).
 
 ## Deploying to GitHub Pages
 
