@@ -8,6 +8,7 @@
   const classText = document.getElementById("classText");
   const loreName = document.getElementById("loreName");
   const loreText = document.getElementById("loreText");
+  const loreRating = document.getElementById("loreRating");
   const videoStage = document.getElementById("videoStage");
   const videoMissing = document.getElementById("videoMissing");
   const bgProbe = document.getElementById("bgProbe");
@@ -58,7 +59,12 @@
     },
     shaman: {
       skill: { name: "Nimhabulove", text: "", model: "models/shaman-skill.glb", lore: "Between totems, shocks, healing and damaging spells shaman has a lot of tools at its disposal, our guy said nah, not enough, and added some engi to this toolkit. Grounding coils, reflecting fears and stunlocking with tidal/nades, there are definite moments in his video that earn him a spot on this page. 6/10", video: "qxMSzBxxesk", animation: "Stand" },
-      fun:   { name: "Cabbarnuke/Unbreakable", text: "", model: "models/shaman-fun.glb", lore: "You have two options here, if you saw Roguecraft and needed more naked pvp Cabbarnuke is your guy, if you're looking for the exact opposite and want to see a man swing a big hammer as hard as he can Unbreakable has got your back", video: "eXE-J13gpNE", animation: "Stand" }
+      fun: {
+        variants: [
+          { name: "Cabbarnuke", text: "", model: "models/shaman-fun-cabbarnuke.glb", lore: "If you saw Roguecraft and needed more naked PvP, Cabbarnuke is your guy.", video: "eXE-J13gpNE", animation: "Stand" },
+          { name: "Unbreakable", text: "", model: "models/shaman-fun-unbreakable.glb", lore: "If you're looking for the exact opposite and want to see a man swing a big hammer as hard as he can, Unbreakable has got your back.", video: "ja1j7xWpB3w", animation: "Stand" }
+        ]
+      }
     },
     mage: {
       skill: { name: "Clazzi", text: "", model: "models/mage-skill.glb", lore: "Crispy movement, cooldown management and a complete confidence in his actions. Perhaps the first known recording of a dirty pop, the opening 1vX is one of the best recorded vanilla fights of all time. 9.5/10", video: "3_Tr5aklJ6U", animation: "Stand (ID 0 variation 0)" },
@@ -153,11 +159,14 @@
   // instead of leaving it as plain trailing text in the paragraph.
   // Lore strings without a trailing rating just render as-is.
   // ---------------------------------------------------------------
-  function renderLore(rawLore) {
+  // Splits a trailing "X/10" (or "X.X/10") rating off the end of a
+  // lore string, if present. Returns { mainText, ratingHtml } --
+  // ratingHtml is "" when there's no rating.
+  function splitLoreRating(rawLore) {
     const match = /^([\s\S]*?)\s*(\d{1,2}(?:\.\d)?)\s*\/\s*10\s*$/.exec((rawLore || "").trim());
 
     if (!match) {
-      return `<p class="lore-text">${escapeHtml((rawLore || "").trim())}</p>`;
+      return { mainText: (rawLore || "").trim(), ratingHtml: "" };
     }
 
     const mainText = match[1].trim();
@@ -177,13 +186,16 @@
       stars += `<span class="star star-${state}">★</span>`;
     }
 
-    return (
-      `<p class="lore-text">${escapeHtml(mainText)}</p>` +
-      `<p class="lore-rating">` +
+    const ratingHtml =
       `<span class="rating-stars">${stars}</span>` +
-      `<span class="rating-score">${escapeHtml(score)}<span class="rating-outof">/10</span></span>` +
-      `</p>`
-    );
+      `<span class="rating-score">${escapeHtml(score)}<span class="rating-outof">/10</span></span>`;
+
+    return { mainText, ratingHtml };
+  }
+
+  function renderLore(rawLore) {
+    const { mainText } = splitLoreRating(rawLore);
+    return `<p class="lore-text">${escapeHtml(mainText)}</p>`;
   }
 
   // ---------------------------------------------------------------
@@ -275,8 +287,29 @@
     });
   }
 
+  // ---------------------------------------------------------------
+  // Some class/mode entries have multiple interchangeable profiles
+  // (e.g. Shaman/Fun: Cabbarnuke or Unbreakable) instead of a single
+  // flat { name, text, model, lore, video, animation } object -- for
+  // those, CLASS_DATA has a "variants" array of that same shape
+  // instead. getResolvedEntry() picks whichever variant is currently
+  // selected (tracked per class/mode in variantIndices, default 0);
+  // clicking the name header cycles to the next one.
+  // ---------------------------------------------------------------
+  const variantIndices = {};
+
+  function getResolvedEntry(className, mode) {
+    const raw = CLASS_DATA[className][mode];
+    if (raw.variants) {
+      const key = className + "-" + mode;
+      return raw.variants[variantIndices[key] || 0];
+    }
+    return raw;
+  }
+
   function updateView() {
-    const data = CLASS_DATA[currentClass][currentMode];
+    const rawEntry = CLASS_DATA[currentClass][currentMode];
+    const data = getResolvedEntry(currentClass, currentMode);
 
     body.dataset.class = currentClass;
     body.dataset.mode = currentMode;
@@ -284,11 +317,18 @@
     updateBackground();
 
     if (classText) classText.textContent = data.text;
-    if (loreName) loreName.textContent = data.name;
+    if (loreName) {
+      loreName.textContent = data.name;
+      loreName.classList.toggle("swappable", !!rawEntry.variants);
+      loreName.title = rawEntry.variants ? "Click to see the other pick" : "";
+    }
     if (loreText) {
       loreText.innerHTML = renderLore(data.lore);
     } else {
       console.warn('script.js expected an element with id="loreText" but did not find one. Make sure index.html, style.css, and script.js are all the latest versions, deployed together.');
+    }
+    if (loreRating) {
+      loreRating.innerHTML = splitLoreRating(data.lore).ratingHtml;
     }
 
     requestedSrc = data.model;
@@ -304,6 +344,17 @@
 
     modeButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.mode === currentMode));
     classButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.class === currentClass));
+  }
+
+  if (loreName) {
+    loreName.addEventListener("click", () => {
+      const rawEntry = CLASS_DATA[currentClass][currentMode];
+      if (!rawEntry.variants) return;
+      const key = currentClass + "-" + currentMode;
+      const count = rawEntry.variants.length;
+      variantIndices[key] = ((variantIndices[key] || 0) + 1) % count;
+      updateView();
+    });
   }
 
   // ---------------------------------------------------------------
@@ -536,7 +587,7 @@
         stopTypewriter();
         el.classList.remove("typing");
       }
-    }, 35);
+    }, 23);
   }
 
   // Positions the note to start at the same row as the given class's

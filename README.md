@@ -43,7 +43,24 @@ neutral dark backdrop.
   can't edit it)
 - `text` — a shorter flavor line (currently empty on every entry; fill
   it in if you want that line to show something)
-- `lore` — the longer text shown in the right-hand panel
+- `lore` — the longer text shown in the right-hand panel. If it ends
+  with "X/10" or "X.X/10", that gets pulled out and rendered as a
+  star-rating badge next to the name instead of staying in the
+  paragraph — see "Ratings" below.
+
+**Multiple profiles per class/mode:** instead of a flat entry, a
+class/mode can have a `variants` array of that same shape (each with
+its own `name`, `text`, `model`, `lore`, `video`, `animation`) when
+there's more than one option worth featuring — right now just
+Shaman/Fun (Cabbarnuke and Unbreakable). Clicking the name header
+cycles to the next variant, updating everything (lore, rating, model,
+video) to match. Add more variants to any class/mode's array the same
+way if you want the same behavior elsewhere.
+
+**Ratings:** shown next to the name header, right-aligned, as a row of
+10 stars (supporting genuine half-stars, not just rounding) plus the
+raw score. This only appears when a `lore` string ends in "X/10"; the
+rest of the text becomes the paragraph body.
 
 **Embedded video:** a video player sits on the left side of the
 screen for the current class/mode's `video` field (the id from the

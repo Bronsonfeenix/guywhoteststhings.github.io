@@ -147,9 +147,12 @@
       </div>
     </div>
 
-    <!-- Right side: character name header + free-flowing lore text -->
+    <!-- Right side: character name header + rating (same row) + lore text -->
     <aside class="lore-panel" aria-label="Class description">
-      <h2 class="lore-name" id="loreName"></h2>
+      <div class="lore-name-row">
+        <h2 class="lore-name" id="loreName"></h2>
+        <p class="lore-rating" id="loreRating"></p>
+      </div>
       <div id="loreText"></div>
     </aside>
 
@@ -235,7 +238,7 @@
          Rogue and Mage). Hidden entirely for classes without one. -->
     <p class="honorable-note" id="honorableNote"></p>
 
-    <button type="button" class="honorable-back-btn" id="honorableBackBtn">&larr; Back</button>
+    <button type="button" class="honorable-back-btn" id="honorableBackBtn">Back</button>
 
   </div>
 

@@ -529,14 +529,31 @@ body.honorable-open .honorable-scene {
   z-index: 6;
 }
 
-.lore-name {
+.lore-name-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
   margin: 0 0 14px;
+}
+
+.lore-name {
+  margin: 0;
   font-family: "Jost", sans-serif;
   font-weight: 700;
   font-size: clamp(1.6rem, 2.4vw, 2.4rem);
   letter-spacing: 0.02em;
   color: var(--gold-bright);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+/* Shown on class/mode entries with multiple interchangeable profiles
+   (see "variants" in CLASS_DATA) -- clicking the name cycles between
+   them. Purely a hint via cursor + title tooltip, no visual change to
+   the text itself so it doesn't look different from a normal name
+   until you actually hover it. */
+.lore-name.swappable {
+  cursor: pointer;
 }
 
 /* ---- Morpheus font for the lore text -----------------------------
@@ -566,11 +583,10 @@ body.honorable-open .honorable-scene {
 /* Movie-trailer-style critic score, shown when a lore string ends
    with a trailing "X/10" rating (see renderLore() in script.js). */
 .lore-rating {
-  margin: 14px 0 0;
+  margin: 0;
+  flex: 0 0 auto;
   display: flex;
-  flex-wrap: wrap;
   align-items: baseline;
-  justify-content: flex-end;
   gap: 14px;
   font-family: "Jost", sans-serif;
   color: var(--gold-bright);
@@ -630,6 +646,11 @@ body.honorable-open .honorable-scene {
   }
   .lore-rating {
     justify-content: center;
+  }
+  .lore-name-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
   }
   .video-stage {
     position: static;
@@ -868,7 +889,7 @@ body.honorable-open .honorable-scene {
   text-align: left;
   font-family: "Jost", sans-serif;
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: calc(1.1rem + 2px);
   line-height: 1.6;
   color: var(--parchment);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
