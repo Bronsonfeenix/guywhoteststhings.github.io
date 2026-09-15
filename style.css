@@ -51,7 +51,7 @@ body {
 
 .audio-control {
   position: fixed;
-  top: 3vh;
+  bottom: 3vh;
   left: 3vw;
   z-index: 50;
   display: flex;
