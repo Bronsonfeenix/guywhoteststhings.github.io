@@ -137,6 +137,7 @@
   let requestedAnimation = "Stand";
   let hasStartedPreload = false;
   let activeBgLayer = bgLayerA;
+  let currentVariantSlug = null;
 
   // Mirrors the neutral placeholder gradient from style.css -- used
   // as the crossfade layer's image when the probe resolves to "none"
@@ -213,6 +214,11 @@
 
     bgProbe.dataset.class = currentClass;
     bgProbe.dataset.mode = currentMode;
+    if (currentVariantSlug) {
+      bgProbe.dataset.variant = currentVariantSlug;
+    } else {
+      delete bgProbe.dataset.variant;
+    }
 
     const resolved = getComputedStyle(bgProbe).backgroundImage;
     const image = !resolved || resolved === "none" ? NEUTRAL_BG : resolved;
@@ -293,10 +299,20 @@
   // flat { name, text, model, lore, video, animation } object -- for
   // those, CLASS_DATA has a "variants" array of that same shape
   // instead. getResolvedEntry() picks whichever variant is currently
-  // selected (tracked per class/mode in variantIndices, default 0);
-  // clicking the name header cycles to the next one.
+  // selected (tracked per class/mode in variantIndices, default 0).
+  // The name header shows every variant's name joined by "/" (e.g.
+  // "Cabbarnuke/Unbreakable"), with the active one at full brightness
+  // and the others dimmed -- clicking a specific name switches to it,
+  // fading the emphasis across rather than replacing the text.
   // ---------------------------------------------------------------
   const variantIndices = {};
+
+  function slugify(str) {
+    return (str || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
 
   function getResolvedEntry(className, mode) {
     const raw = CLASS_DATA[className][mode];
@@ -310,6 +326,7 @@
   function updateView() {
     const rawEntry = CLASS_DATA[currentClass][currentMode];
     const data = getResolvedEntry(currentClass, currentMode);
+    currentVariantSlug = rawEntry.variants ? slugify(data.name) : null;
 
     body.dataset.class = currentClass;
     body.dataset.mode = currentMode;
@@ -318,9 +335,18 @@
 
     if (classText) classText.textContent = data.text;
     if (loreName) {
-      loreName.textContent = data.name;
-      loreName.classList.toggle("swappable", !!rawEntry.variants);
-      loreName.title = rawEntry.variants ? "Click to see the other pick" : "";
+      if (rawEntry.variants) {
+        const key = currentClass + "-" + currentMode;
+        const activeIdx = variantIndices[key] || 0;
+        loreName.innerHTML = rawEntry.variants
+          .map(
+            (v, i) =>
+              `<span class="variant-option${i === activeIdx ? " active" : ""}" data-variant-index="${i}">${escapeHtml(v.name)}</span>`
+          )
+          .join('<span class="variant-sep">/</span>');
+      } else {
+        loreName.textContent = data.name;
+      }
     }
     if (loreText) {
       loreText.innerHTML = renderLore(data.lore);
@@ -347,12 +373,13 @@
   }
 
   if (loreName) {
-    loreName.addEventListener("click", () => {
+    loreName.addEventListener("click", (e) => {
+      const optionEl = e.target.closest(".variant-option");
+      if (!optionEl) return;
       const rawEntry = CLASS_DATA[currentClass][currentMode];
       if (!rawEntry.variants) return;
       const key = currentClass + "-" + currentMode;
-      const count = rawEntry.variants.length;
-      variantIndices[key] = ((variantIndices[key] || 0) + 1) % count;
+      variantIndices[key] = parseInt(optionEl.dataset.variantIndex, 10);
       updateView();
     });
   }
@@ -514,6 +541,7 @@
 
   modeButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
+      if (btn.dataset.mode === currentMode) return; // already selected -- avoid a pointless re-fade
       currentMode = btn.dataset.mode;
       updateView();
     });
@@ -521,6 +549,7 @@
 
   classButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
+      if (btn.dataset.class === currentClass) return; // already selected -- avoid a pointless re-fade
       currentClass = btn.dataset.class;
       updateView();
     });
