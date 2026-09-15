@@ -582,12 +582,19 @@
         const hasVideo = !!entry.video;
         return (
           `<div class="honorable-entry" data-index="${i}">` +
+          `<div class="honorable-entry-box">` +
           `<button type="button" class="honorable-entry-name">${escapeHtml(entry.name)}</button>` +
-          `<div class="honorable-entry-details">` +
-          (hasLore ? `<p class="honorable-entry-lore">${escapeHtml(entry.lore)}</p>` : "") +
-          (hasVideo ? `<div class="honorable-entry-video" data-video-id="${escapeHtml(entry.video)}"></div>` : "") +
-          (!hasLore && !hasVideo ? `<p class="honorable-entry-lore">No details added for this entry yet.</p>` : "") +
+          (hasVideo || !hasLore
+            ? `<div class="honorable-entry-details">` +
+              (hasVideo ? `<div class="honorable-entry-video" data-video-id="${escapeHtml(entry.video)}"></div>` : "") +
+              (!hasLore && !hasVideo ? `<p class="honorable-entry-lore">No details added for this entry yet.</p>` : "") +
+              `</div>`
+            : "") +
           `</div>` +
+          // Lore, when present, sits outside the boxed name/video area,
+          // styled to match the class-level note text (see .honorable-note
+          // in style.css) rather than looking like it's "in the box".
+          (hasLore ? `<p class="honorable-entry-lore-outside">${escapeHtml(entry.lore)}</p>` : "") +
           `</div>`
         );
       })
@@ -631,6 +638,21 @@
     const rect = iconBtn.getBoundingClientRect();
     honorableNote.style.top = rect.top + "px";
     honorableNote.style.left = rect.right + 20 + "px";
+  }
+
+  // Aligns the icon column's left edge with the "Back" button's left
+  // edge, rather than keeping the column horizontally centered. The
+  // back button's own width depends on its text/padding, so this is
+  // computed in JS rather than hardcoded -- getBoundingClientRect()
+  // works correctly even while the scene is translated off-screen,
+  // since that transform is vertical only and doesn't affect x
+  // coordinates.
+  function alignIconColumnWithBack() {
+    const iconColumn = document.getElementById("honorableIconColumn");
+    if (!iconColumn || !honorableBackBtn) return;
+    const rect = honorableBackBtn.getBoundingClientRect();
+    iconColumn.style.left = rect.left + "px";
+    iconColumn.style.transform = "translateY(-50%)";
   }
 
   function renderHonorableLists(className) {
@@ -691,7 +713,10 @@
 
   window.addEventListener("resize", () => {
     if (currentHonorableClass) alignNoteWithIcon(currentHonorableClass);
+    alignIconColumnWithBack();
   });
+
+  alignIconColumnWithBack();
 
   if (honorableBtn) {
     honorableBtn.addEventListener("click", () => {

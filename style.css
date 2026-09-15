@@ -489,6 +489,18 @@ body.honorable-open .honorable-scene {
 .race-model {
   width: 100%;
   height: 100%;
+  /* camera-target="0m 1m 0m" on the <model-viewer> element re-centers
+     the framing around that point instead of the model's own bounding
+     box, which is what pulled the character back toward the vertical
+     middle of the box instead of sitting bottom-anchored. Since
+     .model-stage below has overflow: hidden, shifting the whole
+     rendered canvas down by a percentage of its own height crops the
+     newly-exposed empty space at the bottom and reveals more of the
+     (now correctly positioned) character instead -- I can't preview
+     WebGL output here, so this percentage is a starting guess; nudge
+     it up or down (in 5% steps) until the framing looks right for
+     your camera-target value. */
+  transform: translateY(30%);
   --poster-color: transparent;
   background-color: transparent;
   /* Hides model-viewer's built-in loading progress bar -- we already
@@ -964,7 +976,7 @@ body.honorable-open .honorable-scene {
   }
 }
 
-.honorable-entry {
+.honorable-entry-box {
   border: 1px solid rgba(210, 212, 218, 0.3);
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.2);
@@ -993,6 +1005,25 @@ body.honorable-open .honorable-scene {
 .honorable-entry-details {
   display: none;
   padding: 0 12px 12px;
+}
+
+/* Lore text for an individual honorable-mention entry, when present --
+   styled to match the class-level note text (.honorable-note) rather
+   than sitting inside the bordered/background box with the video, so
+   it visually reads as free-flowing commentary rather than boxed UI. */
+.honorable-entry-lore-outside {
+  display: none;
+  margin: 8px 2px 0;
+  font-family: "Jost", sans-serif;
+  font-style: italic;
+  font-size: calc(1.1rem + 2px);
+  line-height: 1.6;
+  color: var(--parchment);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+.honorable-entry.expanded .honorable-entry-lore-outside {
+  display: block;
 }
 
 .honorable-entry.expanded .honorable-entry-details {

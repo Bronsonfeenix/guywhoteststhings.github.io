@@ -114,10 +114,15 @@ down in `script.js`: each class has a `skill` and `fun` array, and you
 can add or remove entries freely — each is just
 `{ name: "...", lore: "...", video: "..." }` (use `video: null` if
 there's no video for that entry yet). Clicking a name expands it in
-place to show its lore text and video, if any; only one entry per side
-stays expanded at a time. Entries without lore or a video just show
-"No details added for this entry yet." — the "Back" button at the top
-returns to the main scene.
+place; only one entry per side stays expanded at a time. A video, if
+set, shows inside the same bordered box as the name; lore text, if
+set, appears below that box instead, unboxed and styled to match the
+class-level note text rather than looking like part of the video UI.
+Entries with neither just show "No details added for this entry yet."
+inside the box — the "Back" button at the top returns to the main
+scene, and the icon column's left edge is kept aligned with the Back
+button's left edge (computed in JS, since the button's width depends
+on its own text/padding).
 
 A class can also have an optional `note` field (a sibling of `skill`
 and `fun`, not inside them) — free-flowing text shown next to the
