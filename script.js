@@ -617,7 +617,7 @@
   // whenever playback actually manages to start rather than from
   // page load.
   // ---------------------------------------------------------------
-  const MUSIC_TARGET_VOLUME = 0.5;
+  const MUSIC_TARGET_VOLUME = 0.25;
   const MUSIC_FADE_IN_DELAY_MS = 3000;
   const MUSIC_FADE_IN_DURATION_MS = 4000;
   let userAdjustedVolume = false;
@@ -668,9 +668,27 @@
     startMusic();
   }
 
+  // Collapses the slider automatically 3 seconds after it was opened
+  // or last interacted with, rather than staying open indefinitely.
+  let collapseTimer = null;
+
+  function scheduleCollapse() {
+    if (collapseTimer) clearTimeout(collapseTimer);
+    collapseTimer = setTimeout(() => {
+      if (audioControl) audioControl.classList.remove("open");
+      collapseTimer = null;
+    }, 3000);
+  }
+
   if (audioBtn && audioControl) {
     audioBtn.addEventListener("click", () => {
       audioControl.classList.toggle("open");
+      if (audioControl.classList.contains("open")) {
+        scheduleCollapse();
+      } else if (collapseTimer) {
+        clearTimeout(collapseTimer);
+        collapseTimer = null;
+      }
     });
   }
 
@@ -678,6 +696,7 @@
     volumeSlider.addEventListener("input", () => {
       userAdjustedVolume = true;
       bgMusic.volume = parseFloat(volumeSlider.value);
+      scheduleCollapse();
     });
   }
 
