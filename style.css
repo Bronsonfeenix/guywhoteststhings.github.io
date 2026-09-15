@@ -169,7 +169,25 @@ body {
    druid -- each with a "-skill" and a "-fun" image if you want them to
    differ. If you only add one rule for a class (say, just "skill"),
    the "fun" mode for that class will keep showing the neutral backdrop
-   until you add its own rule too. ---- */
+   until you add its own rule too.
+
+   For a class/mode with multiple variants (see "variants" in
+   CLASS_DATA -- currently just Shaman/Fun), you can also target a
+   specific variant by adding its slugified name as a third attribute,
+   which takes priority over the plain [data-class][data-mode] rule
+   above since it's more specific:
+   [data-class="shaman"][data-mode="fun"][data-variant="cabbarnuke"] {
+     background-image: url("images/shaman-fun-cabbarnuke.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   [data-class="shaman"][data-mode="fun"][data-variant="unbreakable"] {
+     background-image: url("images/shaman-fun-unbreakable.jpg");
+     background-size: cover;
+     background-position: center;
+   }
+   Without these, both variants share whatever [data-class="shaman"]
+   [data-mode="fun"] rule below already provides. ---- */
 [data-class="warrior"][data-mode="skill"] {
      background-image: url("images/Bobo.png");
      background-size: cover;
@@ -226,11 +244,16 @@ body {
      background-size: cover;
      background-position: center;
    }
-   [data-class="shaman"][data-mode="fun"] {
+   [data-class="shaman"][data-mode="fun"][data-variant="Cabbarnuke"] {
+     background-image: url("images/Cabbarnackle.png");
+     background-size: cover;
+    background-position: center;
+   }
+   [data-class="shaman"][data-mode="fun"][data-variant="Unbreakable"] {
      background-image: url("images/Unbreakable.png");
      background-size: cover;
-     background-position: center;
-   }
+    background-position: center;  
+  }
    [data-class="mage"][data-mode="skill"] {
      background-image: url("images/Clazzi.png");
      background-size: cover;
@@ -552,8 +575,34 @@ body.honorable-open .honorable-scene {
    them. Purely a hint via cursor + title tooltip, no visual change to
    the text itself so it doesn't look different from a normal name
    until you actually hover it. */
-.lore-name.swappable {
+/* Shown on class/mode entries with multiple interchangeable profiles
+   (see "variants" in CLASS_DATA, e.g. Shaman/Fun's Cabbarnuke and
+   Unbreakable) -- the header shows every name joined by "/", with the
+   currently active one at full brightness and the rest dimmed.
+   Clicking a name switches to it, fading the emphasis across via the
+   opacity/color transition rather than replacing the text outright. */
+.variant-option {
   cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 400ms ease;
+}
+
+.variant-option.active {
+  opacity: 1;
+}
+
+.variant-option:hover {
+  opacity: 0.7;
+}
+
+.variant-option.active:hover {
+  opacity: 1;
+}
+
+.variant-sep {
+  opacity: 0.5;
+  margin: 0 2px;
+  pointer-events: none;
 }
 
 /* ---- Morpheus font for the lore text -----------------------------
