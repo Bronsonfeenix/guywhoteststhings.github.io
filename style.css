@@ -244,16 +244,16 @@ body {
      background-size: cover;
      background-position: center;
    }
-   [data-class="shaman"][data-mode="fun"][data-variant="Cabbarnuke"] {
+   [data-class="shaman"][data-mode="fun"][data-variant="cabbarnuke"] {
      background-image: url("images/Cabbarnackle.png");
      background-size: cover;
-    background-position: center;
+     background-position: center;
    }
-   [data-class="shaman"][data-mode="fun"][data-variant="Unbreakable"] {
+   [data-class="shaman"][data-mode="fun"][data-variant="unbreakable"] {
      background-image: url("images/Unbreakable.png");
      background-size: cover;
-    background-position: center;  
-  }
+     background-position: center;
+   }
    [data-class="mage"][data-mode="skill"] {
      background-image: url("images/Clazzi.png");
      background-size: cover;
