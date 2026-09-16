@@ -977,6 +977,7 @@ body.honorable-open .honorable-scene {
 }
 
 .honorable-entry-box {
+  position: relative;
   border: 1px solid rgba(210, 212, 218, 0.3);
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.2);
@@ -1002,9 +1003,23 @@ body.honorable-open .honorable-scene {
   color: var(--gold-bright);
 }
 
+/* Floats below the box rather than growing it -- position: absolute
+   takes this out of the list's normal flow entirely, so expanding it
+   (to show a video) doesn't push any other entry in the list down or
+   sideways. It overlaps whatever's below it instead, which is the
+   trade-off for the other entries staying perfectly still. */
 .honorable-entry-details {
   display: none;
-  padding: 0 12px 12px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  padding: 10px;
+  border: 1px solid rgba(210, 212, 218, 0.3);
+  border-radius: 3px;
+  background: rgba(10, 8, 6, 0.95);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65);
+  z-index: 5;
 }
 
 .honorable-entry.expanded .honorable-entry-details {
