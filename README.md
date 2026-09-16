@@ -158,6 +158,14 @@ for the comment showing how to point it at an image. It's one image
 for the whole scene (not per-class), and shows a solid dark color
 until you set one.
 
+Selecting a class in Honorable Mentions also tints the entry backdrops
+and the entry names themselves (e.g. "Caen", "Perkulator") with that
+class's official WoW color — search `style.css` for
+`data-honorable-class` to find/adjust these. The "Skill"/"Fun" header
+labels stay the same gold as everywhere else on the site; only the
+names inside each list change color. Before any class is picked, the
+entry names fall back to the normal parchment color.
+
 **Background music:** `audio/wow-login-music.mp3` plays on a loop,
 starting silent and fading in to about a quarter volume over a few
 seconds. Browsers generally block audio-with-sound from autoplaying

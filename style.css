@@ -1125,3 +1125,79 @@ body.honorable-open .honorable-scene {
     width: 85vw;
   }
 }
+
+/* ----- Honorable Mentions: tint the entry backdrops and the entry
+   names (e.g. "Caen", "Perkulator") to match whichever class is
+   currently selected (uses each class's official WoW color) --
+   NOT the "Skill"/"Fun" header labels, which stay gold. */
+.honorable-scene[data-honorable-class="warrior"] .honorable-entry-box {
+  background: rgba(198, 155, 109, 0.25);
+}
+
+.honorable-scene[data-honorable-class="warrior"] .honorable-entry-name {
+  color: #C69B6D;
+}
+
+.honorable-scene[data-honorable-class="paladin"] .honorable-entry-box {
+  background: rgba(244, 140, 186, 0.25);
+}
+
+.honorable-scene[data-honorable-class="paladin"] .honorable-entry-name {
+  color: #F48CBA;
+}
+
+.honorable-scene[data-honorable-class="hunter"] .honorable-entry-box {
+  background: rgba(170, 211, 114, 0.25);
+}
+
+.honorable-scene[data-honorable-class="hunter"] .honorable-entry-name {
+  color: #AAD372;
+}
+
+.honorable-scene[data-honorable-class="rogue"] .honorable-entry-box {
+  background: rgba(255, 244, 104, 0.25);
+}
+
+.honorable-scene[data-honorable-class="rogue"] .honorable-entry-name {
+  color: #FFF468;
+}
+
+.honorable-scene[data-honorable-class="priest"] .honorable-entry-box {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.honorable-scene[data-honorable-class="priest"] .honorable-entry-name {
+  color: #FFFFFF;
+}
+
+.honorable-scene[data-honorable-class="shaman"] .honorable-entry-box {
+  background: rgba(0, 112, 221, 0.25);
+}
+
+.honorable-scene[data-honorable-class="shaman"] .honorable-entry-name {
+  color: #0070DD;
+}
+
+.honorable-scene[data-honorable-class="mage"] .honorable-entry-box {
+  background: rgba(63, 199, 235, 0.25);
+}
+
+.honorable-scene[data-honorable-class="mage"] .honorable-entry-name {
+  color: #3FC7EB;
+}
+
+.honorable-scene[data-honorable-class="warlock"] .honorable-entry-box {
+  background: rgba(135, 136, 238, 0.25);
+}
+
+.honorable-scene[data-honorable-class="warlock"] .honorable-entry-name {
+  color: #8788EE;
+}
+
+.honorable-scene[data-honorable-class="druid"] .honorable-entry-box {
+  background: rgba(255, 124, 10, 0.25);
+}
+
+.honorable-scene[data-honorable-class="druid"] .honorable-entry-name {
+  color: #FF7C0A;
+}

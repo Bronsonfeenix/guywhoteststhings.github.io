@@ -790,12 +790,15 @@
   let currentHonorableClass = null;
   let currentNoteSide = null;
 
+  const honorableScene = document.getElementById("honorableScene");
+
   honorableClassButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       honorableClassButtons.forEach((b) => b.classList.toggle("active", b === btn));
       currentHonorableClass = btn.dataset.class;
       currentNoteSide = null; // new class -- back to its own ambient note
       hideVideoOverlay();
+      if (honorableScene) honorableScene.dataset.honorableClass = currentHonorableClass;
       renderHonorableLists(currentHonorableClass);
     });
   });
