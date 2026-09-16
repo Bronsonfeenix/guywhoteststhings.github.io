@@ -912,11 +912,7 @@ body.honorable-open .honorable-scene {
   bottom: 8vh;
   max-width: min(360px, 27vw);
   overflow-y: auto;
-  /* Was "hidden" -- but the video overlay (see .honorable-entry-details)
-     now floats outside this list's own width on purpose, and hidden
-     was clipping it away entirely. "visible" lets it render past the
-     list's edge; overflow-y stays scrollable for tall lists. */
-  overflow-x: visible;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1015,66 +1011,26 @@ body.honorable-open .honorable-scene {
   color: var(--gold-bright);
 }
 
-/* Floats below the box rather than growing it -- position: absolute
-   takes this out of the list's normal flow entirely, so expanding it
-   (to show a video) doesn't push any other entry in the list down or
-   sideways. It overlaps whatever's below it instead, which is the
-   trade-off for the other entries staying perfectly still. */
-/* Floats beside the box (side depends on which list -- see the two
-   rules below) rather than growing it -- position: absolute takes
-   this out of the list's normal flow entirely, so expanding it (to
-   show a video) doesn't push any other entry in the list down or
-   sideways. It can overlap neighboring content instead, which is the
-   trade-off for the other entries staying perfectly still. */
-.honorable-entry-details {
+/* Free-floating video slot -- genuinely unstyled (no border,
+   background, or shadow), positioned via inline "top"/"left"/"right"
+   set in JS (see showVideoOverlay in script.js) to sit right next to
+   whichever entry was clicked. Being a single top-level element
+   outside the scrollable lists means it can never be clipped by a
+   list's own overflow, and expanding/collapsing it never affects any
+   entry's position. */
+.honorable-video-overlay {
   display: none;
-  position: absolute;
-  top: 0;
-  padding: 10px;
-  border: 1px solid rgba(210, 212, 218, 0.3);
-  border-radius: 3px;
-  background: rgba(10, 8, 6, 0.95);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65);
-  z-index: 5;
+  position: fixed;
+  width: 280px;
+  height: 158px;
+  z-index: 20;
 }
 
-/* Fun sits on the left side of the screen, so its videos open toward
-   the center (to the right of the box); Skill sits on the right, so
-   its videos also open toward the center (to the left of its box) --
-   both end up adjacent to the middle of the screen, near the icon
-   column, mirroring the rest of the layout. */
-.honorable-list-fun .honorable-entry-details {
-  left: 100%;
-  margin-left: 8px;
-}
-
-.honorable-list-skill .honorable-entry-details {
-  right: 100%;
-  margin-right: 8px;
-}
-
-.honorable-entry.expanded .honorable-entry-details {
+.honorable-video-overlay.visible {
   display: block;
 }
 
-.honorable-entry-lore {
-  margin: 0 0 10px;
-  font-family: "Jost", sans-serif;
-  font-style: italic;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--parchment);
-  opacity: 0.9;
-}
-
-.honorable-entry-video {
-  width: 280px;
-  height: 158px;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.honorable-entry-video iframe {
+.honorable-video-overlay iframe {
   width: 100%;
   height: 100%;
   border: none;

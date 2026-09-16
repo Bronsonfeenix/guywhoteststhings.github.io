@@ -241,6 +241,15 @@
 
     <button type="button" class="honorable-back-btn" id="honorableBackBtn">Back</button>
 
+    <!-- Single shared, unstyled video slot -- JS positions it next to
+         whichever entry was just clicked (see showVideoOverlay in
+         script.js) rather than nesting a video inside each entry,
+         which avoids clipping/overflow issues entirely since this
+         isn't nested inside the scrollable lists at all. -->
+    <div class="honorable-video-overlay" id="honorableVideoOverlay">
+      <div id="honorableVideoFrame"></div>
+    </div>
+
   </div>
 
   <script src="script.js"></script>

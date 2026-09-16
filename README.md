@@ -114,27 +114,32 @@ down in `script.js`: each class has a `skill` and `fun` array, and you
 can add or remove entries freely — each is just
 `{ name: "...", lore: "...", video: "..." }` (use `video: null` if
 there's no video for that entry yet). Clicking a name expands it in
-place; only one entry per side stays expanded at a time, and that
-entry's box grows independently to fit its video — the other boxes in
-the list keep their shared collapsed width (sized to whichever name in
-that list is longest), rather than every box growing together.
-Collapsing an entry restores its box back to that shared width.
+place; only one entry per side stays expanded at a time.
 
-A video, if set, shows inside the bordered box next to the name. Lore,
-if set, doesn't show in that box at all — instead it takes over the
-same note slot used by a class's own `note` (see below): same
+A video, if set, appears in a single shared, unstyled floating slot
+(no border/background of its own) positioned next to whichever entry
+was just clicked — to the right for a Fun entry, to the left for a
+Skill entry, both opening toward the center of the screen. It's a
+top-level element rather than nested inside either list, so it's
+never clipped by a list's scroll area and never affects any entry's
+position, width, or the layout of the list at all.
+
+Lore, if set, doesn't appear near the entry at all — instead it takes
+over the same note slot used by a class's own `note` (see below): same
 typewriter effect, same style, and positioned next to the icon column
 on the same side as the list it came from (left for Fun, right for
 Skill, matching each list's own side of the screen). This is
 "sticky": clicking a different name without its own lore leaves
 whatever's currently showing there alone; only a name with its own
 lore replaces it. Switching to a different class is what resets this
-back to that class's own ambient note. Entries with neither lore nor a
-video just show "No details added for this entry yet." inside the
-box — the "Back" button at the top returns to the main scene, and the
-icon column's left edge is kept aligned with the Back button's left
-edge (computed in JS, since the button's width depends on its own
-text/padding).
+back to that class's own ambient note (and also hides the video slot,
+if it was open).
+
+Every entry's box otherwise stays a fixed, uniform width (sized to
+whichever name in that list is longest) — the "Back" button at the top
+returns to the main scene, and the icon column's left edge is kept
+aligned with the Back button's left edge (computed in JS, since the
+button's width depends on its own text/padding).
 
 A class can also have an optional `note` field (a sibling of `skill`
 and `fun`, not inside them) — free-flowing text shown next to the

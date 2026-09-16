@@ -20,6 +20,8 @@
   const honorableListFun = document.getElementById("honorableListFun");
   const honorableListSkill = document.getElementById("honorableListSkill");
   const honorableNote = document.getElementById("honorableNote");
+  const honorableVideoOverlay = document.getElementById("honorableVideoOverlay");
+  const honorableVideoFrame = document.getElementById("honorableVideoFrame");
   const bgMusic = document.getElementById("bgMusic");
   const audioControl = document.getElementById("audioControl");
   const audioBtn = document.getElementById("audioBtn");
@@ -576,31 +578,26 @@
       return;
     }
 
+    // Entries only ever contain the name button now -- video and lore
+    // are both handled by shared, top-level elements (the video
+    // overlay and the note slot respectively) positioned via JS from
+    // the clicked entry's own position, rather than living nested
+    // inside this list. That sidesteps clipping/overflow problems
+    // entirely: nothing here needs to escape this list's bounds.
     container.innerHTML = entries
-      .map((entry, i) => {
-        const hasLore = entry.lore && entry.lore.trim();
-        const hasVideo = !!entry.video;
-        return (
+      .map(
+        (entry, i) =>
           `<div class="honorable-entry" data-index="${i}">` +
           `<div class="honorable-entry-box">` +
           `<button type="button" class="honorable-entry-name">${escapeHtml(entry.name)}</button>` +
-          (hasVideo || !hasLore
-            ? `<div class="honorable-entry-details">` +
-              (hasVideo ? `<div class="honorable-entry-video" data-video-id="${escapeHtml(entry.video)}"></div>` : "") +
-              (!hasLore && !hasVideo ? `<p class="honorable-entry-lore">No details added for this entry yet.</p>` : "") +
-              `</div>`
-            : "") +
           `</div>` +
           `</div>`
-        );
-      })
+      )
       .join("");
 
-    // All boxes share one uniform (collapsed) width, sized to whichever
-    // name is longest -- computed here in JS (rather than via CSS grid
-    // sharing a single track) specifically so that later, expanding one
-    // entry for its video can grow ONLY that entry's box without
-    // dragging every other box in the list along with it.
+    // All boxes share one uniform width, sized to whichever name is
+    // longest -- computed here in JS (rather than via CSS grid
+    // sharing a single track) purely for a tidy, consistent look.
     const boxes = container.querySelectorAll(".honorable-entry-box");
     let maxWidth = 0;
     boxes.forEach((box) => {
@@ -706,6 +703,38 @@
     showClassNote(className);
   }
 
+  // Positions the shared, unstyled video slot right next to the given
+  // entry element -- to its right for Fun (which sits on the left of
+  // the screen, so this opens toward the center), or to its left for
+  // Skill (mirrored, also opening toward the center).
+  let currentVideoEntry = null;
+  let currentVideoSide = null;
+
+  function showVideoOverlay(entryEl, videoId, sideKey) {
+    if (!honorableVideoOverlay || !honorableVideoFrame) return;
+    currentVideoEntry = entryEl;
+    currentVideoSide = sideKey;
+    const rect = entryEl.getBoundingClientRect();
+    honorableVideoOverlay.style.top = rect.top + "px";
+    if (sideKey === "fun") {
+      honorableVideoOverlay.style.left = rect.right + 8 + "px";
+      honorableVideoOverlay.style.right = "auto";
+    } else {
+      honorableVideoOverlay.style.right = window.innerWidth - rect.left + 8 + "px";
+      honorableVideoOverlay.style.left = "auto";
+    }
+    honorableVideoFrame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0" title="Honorable mention video" frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    honorableVideoOverlay.classList.add("visible");
+  }
+
+  function hideVideoOverlay() {
+    if (!honorableVideoOverlay || !honorableVideoFrame) return;
+    currentVideoEntry = null;
+    currentVideoSide = null;
+    honorableVideoOverlay.classList.remove("visible");
+    honorableVideoFrame.innerHTML = ""; // stops playback, not just visually hides it
+  }
+
   // Expand/collapse entries via event delegation, since the list
   // contents are rebuilt from scratch every time a class is picked.
   // Expanding an entry with lore shows that lore in the shared note
@@ -715,7 +744,8 @@
   // (whether that's the class note or a previous entry's lore) --
   // only a name with its OWN lore replaces it. Switching classes
   // entirely (see honorableClassButtons below) is what resets this
-  // back to the new class's own note.
+  // back to the new class's own note. A video, if the clicked entry
+  // has one, shows in the shared free-floating video slot instead.
   [honorableListFun, honorableListSkill].forEach((list) => {
     if (!list) return;
     const sideKey = list === honorableListFun ? "fun" : "skill";
@@ -727,27 +757,25 @@
       const entry = nameBtn.closest(".honorable-entry");
       const alreadyOpen = entry.classList.contains("expanded");
 
-      // Collapse whichever entry in this list was previously expanded
-      // (if any). Box width/height never actually changes -- the
-      // video details panel floats below the box (position: absolute
-      // in CSS), so there's nothing here to restore.
       list.querySelectorAll(".honorable-entry.expanded").forEach((el) => el.classList.remove("expanded"));
 
-      if (alreadyOpen) return; // was open, now just closed -- nothing else to do
+      if (alreadyOpen) {
+        hideVideoOverlay();
+        return;
+      }
 
       entry.classList.add("expanded");
 
-      const videoEl = entry.querySelector(".honorable-entry-video");
-      if (videoEl && !videoEl.dataset.loaded) {
-        const videoId = videoEl.dataset.videoId;
-        videoEl.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0" title="Honorable mention video" frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
-        videoEl.dataset.loaded = "true";
-      }
-
       const index = parseInt(entry.dataset.index, 10);
       const entryData = HONORABLE_MENTIONS[currentHonorableClass] && HONORABLE_MENTIONS[currentHonorableClass][sideKey][index];
-      const entryLore = entryData && entryData.lore && entryData.lore.trim();
 
+      if (entryData && entryData.video) {
+        showVideoOverlay(entry, entryData.video, sideKey);
+      } else {
+        hideVideoOverlay();
+      }
+
+      const entryLore = entryData && entryData.lore && entryData.lore.trim();
       if (entryLore) {
         stopTypewriter();
         currentNoteSide = sideKey;
@@ -767,13 +795,26 @@
       honorableClassButtons.forEach((b) => b.classList.toggle("active", b === btn));
       currentHonorableClass = btn.dataset.class;
       currentNoteSide = null; // new class -- back to its own ambient note
+      hideVideoOverlay();
       renderHonorableLists(currentHonorableClass);
     });
   });
 
+  function repositionVideoOverlay() {
+    if (!currentVideoEntry || !honorableVideoOverlay.classList.contains("visible")) return;
+    const rect = currentVideoEntry.getBoundingClientRect();
+    honorableVideoOverlay.style.top = rect.top + "px";
+    if (currentVideoSide === "fun") {
+      honorableVideoOverlay.style.left = rect.right + 8 + "px";
+    } else {
+      honorableVideoOverlay.style.right = window.innerWidth - rect.left + 8 + "px";
+    }
+  }
+
   window.addEventListener("resize", () => {
     if (currentHonorableClass) alignNoteWithIcon(currentHonorableClass, currentNoteSide);
     alignIconColumnWithBack();
+    repositionVideoOverlay();
   });
 
   alignIconColumnWithBack();
@@ -787,6 +828,7 @@
   if (honorableBackBtn) {
     honorableBackBtn.addEventListener("click", () => {
       body.classList.remove("honorable-open");
+      hideVideoOverlay();
     });
   }
 
