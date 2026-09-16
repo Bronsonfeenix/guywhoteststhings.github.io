@@ -1126,78 +1126,81 @@ body.honorable-open .honorable-scene {
   }
 }
 
-/* ----- Honorable Mentions: tint the entry backdrops and the entry
-   names (e.g. "Caen", "Perkulator") to match whichever class is
-   currently selected (uses each class's official WoW color) --
-   NOT the "Skill"/"Fun" header labels, which stay gold. */
+/* ----- Honorable Mentions: tint the entry backdrops to match
+   whichever class is currently selected (uses each class's official
+   WoW color). Entry names themselves and the "Skill"/"Fun" header
+   labels are NOT tinted -- only the boxes behind the names. */
 .honorable-scene[data-honorable-class="warrior"] .honorable-entry-box {
-  background: rgba(198, 155, 109, 0.25);
-}
-
-.honorable-scene[data-honorable-class="warrior"] .honorable-entry-name {
-  color: #C69B6D;
+  background: rgba(198, 155, 109, 0.45);
 }
 
 .honorable-scene[data-honorable-class="paladin"] .honorable-entry-box {
-  background: rgba(244, 140, 186, 0.25);
-}
-
-.honorable-scene[data-honorable-class="paladin"] .honorable-entry-name {
-  color: #F48CBA;
+  background: rgba(244, 140, 186, 0.45);
 }
 
 .honorable-scene[data-honorable-class="hunter"] .honorable-entry-box {
-  background: rgba(170, 211, 114, 0.25);
-}
-
-.honorable-scene[data-honorable-class="hunter"] .honorable-entry-name {
-  color: #AAD372;
+  background: rgba(170, 211, 114, 0.45);
 }
 
 .honorable-scene[data-honorable-class="rogue"] .honorable-entry-box {
-  background: rgba(255, 244, 104, 0.25);
-}
-
-.honorable-scene[data-honorable-class="rogue"] .honorable-entry-name {
-  color: #FFF468;
+  background: rgba(255, 244, 104, 0.45);
 }
 
 .honorable-scene[data-honorable-class="priest"] .honorable-entry-box {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.honorable-scene[data-honorable-class="priest"] .honorable-entry-name {
-  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.45);
 }
 
 .honorable-scene[data-honorable-class="shaman"] .honorable-entry-box {
-  background: rgba(0, 112, 221, 0.25);
-}
-
-.honorable-scene[data-honorable-class="shaman"] .honorable-entry-name {
-  color: #0070DD;
+  background: rgba(0, 112, 221, 0.45);
 }
 
 .honorable-scene[data-honorable-class="mage"] .honorable-entry-box {
-  background: rgba(63, 199, 235, 0.25);
-}
-
-.honorable-scene[data-honorable-class="mage"] .honorable-entry-name {
-  color: #3FC7EB;
+  background: rgba(63, 199, 235, 0.45);
 }
 
 .honorable-scene[data-honorable-class="warlock"] .honorable-entry-box {
-  background: rgba(135, 136, 238, 0.25);
-}
-
-.honorable-scene[data-honorable-class="warlock"] .honorable-entry-name {
-  color: #8788EE;
+  background: rgba(135, 136, 238, 0.45);
 }
 
 .honorable-scene[data-honorable-class="druid"] .honorable-entry-box {
-  background: rgba(255, 124, 10, 0.25);
+  background: rgba(255, 124, 10, 0.45);
 }
 
-.honorable-scene[data-honorable-class="druid"] .honorable-entry-name {
+/* ----- Main screen: tint the big character name header (e.g. "Bobo",
+   "Arthus") to match the currently selected class's official WoW
+   color, instead of the fixed gold used everywhere else. */
+body[data-class="warrior"] .lore-name {
+  color: #C69B6D;
+}
+
+body[data-class="paladin"] .lore-name {
+  color: #F48CBA;
+}
+
+body[data-class="hunter"] .lore-name {
+  color: #AAD372;
+}
+
+body[data-class="rogue"] .lore-name {
+  color: #FFF468;
+}
+
+body[data-class="priest"] .lore-name {
+  color: #FFFFFF;
+}
+
+body[data-class="shaman"] .lore-name {
+  color: #0070DD;
+}
+
+body[data-class="mage"] .lore-name {
+  color: #3FC7EB;
+}
+
+body[data-class="warlock"] .lore-name {
+  color: #8788EE;
+}
+
+body[data-class="druid"] .lore-name {
   color: #FF7C0A;
 }

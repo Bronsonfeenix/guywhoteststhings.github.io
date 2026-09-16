@@ -159,12 +159,16 @@ for the whole scene (not per-class), and shows a solid dark color
 until you set one.
 
 Selecting a class in Honorable Mentions also tints the entry backdrops
-and the entry names themselves (e.g. "Caen", "Perkulator") with that
-class's official WoW color — search `style.css` for
-`data-honorable-class` to find/adjust these. The "Skill"/"Fun" header
-labels stay the same gold as everywhere else on the site; only the
-names inside each list change color. Before any class is picked, the
-entry names fall back to the normal parchment color.
+(only the boxes behind the names, at 45% opacity) with that class's
+official WoW color — search `style.css` for `data-honorable-class` to
+find/adjust these. Entry names themselves and the "Skill"/"Fun" header
+labels aren't tinted. Before any class is picked, the backdrops fall
+back to their normal neutral color.
+
+On the main screen, the big character name header (e.g. "Bobo",
+"Arthus") is tinted the same way, matching whichever class is
+currently selected — search `style.css` for `body[data-class=` to
+find/adjust these.
 
 **Background music:** `audio/wow-login-music.mp3` plays on a loop,
 starting silent and fading in to about a quarter volume over a few
