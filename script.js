@@ -50,7 +50,7 @@
       fun:   { name: "Dysphoria", text: "", model: "models/hunter-fun.glb", lore: " A completely fresh soundtrack for the time and a mental that says nothing is impossible Hunter Vs. World is an all time classic series.", video: "7XgF_P9Ddjk", animation: "Stand" }
     },
     rogue: {
-      skill: { name: "Cielz", text: "", model: "models/rogue-skill.glb", lore: "The intro promises a lot, the subsequent 19 minutes delivers on some. Early attempts at 5-8ing warriors, innovative meld usage to cover stealth CD, a healthy trigger discipline on their cooldowns and definitely not scared of taking a 1vX. On top of it all he's a swirly ball enjoyer. Definitely check out the rogue honorable mentions as this was an incredibly close competition. 7.5/10", video:"qN9GtoGnTxc", animation: "Stand" },
+      skill: { name: "Cielz", text: "", model: "models/rogue-skill.glb", lore: "The intro promises a lot, the subsequent 19 minutes delivers on some. Early attempts at 5-8ing warriors, a healthy trigger discipline on their cooldowns and a willingness to take on 1vX's. On top of it all he's a swirly ball enjoyer. Definitely check out the rogue honourable mentions as this was an incredibly close competition.", video:"qN9GtoGnTxc", animation: "Stand" },
       fun:   { name: "Mute (World of Roguecraft)", text: "", model: "models/rogue-fun.glb", lore: "The most influential vanilla PvP videos of all time, if you ever saw someone trying to flex on their enemies while naked, it's probably because of mute. (Released in reverse order, episode 3 was the first in the series)", video: "bqx1CFomKMI", animation: "Stand (ID 0 variation 0)" }
     },
     priest: {
@@ -595,6 +595,22 @@
         );
       })
       .join("");
+
+    // All boxes share one uniform (collapsed) width, sized to whichever
+    // name is longest -- computed here in JS (rather than via CSS grid
+    // sharing a single track) specifically so that later, expanding one
+    // entry for its video can grow ONLY that entry's box without
+    // dragging every other box in the list along with it.
+    const boxes = container.querySelectorAll(".honorable-entry-box");
+    let maxWidth = 0;
+    boxes.forEach((box) => {
+      box.style.width = "auto";
+      maxWidth = Math.max(maxWidth, box.getBoundingClientRect().width);
+    });
+    boxes.forEach((box) => {
+      box.dataset.collapsedWidth = maxWidth;
+      box.style.width = maxWidth + "px";
+    });
   }
 
   let typewriterTimer = null;
@@ -627,13 +643,26 @@
   // "next to the icon" rather than centered on screen. Top-anchored
   // (not vertically centered) so multi-line text grows downward from
   // that row instead of expanding upward over the icons above it.
-  function alignNoteWithIcon(className) {
+  // Positions the note next to the given class's icon -- to its right
+  // by default (matches the Skill list and the ambient class-level
+  // note), or to its left when side === "fun" (matching the Fun list,
+  // which itself sits on the left, so its entries' lore should too).
+  // Positioning leftward via "right" (distance from viewport's right
+  // edge) rather than computing the note's own width lets the box
+  // grow further left as needed without knowing its width in advance.
+  function alignNoteWithIcon(className, side) {
     if (!honorableNote) return;
     const iconBtn = document.querySelector(`.honorable-class-btn[data-class="${className}"]`);
     if (!iconBtn) return;
     const rect = iconBtn.getBoundingClientRect();
     honorableNote.style.top = rect.top + "px";
-    honorableNote.style.left = rect.right + 20 + "px";
+    if (side === "fun") {
+      honorableNote.style.left = "auto";
+      honorableNote.style.right = window.innerWidth - rect.left + 20 + "px";
+    } else {
+      honorableNote.style.right = "auto";
+      honorableNote.style.left = rect.right + 20 + "px";
+    }
   }
 
   // Aligns the icon column's left edge with the "Back" button's left
@@ -681,9 +710,12 @@
   // contents are rebuilt from scratch every time a class is picked.
   // Expanding an entry with lore shows that lore in the shared note
   // slot next to the icon column (same spot/style/typewriter effect
-  // as a class-level note), overriding whatever was there by default;
-  // collapsing it (or expanding a different entry without lore)
-  // reverts to the current class's own note, if it has one.
+  // as a class-level note). It's "sticky": clicking a different name
+  // without its own lore leaves whatever's currently showing alone
+  // (whether that's the class note or a previous entry's lore) --
+  // only a name with its OWN lore replaces it. Switching classes
+  // entirely (see honorableClassButtons below) is what resets this
+  // back to the new class's own note.
   [honorableListFun, honorableListSkill].forEach((list) => {
     if (!list) return;
     const sideKey = list === honorableListFun ? "fun" : "skill";
@@ -695,15 +727,24 @@
       const entry = nameBtn.closest(".honorable-entry");
       const alreadyOpen = entry.classList.contains("expanded");
 
-      // Only one entry open at a time within this list.
-      list.querySelectorAll(".honorable-entry.expanded").forEach((el) => el.classList.remove("expanded"));
+      // Collapse whichever entry in this list was previously expanded
+      // (if any), restoring its box back to the shared collapsed width.
+      list.querySelectorAll(".honorable-entry.expanded").forEach((el) => {
+        el.classList.remove("expanded");
+        const box = el.querySelector(".honorable-entry-box");
+        if (box && box.dataset.collapsedWidth) {
+          box.style.width = box.dataset.collapsedWidth + "px";
+        }
+      });
 
-      if (alreadyOpen) {
-        showClassNote(currentHonorableClass);
-        return;
-      }
+      if (alreadyOpen) return; // was open, now just closed -- nothing else to do
 
       entry.classList.add("expanded");
+
+      // Let this specific box grow to fit its video, independent of
+      // every other box's (shared, uniform) collapsed width.
+      const box = entry.querySelector(".honorable-entry-box");
+      if (box) box.style.width = "auto";
 
       const videoEl = entry.querySelector(".honorable-entry-video");
       if (videoEl && !videoEl.dataset.loaded) {
@@ -718,27 +759,29 @@
 
       if (entryLore) {
         stopTypewriter();
-        alignNoteWithIcon(currentHonorableClass);
+        currentNoteSide = sideKey;
+        alignNoteWithIcon(currentHonorableClass, sideKey);
         honorableNote.classList.add("visible");
         typeWriterEffect(honorableNote, entryLore);
-      } else {
-        showClassNote(currentHonorableClass);
       }
+      // No lore on this entry -- leave the note slot exactly as it was.
     });
   });
 
   let currentHonorableClass = null;
+  let currentNoteSide = null;
 
   honorableClassButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       honorableClassButtons.forEach((b) => b.classList.toggle("active", b === btn));
       currentHonorableClass = btn.dataset.class;
+      currentNoteSide = null; // new class -- back to its own ambient note
       renderHonorableLists(currentHonorableClass);
     });
   });
 
   window.addEventListener("resize", () => {
-    if (currentHonorableClass) alignNoteWithIcon(currentHonorableClass);
+    if (currentHonorableClass) alignNoteWithIcon(currentHonorableClass, currentNoteSide);
     alignIconColumnWithBack();
   });
 

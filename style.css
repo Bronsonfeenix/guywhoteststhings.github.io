@@ -348,6 +348,7 @@ body.honorable-open .honorable-scene {
 .mode-btn {
   font-family: "Jost", sans-serif;
   font-size: 0.85rem;
+  font-weight: 500;
   letter-spacing: 0.05em;
   color: var(--parchment);
   background: rgba(20, 16, 11, 0.55);
@@ -355,17 +356,20 @@ body.honorable-open .honorable-scene {
   border-radius: 3px;
   padding: 8px 20px;
   cursor: pointer;
-  opacity: 0.65;
-  transition: opacity 150ms ease, background 150ms ease;
+  opacity: 0.5;
+  transition: opacity 150ms ease, background 150ms ease, box-shadow 150ms ease, transform 150ms ease;
 }
 
-.mode-btn:hover { opacity: 0.9; }
+.mode-btn:hover { opacity: 0.85; }
 
 .mode-btn.active {
   opacity: 1;
-  background: rgba(156, 122, 60, 0.28);
+  font-weight: 700;
+  background: rgba(156, 122, 60, 0.45);
   border-color: var(--gold-bright);
   color: var(--gold-bright);
+  box-shadow: 0 0 12px 1px rgba(205, 166, 90, 0.55);
+  transform: translateY(-1px);
 }
 
 .class-grid {
@@ -901,18 +905,14 @@ body.honorable-open .honorable-scene {
   max-width: min(360px, 27vw);
   overflow-y: auto;
   overflow-x: hidden;
-  display: grid;
-  /* Sizes the column to fit the widest entry's content -- every row
-     then stretches to that same shared width (grid's default
-     justify-items: stretch), so all the boxes end up the same size,
-     scaled to whichever name is longest, rather than each other
-     filling the full list width. */
-  grid-template-columns: max-content;
-  /* Without this, grid's default is to stretch the rows to fill any
-     leftover space in this (fairly tall) container when there are
-     only a few short entries -- align-content: start packs them
-     tightly from the top instead, at their natural height. */
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* Each .honorable-entry-box gets an explicit width set by JS
+     (see renderHonorableList in script.js) rather than relying on a
+     shared grid column, so expanding one entry for its video can
+     grow just that box without dragging every other box in the list
+     along with it. */
   gap: 8px;
   padding-right: 6px;
 }

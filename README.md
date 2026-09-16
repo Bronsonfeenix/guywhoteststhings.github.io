@@ -114,18 +114,27 @@ down in `script.js`: each class has a `skill` and `fun` array, and you
 can add or remove entries freely — each is just
 `{ name: "...", lore: "...", video: "..." }` (use `video: null` if
 there's no video for that entry yet). Clicking a name expands it in
-place; only one entry per side stays expanded at a time. A video, if
-set, shows inside the bordered box next to the name. Lore, if set,
-doesn't show in that box at all — instead it takes over the same
-note slot used by a class's own `note` (see below): same position
-next to the icon column, same typewriter effect, same style.
-Collapsing the entry (or expanding a different one without lore)
-reverts that slot back to the current class's own note, if it has
-one. Entries with neither lore nor a video just show "No details
-added for this entry yet." inside the box — the "Back" button at the
-top returns to the main scene, and the icon column's left edge is
-kept aligned with the Back button's left edge (computed in JS, since
-the button's width depends on its own text/padding).
+place; only one entry per side stays expanded at a time, and that
+entry's box grows independently to fit its video — the other boxes in
+the list keep their shared collapsed width (sized to whichever name in
+that list is longest), rather than every box growing together.
+Collapsing an entry restores its box back to that shared width.
+
+A video, if set, shows inside the bordered box next to the name. Lore,
+if set, doesn't show in that box at all — instead it takes over the
+same note slot used by a class's own `note` (see below): same
+typewriter effect, same style, and positioned next to the icon column
+on the same side as the list it came from (left for Fun, right for
+Skill, matching each list's own side of the screen). This is
+"sticky": clicking a different name without its own lore leaves
+whatever's currently showing there alone; only a name with its own
+lore replaces it. Switching to a different class is what resets this
+back to that class's own ambient note. Entries with neither lore nor a
+video just show "No details added for this entry yet." inside the
+box — the "Back" button at the top returns to the main scene, and the
+icon column's left edge is kept aligned with the Back button's left
+edge (computed in JS, since the button's width depends on its own
+text/padding).
 
 A class can also have an optional `note` field (a sibling of `skill`
 and `fun`, not inside them) — free-flowing text shown next to the
@@ -135,7 +144,8 @@ reads as sitting "in line with" that icon, not at some arbitrary
 height). Right now only Rogue and Mage have one set; any class without
 a `note` just shows nothing there. This same slot gets temporarily
 taken over by an individual entry's lore when you expand one with lore
-set (see above).
+set (see above), and stays that way even across other name clicks
+until you either click a name with its own lore or switch classes.
 
 The Honorable Mentions scene has its own background, separate from the
 main screen's per-class ones — search `style.css` for `.honorable-scene`
