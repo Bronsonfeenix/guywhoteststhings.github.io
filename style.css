@@ -490,6 +490,14 @@ body.honorable-open .honorable-scene {
   overflow: hidden;
 }
 
+/* Priest/Skill specifically sits another 10% higher than every other
+   class/mode (5vh + 10vh = 15vh) -- add more overrides like this one
+   (targeting [data-class="..."][data-mode="..."] .model-stage) if
+   other specific combinations ever need their own nudge. */
+[data-class="priest"][data-mode="skill"] .model-stage {
+  bottom: 15vh;
+}
+
 .race-model {
   width: 100%;
   height: 100%;
@@ -904,7 +912,11 @@ body.honorable-open .honorable-scene {
   bottom: 8vh;
   max-width: min(360px, 27vw);
   overflow-y: auto;
-  overflow-x: hidden;
+  /* Was "hidden" -- but the video overlay (see .honorable-entry-details)
+     now floats outside this list's own width on purpose, and hidden
+     was clipping it away entirely. "visible" lets it render past the
+     list's edge; overflow-y stays scrollable for tall lists. */
+  overflow-x: visible;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
