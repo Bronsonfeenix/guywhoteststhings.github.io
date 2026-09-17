@@ -74,7 +74,7 @@
     },
     warlock: {
       skill: { name: "Lokilo", text: "", model: "models/warlock-skill.glb", lore: "An actual time traveler, completely cool under pressure with impeccable character control and target selection. What he lacks in flashiness he makes up for in pure cleanliness. 9/10", video: "dPJf4Ocjc-8", animation: "Stand (ID 0 variation 0)" },
-      fun:   { name: "Drakedog", text: "", model: "models/warlock-fun.glb", lore: "Did we mention we're fans of Pathologist? Drakedog, who is probably the most beloved vanilla warlock, having Pathologist edit his video for him was a crossover that came out of nowhere and we're glad it did.", video: "I918N8wUvRs", animation: "Stand (ID 0 variation 0)" }
+      fun:   { name: "Drakedog", text: "", model: "models/warlock-fun.glb", lore: "Did we mention we're fans of Pathologist? Drakedog, who is probably the most beloved vanilla warlock, having Pathologist edit his video for him was a crossover that came out of nowhere and we're glad it did.", video: "I918N8wUvRs", animation: "Stand (ID 0 variation 0)", cameraRadius: "75%" }
     },
     druid: {
       skill: { name: "Tfo", text: "", model: "models/druid-skill.glb", lore: "Very solid player, he has an exceptional grasp on how to use the utility and strengths of this versatile class. 7.5/10", video: "aX93zH6wJeM", animation: "Stand" },
@@ -366,6 +366,15 @@
     if (modelViewer) {
       modelViewer.setAttribute("src", data.model);
       modelViewer.setAttribute("animation-name", requestedAnimation);
+      // Camera radius (distance from the model) defaults to 100% --
+      // set a "cameraRadius" field on a class/mode entry (e.g. "75%")
+      // to zoom that specific model in closer, making it read as
+      // bigger. min/max-camera-orbit have to move together with
+      // camera-orbit's radius since they otherwise clamp it back.
+      const radius = data.cameraRadius || "100%";
+      modelViewer.setAttribute("camera-orbit", `90deg 75deg ${radius}`);
+      modelViewer.setAttribute("min-camera-orbit", `auto 90deg ${radius}`);
+      modelViewer.setAttribute("max-camera-orbit", `auto 90deg ${radius}`);
     }
 
     applyVideoId(data.video || null);
@@ -594,18 +603,22 @@
           `</div>`
       )
       .join("");
+  }
 
-    // All boxes share one uniform width, sized to whichever name is
-    // longest -- computed here in JS (rather than via CSS grid
-    // sharing a single track) purely for a tidy, consistent look.
-    const boxes = container.querySelectorAll(".honorable-entry-box");
+  // Every box across BOTH lists shares one single uniform width, sized
+  // to whichever name is longest overall -- not just the longest
+  // within its own side. Run once after both lists are rendered.
+  function applyUniformEntryBoxWidth() {
+    const boxes = document.querySelectorAll(
+      "#honorableListFun .honorable-entry-box, #honorableListSkill .honorable-entry-box"
+    );
+    if (!boxes.length) return;
     let maxWidth = 0;
     boxes.forEach((box) => {
       box.style.width = "auto";
       maxWidth = Math.max(maxWidth, box.getBoundingClientRect().width);
     });
     boxes.forEach((box) => {
-      box.dataset.collapsedWidth = maxWidth;
       box.style.width = maxWidth + "px";
     });
   }
@@ -640,26 +653,18 @@
   // "next to the icon" rather than centered on screen. Top-anchored
   // (not vertically centered) so multi-line text grows downward from
   // that row instead of expanding upward over the icons above it.
-  // Positions the note next to the given class's icon -- to its right
-  // by default (matches the Skill list and the ambient class-level
-  // note), or to its left when side === "fun" (matching the Fun list,
-  // which itself sits on the left, so its entries' lore should too).
-  // Positioning leftward via "right" (distance from viewport's right
-  // edge) rather than computing the note's own width lets the box
-  // grow further left as needed without knowing its width in advance.
-  function alignNoteWithIcon(className, side) {
+  // Positions the note to the right of the given class's icon -- the
+  // note is purely class-level now (lore no longer varies by side
+  // since it's always shown on class selection, not tied to a
+  // specific Fun/Skill entry click).
+  function alignNoteWithIcon(className) {
     if (!honorableNote) return;
     const iconBtn = document.querySelector(`.honorable-class-btn[data-class="${className}"]`);
     if (!iconBtn) return;
     const rect = iconBtn.getBoundingClientRect();
     honorableNote.style.top = rect.top + "px";
-    if (side === "fun") {
-      honorableNote.style.left = "auto";
-      honorableNote.style.right = window.innerWidth - rect.left + 20 + "px";
-    } else {
-      honorableNote.style.right = "auto";
-      honorableNote.style.left = rect.right + 20 + "px";
-    }
+    honorableNote.style.right = "auto";
+    honorableNote.style.left = rect.right + 20 + "px";
   }
 
   // Aligns the icon column's left edge with the "Back" button's left
@@ -700,6 +705,7 @@
     if (!data) return;
     renderHonorableList(honorableListFun, data.fun);
     renderHonorableList(honorableListSkill, data.skill);
+    applyUniformEntryBoxWidth();
     showClassNote(className);
   }
 
@@ -717,10 +723,10 @@
     const rect = entryEl.getBoundingClientRect();
     honorableVideoOverlay.style.top = rect.top + "px";
     if (sideKey === "fun") {
-      honorableVideoOverlay.style.left = rect.right + 8 + "px";
+      honorableVideoOverlay.style.left = rect.right + 10 + "px";
       honorableVideoOverlay.style.right = "auto";
     } else {
-      honorableVideoOverlay.style.right = window.innerWidth - rect.left + 8 + "px";
+      honorableVideoOverlay.style.right = window.innerWidth - rect.left + 10 + "px";
       honorableVideoOverlay.style.left = "auto";
     }
     honorableVideoFrame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0" title="Honorable mention video" frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
@@ -737,15 +743,9 @@
 
   // Expand/collapse entries via event delegation, since the list
   // contents are rebuilt from scratch every time a class is picked.
-  // Expanding an entry with lore shows that lore in the shared note
-  // slot next to the icon column (same spot/style/typewriter effect
-  // as a class-level note). It's "sticky": clicking a different name
-  // without its own lore leaves whatever's currently showing alone
-  // (whether that's the class note or a previous entry's lore) --
-  // only a name with its OWN lore replaces it. Switching classes
-  // entirely (see honorableClassButtons below) is what resets this
-  // back to the new class's own note. A video, if the clicked entry
-  // has one, shows in the shared free-floating video slot instead.
+  // Names only ever control the video slot now -- lore lives entirely
+  // in the class-level "note" (see showClassNote), shown the moment
+  // you click a class icon rather than requiring a name click too.
   [honorableListFun, honorableListSkill].forEach((list) => {
     if (!list) return;
     const sideKey = list === honorableListFun ? "fun" : "skill";
@@ -774,21 +774,10 @@
       } else {
         hideVideoOverlay();
       }
-
-      const entryLore = entryData && entryData.lore && entryData.lore.trim();
-      if (entryLore) {
-        stopTypewriter();
-        currentNoteSide = sideKey;
-        alignNoteWithIcon(currentHonorableClass, sideKey);
-        honorableNote.classList.add("visible");
-        typeWriterEffect(honorableNote, entryLore);
-      }
-      // No lore on this entry -- leave the note slot exactly as it was.
     });
   });
 
   let currentHonorableClass = null;
-  let currentNoteSide = null;
 
   const honorableScene = document.getElementById("honorableScene");
 
@@ -796,7 +785,6 @@
     btn.addEventListener("click", () => {
       honorableClassButtons.forEach((b) => b.classList.toggle("active", b === btn));
       currentHonorableClass = btn.dataset.class;
-      currentNoteSide = null; // new class -- back to its own ambient note
       hideVideoOverlay();
       if (honorableScene) honorableScene.dataset.honorableClass = currentHonorableClass;
       renderHonorableLists(currentHonorableClass);
@@ -808,14 +796,14 @@
     const rect = currentVideoEntry.getBoundingClientRect();
     honorableVideoOverlay.style.top = rect.top + "px";
     if (currentVideoSide === "fun") {
-      honorableVideoOverlay.style.left = rect.right + 8 + "px";
+      honorableVideoOverlay.style.left = rect.right + 10 + "px";
     } else {
-      honorableVideoOverlay.style.right = window.innerWidth - rect.left + 8 + "px";
+      honorableVideoOverlay.style.right = window.innerWidth - rect.left + 10 + "px";
     }
   }
 
   window.addEventListener("resize", () => {
-    if (currentHonorableClass) alignNoteWithIcon(currentHonorableClass, currentNoteSide);
+    if (currentHonorableClass) alignNoteWithIcon(currentHonorableClass);
     alignIconColumnWithBack();
     repositionVideoOverlay();
   });

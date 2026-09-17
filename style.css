@@ -842,7 +842,7 @@ body.honorable-open .honorable-scene {
   margin: 0;
   font-family: "Jost", sans-serif;
   font-weight: 700;
-  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-size: clamp(2rem, 3vw, 2.75rem);
   letter-spacing: 0.04em;
   color: var(--gold-bright);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
@@ -863,7 +863,7 @@ body.honorable-open .honorable-scene {
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   z-index: 2;
 }
 
@@ -872,8 +872,8 @@ body.honorable-open .honorable-scene {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
-  padding: 4px 10px 4px 4px;
+  gap: 13px;
+  padding: 5px 13px 5px 5px;
   cursor: pointer;
   opacity: 0.6;
   appearance: none;
@@ -882,6 +882,18 @@ body.honorable-open .honorable-scene {
   border: none;
   outline: none;
   transition: opacity 150ms ease, transform 150ms ease;
+}
+
+/* Honorable Mentions' icons/labels are ~25% bigger than the main
+   screen's, scoped here so the main screen's class-grid is unaffected
+   even though both reuse the same .class-icon/.class-label classes. */
+.honorable-icon-column .class-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.honorable-icon-column .class-label {
+  font-size: 1.06rem;
 }
 
 .honorable-class-btn:hover {
@@ -910,7 +922,7 @@ body.honorable-open .honorable-scene {
   position: absolute;
   top: 14vh;
   bottom: 8vh;
-  max-width: min(360px, 27vw);
+  max-width: min(450px, 27vw);
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -921,8 +933,8 @@ body.honorable-open .honorable-scene {
      shared grid column, so expanding one entry for its video can
      grow just that box without dragging every other box in the list
      along with it. */
-  gap: 8px;
-  padding-right: 6px;
+  gap: 10px;
+  padding-right: 8px;
 }
 
 .honorable-list-fun {
@@ -936,7 +948,7 @@ body.honorable-open .honorable-scene {
 .honorable-placeholder {
   font-family: "Jost", sans-serif;
   font-style: italic;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: var(--gold);
   opacity: 0.8;
 }
@@ -953,12 +965,12 @@ body.honorable-open .honorable-scene {
   position: absolute;
   top: 0;
   left: 0;
-  width: min(320px, 24vw);
+  width: min(400px, 30vw);
   margin: 0;
   text-align: left;
   font-family: "Jost", sans-serif;
   font-style: italic;
-  font-size: calc(1.1rem + 2px);
+  font-size: 1.53rem;
   line-height: 1.6;
   color: var(--parchment);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
@@ -993,17 +1005,17 @@ body.honorable-open .honorable-scene {
 
 .honorable-entry-name {
   width: 100%;
-  height: 40px;
+  height: 50px;
   display: flex;
   align-items: center;
   text-align: left;
   font-family: "Jost", sans-serif;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.19rem;
   color: var(--parchment);
   background: none;
   border: none;
-  padding: 0 12px;
+  padding: 0 15px;
   cursor: pointer;
 }
 
@@ -1021,8 +1033,8 @@ body.honorable-open .honorable-scene {
 .honorable-video-overlay {
   display: none;
   position: fixed;
-  width: 280px;
-  height: 158px;
+  width: 350px;
+  height: 198px;
   z-index: 20;
 }
 
@@ -1043,13 +1055,13 @@ body.honorable-open .honorable-scene {
   left: 50%;
   transform: translateX(-50%);
   font-family: "Jost", sans-serif;
-  font-size: 0.85rem;
+  font-size: 1.06rem;
   letter-spacing: 0.05em;
   color: var(--parchment);
   background: rgba(20, 16, 11, 0.55);
   border: 1px solid var(--gold);
   border-radius: 3px;
-  padding: 8px 18px;
+  padding: 10px 22px;
   cursor: pointer;
   opacity: 0.75;
   transition: opacity 150ms ease, background 150ms ease;

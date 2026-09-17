@@ -81,6 +81,10 @@ the file's first animation and logs a console warning listing that
 file's actual animation names — check DevTools → Console if a
 character is playing the wrong animation. Any class/mode without a
 model file yet shows a dashed placeholder box with the expected path.
+An entry can also set `cameraRadius` (e.g. `"75%"`) to zoom that
+specific model in closer than the default 100% — Warlock/Fun uses this
+to look bigger than the rest. min/max-camera-orbit move together with
+it automatically so the zoom isn't clamped back.
 
 **Morpheus font:** `.lore-text` is set to use "Morpheus" (the
 blackletter-style font used in WoW's UI), which isn't available via
@@ -108,49 +112,36 @@ slides the whole page up and out, replaced by a second scene sliding
 up from below (see `body.honorable-open` in `style.css` for the
 transition). That scene has the same 9 class icons in a vertical
 column down the center — click one to populate a list of names on
-each side ("Fun" on the left, "Skill" on the right). This data lives
-separately from the main `CLASS_DATA`, in `HONORABLE_MENTIONS` further
-down in `script.js`: each class has a `skill` and `fun` array, and you
-can add or remove entries freely — each is just
-`{ name: "...", lore: "...", video: "..." }` (use `video: null` if
-there's no video for that entry yet). Clicking a name expands it in
-place; only one entry per side stays expanded at a time.
+each side ("Fun" on the left, "Skill" on the right), all sharing one
+uniform box width across both lists together (sized to whichever name,
+on either side, is longest). This data lives separately from the main
+`CLASS_DATA`, in `HONORABLE_MENTIONS` further down in `script.js`:
+each class has a `skill` and `fun` array, and you can add or remove
+entries freely — each is just `{ name: "...", lore: "...", video: "..." }`
+(use `video: null` if there's no video for that entry yet).
 
-A video, if set, appears in a single shared, unstyled floating slot
-(no border/background of its own) positioned next to whichever entry
-was just clicked — to the right for a Fun entry, to the left for a
-Skill entry, both opening toward the center of the screen. It's a
-top-level element rather than nested inside either list, so it's
-never clipped by a list's scroll area and never affects any entry's
-position, width, or the layout of the list at all.
+Clicking a name only ever controls the video: if that entry has one,
+it appears in a single shared, unstyled floating slot (no border or
+background of its own) positioned next to whichever entry was clicked
+— to the right for a Fun entry, to the left for a Skill entry, both
+opening toward the center. It's a top-level element rather than
+nested inside either list, so it can never be clipped by a list's
+scroll area, and it never affects any entry's position or width.
 
-Lore, if set, doesn't appear near the entry at all — instead it takes
-over the same note slot used by a class's own `note` (see below): same
-typewriter effect, same style, and positioned next to the icon column
-on the same side as the list it came from (left for Fun, right for
-Skill, matching each list's own side of the screen). This is
-"sticky": clicking a different name without its own lore leaves
-whatever's currently showing there alone; only a name with its own
-lore replaces it. Switching to a different class is what resets this
-back to that class's own ambient note (and also hides the video slot,
-if it was open).
+`lore` on an individual entry currently does nothing on its own —
+lore only ever shows via a class's own `note` field (a sibling of
+`skill` and `fun`, not inside them): free-flowing text shown next to
+the lists the moment you click a class icon, typed out
+letter-by-letter, and vertically aligned with that class's own icon in
+the column. Only Rogue and Mage have one set right now; any class
+without a `note` just shows nothing there. If you want a class's
+honorable-mention lore to actually appear, write (or move) it into
+that class's `note` field.
 
-Every entry's box otherwise stays a fixed, uniform width (sized to
-whichever name in that list is longest) — the "Back" button at the top
-returns to the main scene, and the icon column's left edge is kept
-aligned with the Back button's left edge (computed in JS, since the
-button's width depends on its own text/padding).
-
-A class can also have an optional `note` field (a sibling of `skill`
-and `fun`, not inside them) — free-flowing text shown next to the
-lists, typed out letter-by-letter when a class is selected, and
-vertically aligned with that class's own icon in the column (so it
-reads as sitting "in line with" that icon, not at some arbitrary
-height). Right now only Rogue and Mage have one set; any class without
-a `note` just shows nothing there. This same slot gets temporarily
-taken over by an individual entry's lore when you expand one with lore
-set (see above), and stays that way even across other name clicks
-until you either click a name with its own lore or switch classes.
+The "Back" button at the top returns to the main scene, and the icon
+column's left edge is kept aligned with the Back button's left edge
+(computed in JS, since the button's width depends on its own
+text/padding).
 
 The Honorable Mentions scene has its own background, separate from the
 main screen's per-class ones — search `style.css` for `.honorable-scene`
@@ -169,6 +160,13 @@ On the main screen, the big character name header (e.g. "Bobo",
 "Arthus") is tinted the same way, matching whichever class is
 currently selected — search `style.css` for `body[data-class=` to
 find/adjust these.
+
+Every element on the Honorable Mentions scene (headers, icons, labels,
+entry boxes, the note text, the video slot, the Back button) is sized
+about 25% larger than an earlier version of this scene — done as
+individual font-size/dimension bumps throughout its section of
+`style.css` rather than a single CSS transform, to avoid any risk of
+content clipping at the screen edges.
 
 **Background music:** `audio/wow-login-music.mp3` plays on a loop,
 starting silent and fading in to about a quarter volume over a few
