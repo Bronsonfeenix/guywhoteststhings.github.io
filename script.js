@@ -622,19 +622,52 @@
 
   // Every box across BOTH lists shares one single uniform width, sized
   // to whichever name is longest overall -- not just the longest
-  // within its own side. Run once after both lists are rendered.
+  // within its own side. Deferred to the next frame (rather than
+  // measuring immediately after setting innerHTML) so the browser has
+  // definitely finished laying out the new content first.
+  // The box width is the SAME constant for every class, not
+  // recalculated per class -- otherwise a class with a short longest
+  // name would show narrower boxes than one with a long longest name.
+  // Measured once (lazily, cached) across every name in every class's
+  // skill and fun arrays combined, using a detached element styled
+  // identically to a real entry name so the measurement matches
+  // exactly (same font, weight, padding).
+  let globalEntryBoxWidth = null;
+
+  function computeGlobalEntryBoxWidth() {
+    if (globalEntryBoxWidth !== null) return globalEntryBoxWidth;
+
+    const measurer = document.createElement("button");
+    measurer.className = "honorable-entry-name";
+    measurer.style.position = "absolute";
+    measurer.style.visibility = "hidden";
+    measurer.style.width = "auto";
+    measurer.style.whiteSpace = "nowrap";
+    measurer.style.pointerEvents = "none";
+    document.body.appendChild(measurer);
+
+    let maxWidth = 0;
+    Object.values(HONORABLE_MENTIONS).forEach((classData) => {
+      ["skill", "fun"].forEach((mode) => {
+        (classData[mode] || []).forEach((entry) => {
+          measurer.textContent = entry.name;
+          maxWidth = Math.max(maxWidth, measurer.getBoundingClientRect().width);
+        });
+      });
+    });
+
+    document.body.removeChild(measurer);
+    globalEntryBoxWidth = maxWidth;
+    return globalEntryBoxWidth;
+  }
+
   function applyUniformEntryBoxWidth() {
+    const width = computeGlobalEntryBoxWidth();
     const boxes = document.querySelectorAll(
       "#honorableListFun .honorable-entry-box, #honorableListSkill .honorable-entry-box"
     );
-    if (!boxes.length) return;
-    let maxWidth = 0;
     boxes.forEach((box) => {
-      box.style.width = "auto";
-      maxWidth = Math.max(maxWidth, box.getBoundingClientRect().width);
-    });
-    boxes.forEach((box) => {
-      box.style.width = maxWidth + "px";
+      box.style.width = width + "px";
     });
   }
 
@@ -672,14 +705,23 @@
   // note is purely class-level now (lore no longer varies by side
   // since it's always shown on class selection, not tied to a
   // specific Fun/Skill entry click).
+  // Classes whose note should open to the left of the icon instead of
+  // the default right -- add more class names here if others need it.
+  const NOTE_ON_LEFT = new Set(["hunter"]);
+
   function alignNoteWithIcon(className) {
     if (!honorableNote) return;
     const iconBtn = document.querySelector(`.honorable-class-btn[data-class="${className}"]`);
     if (!iconBtn) return;
     const rect = iconBtn.getBoundingClientRect();
     honorableNote.style.top = rect.top + "px";
-    honorableNote.style.right = "auto";
-    honorableNote.style.left = rect.right + 20 + "px";
+    if (NOTE_ON_LEFT.has(className)) {
+      honorableNote.style.left = "auto";
+      honorableNote.style.right = window.innerWidth - rect.left + 20 + "px";
+    } else {
+      honorableNote.style.right = "auto";
+      honorableNote.style.left = rect.right + 20 + "px";
+    }
   }
 
   // Aligns the icon column's left edge with the "Back" button's left
