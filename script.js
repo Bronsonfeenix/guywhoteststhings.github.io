@@ -74,7 +74,7 @@
     },
     warlock: {
       skill: { name: "Lokilo", text: "", model: "models/warlock-skill.glb", lore: "An actual time traveler, completely cool under pressure with impeccable character control and target selection. What he lacks in flashiness he makes up for in pure cleanliness. 9/10", video: "dPJf4Ocjc-8", animation: "Stand (ID 0 variation 0)" },
-      fun:   { name: "Drakedog", text: "", model: "models/warlock-fun.glb", lore: "Did we mention we're fans of Pathologist? Drakedog, who is probably the most beloved vanilla warlock, having Pathologist edit his video for him was a crossover that came out of nowhere and we're glad it did.", video: "I918N8wUvRs", animation: "Stand (ID 0 variation 0)", cameraRadius: "75%" }
+      fun:   { name: "Drakedog", text: "", model: "models/warlock-fun.glb", lore: "Did we mention we're fans of Pathologist? Drakedog, who is probably the most beloved vanilla warlock, having Pathologist edit his video for him was a crossover that came out of nowhere and we're glad it did.", video: "I918N8wUvRs", animation: "Stand (ID 0 variation 0)", cameraRadius: "56%" }
     },
     druid: {
       skill: { name: "Tfo", text: "", model: "models/druid-skill.glb", lore: "Very solid player, he has an exceptional grasp on how to use the utility and strengths of this versatile class. 7.5/10", video: "aX93zH6wJeM", animation: "Stand" },
@@ -94,7 +94,8 @@
   const HONORABLE_MENTIONS = {
     warrior: {
       skill: [{ name: "Laintime", lore: "People think of Laintime as the godfather of warriors, we remember him as the lone pillar holding up the tuber industry. The people of Felwood thank you, Laintime", video: "LFkSidbQu2o" }],
-      fun: [{ name: "Swifty", lore: "", video: "HUPexEfCG7g" }, { name: "Pat", lore: "", video: "RGBnjELkgok" }, { name: "Maydie", lore: "", video: "SwSR1SHYZRI" }, { name: "Illusion", lore: "", video: "STq43Pxqgc4" }, { name: "Spinister", lore: "", video: "hW8ButI6mns" }, { name: "Hulksmash", lore: "", video: "IAR1CsAXLCw" }, { name: "Xahlior", lore: "", video: "oKQNJL5IL2s" }]
+      fun: [{ name: "Swifty", lore: "", video: "HUPexEfCG7g" }, { name: "Pat", lore: "", video: "RGBnjELkgok" }, { name: "Maydie", lore: "", video: "SwSR1SHYZRI" }, { name: "Illusion", lore: "", video: "STq43Pxqgc4" }, { name: "Spinister", lore: "", video: "hW8ButI6mns" }, { name: "Hulksmash", lore: "", video: "IAR1CsAXLCw" }, { name: "Xahlior", lore: "", video: "oKQNJL5IL2s" }],
+      note: "People think of Laintime as the godfather of warriors, we remember him as the lone pillar holding up the tuber industry. The people of Felwood thank you, Laintime"
     },
     paladin: {
       skill: [{ name: "Chipman", lore: "", video: "b2EfsrD_Mqk" }, { name: "Kirill", lore: "", video: "fhnEhZVzo3I" }],
@@ -102,7 +103,8 @@
     },
     hunter: {
       skill: [{ name: "Biuret", lore: "", video: "m-IzBxFa8yg" }, { name: "Kishra", lore: "", video: "eIW0i5tch1E" }],
-      fun: [{ name: "Fubarius(Huntology)", lore: "Can’t really put this one into words, it’s something that just needs to be experienced. Some (most) will hate it and others will love it, for us however, we definitely believe in immersing ourselves in the dream of the hunt.", video: "k5DdYPLoItU" }]
+      fun: [{ name: "Fubarius(Huntology)", lore: "Can’t really put this one into words, it’s something that just needs to be experienced. Some (most) will hate it and others will love it, for us however, we definitely believe in immersing ourselves in the dream of the hunt.", video: "k5DdYPLoItU" }],
+      note: "Can’t really put this one into words, it’s something that just needs to be experienced. Some (most) will hate it and others will love it, for us however, we definitely believe in immersing ourselves in the dream of the hunt."
     },
     rogue: {
       skill: [{ name: "Dahis", lore: "", video: "VMCDsXwAEK8" }, { name: "Corrupt", lore: "", video: "CkRIrlmQRYQ" }, { name: "Ming", lore: "", video: "aDXXr3ad3is" }, { name: "Happyminti", lore: "", video: "YvQoYMq8_Ng" }, { name: "Oozo", lore: "", video: "1C7Uvt_0oYs" }],
@@ -125,7 +127,8 @@
     },
     warlock: {
       skill: [{ name: "Shining", lore: "Coiling intercepts and smart use of spellstones, Shining is a strong contender for top spot", video: "SqlJUxRd9WU" }, { name: "May", lore: "", video: "fwvpcN72K98" }, { name: "Diivil", lore: "", video: "BV5iAVmiqF8" }],
-      fun: []
+      fun: [],
+      note: "Coiling intercepts and smart use of spellstones, Shining is a strong contender for top spot"
     },
     druid: {
       skill: [{ name: "Unstoppable", lore: "", video: "_QLmuHDy0Qs" }, { name: "Azgaz", lore: "", video: "xlXOnYi5tAU" }],
@@ -463,16 +466,28 @@
           // and resume it once the video stops -- but only if the
           // music was actually playing (and not paused for some other
           // reason, e.g. the visitor's own pause button) when the
-          // video started.
+          // video started. Resuming waits a beat rather than firing
+          // immediately: skipping through a video fires brief
+          // BUFFERING/PAUSED states between seeks, and without a
+          // delay the music would blip back in during every one of
+          // those instead of only when playback actually stops.
           if (bgMusic) {
             if (isPlaying) {
+              if (resumeMusicTimer) {
+                clearTimeout(resumeMusicTimer);
+                resumeMusicTimer = null;
+              }
               if (!bgMusic.paused) {
                 bgMusic.pause();
                 pausedForVideo = true;
               }
             } else if (pausedForVideo) {
-              bgMusic.play().catch(() => {});
-              pausedForVideo = false;
+              if (resumeMusicTimer) clearTimeout(resumeMusicTimer);
+              resumeMusicTimer = setTimeout(() => {
+                bgMusic.play().catch(() => {});
+                pausedForVideo = false;
+                resumeMusicTimer = null;
+              }, 1500);
             }
           }
         }
@@ -779,14 +794,11 @@
 
   let currentHonorableClass = null;
 
-  const honorableScene = document.getElementById("honorableScene");
-
   honorableClassButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       honorableClassButtons.forEach((b) => b.classList.toggle("active", b === btn));
       currentHonorableClass = btn.dataset.class;
       hideVideoOverlay();
-      if (honorableScene) honorableScene.dataset.honorableClass = currentHonorableClass;
       renderHonorableLists(currentHonorableClass);
     });
   });
@@ -839,6 +851,7 @@
   const MUSIC_FADE_IN_DURATION_MS = 4000;
   let userAdjustedVolume = false;
   let pausedForVideo = false;
+  let resumeMusicTimer = null;
 
   function fadeInMusic() {
     if (!bgMusic) return;
@@ -942,6 +955,10 @@
       } else {
         bgMusic.pause();
         pausedForVideo = false; // manual pause -- don't auto-resume this later
+        if (resumeMusicTimer) {
+          clearTimeout(resumeMusicTimer);
+          resumeMusicTimer = null;
+        }
       }
       scheduleCollapse();
     });

@@ -149,17 +149,11 @@ for the comment showing how to point it at an image. It's one image
 for the whole scene (not per-class), and shows a solid dark color
 until you set one.
 
-Selecting a class in Honorable Mentions also tints the entry backdrops
-(only the boxes behind the names, at 45% opacity) with that class's
-official WoW color — search `style.css` for `data-honorable-class` to
-find/adjust these. Entry names themselves and the "Skill"/"Fun" header
-labels aren't tinted. Before any class is picked, the backdrops fall
-back to their normal neutral color.
-
 On the main screen, the big character name header (e.g. "Bobo",
-"Arthus") is tinted the same way, matching whichever class is
-currently selected — search `style.css` for `body[data-class=` to
-find/adjust these.
+"Arthus") is tinted to match the currently selected class's official
+WoW color — search `style.css` for `body[data-class=` to find/adjust
+these. (Honorable Mentions' entry boxes are plain now — that tinting
+was tried and then removed.)
 
 Every element on the Honorable Mentions scene (headers, icons, labels,
 entry boxes, the note text, the video slot, the Back button) is sized
@@ -182,7 +176,11 @@ seconds after the last interaction with either control. Once a
 visitor touches the slider, the auto fade-in stops adjusting the
 volume for them so their choice sticks. The music also automatically
 pauses itself while the main video player is actually playing, and
-resumes when the video stops — unless the visitor paused the music
+resumes 1.5 seconds after the video stops — that short delay is
+deliberate: skipping/seeking through a video fires brief
+buffering/paused states between seeks, and without the delay the music
+would blip back in during every one of those instead of only when
+playback genuinely stops. Unless the visitor paused the music
 manually, in which case it stays paused either way. (This only applies
 to the main video player, which has real play/state detection via the
 YouTube API; the plain-iframe videos inside Honorable Mentions entries
