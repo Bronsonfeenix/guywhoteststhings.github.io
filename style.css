@@ -308,7 +308,7 @@ body.honorable-open .scene {
   background-color: #14110d;
   background-size: cover;
   background-position: center;
-  background-image: url("images/honorablementions.jpg");
+  background-image: url("images/honorablementions.png");
   /* ---- To set a background image for this whole scene, add an
      image and point this at it, e.g.:
      .honorable-scene {
