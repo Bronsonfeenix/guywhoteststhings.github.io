@@ -1,3 +1,46 @@
+# Site Structure
+
+`index.html` is now the homepage: a 3-column expansion picker (The
+Burning Crusade / World of Warcraft / Wrath of the Lich King). Clicking
+the middle (Vanilla) column takes you to `character-select.html` —
+everything described below, which used to be `index.html`, still lives
+there unchanged. The other two columns are placeholders and don't go
+anywhere yet.
+
+**Homepage files:**
+- `index.html` — the 3-column picker's structure
+- `home.css` — its styling (hover/focus effects: dims and desaturates
+  the other two columns, widens and gold-borders whichever one you're
+  on)
+- `home.js` — wires up navigation (only Vanilla goes anywhere) and the
+  hover music crossfade described below
+- `images/expansions/` — the three background images
+  (`burning-crusade.jpg`, `vanilla.png`, `wrath.png`) and the three
+  logo images (`logo-bc.png`, `logo-vanilla.png`, `logo-wrath.png`)
+- `audio/burning-crusade-music.mp3`, `audio/wow-login-music.mp3`,
+  `audio/wrath-music.mp3` — each expansion's own login theme
+
+To make Burning Crusade or Wrath actually lead somewhere later: give
+that column's `<button>` an `href`-equivalent by updating the click
+handler in `home.js` the same way Vanilla's works (`window.location.href
+= "..."`), once there's a page for it to go to.
+
+**Hover music:** hovering a column plays that expansion's own login
+theme, capped at 20% volume. Switching to a different column crossfades
+— whichever track was playing fades out over 2 seconds while the new
+one fades in over 2 seconds, at the same time; moving the mouse off all
+three fades the current one out and stops it. Switching again before a
+fade finishes doesn't restart from silence — each track's fade just
+continues smoothly from whatever volume it's actually at, reversing
+direction as needed. Browsers generally only allow audio to start as a
+direct result of a real interaction (a click, a keypress, a tap) —
+hovering doesn't count on its own, so the very first hover of a visit,
+before any such interaction, may not produce sound; the code "unlocks"
+playback for the rest of the visit the moment any real interaction
+happens anywhere on the page, after which hovering works normally. The
+Wrath track is a large file (~21MB) if load time on that column's first
+hover ever feels sluggish, worth compressing.
+
 # Character Select Page
 
 A character-select-style landing page: pick a class from the row of 9
@@ -7,7 +50,8 @@ in a second, different set of the same for whichever class is
 currently selected.
 
 ## Files
-- `index.html` — structure
+- `character-select.html` — structure (this was `index.html` before
+  the homepage above was added)
 - `style.css` — styling, including one background theme per class/mode
   and the class icon row
 - `script.js` — `CLASS_DATA` (all the names, lore, videos, models, and
@@ -110,39 +154,36 @@ compressed (see below) matters more than it otherwise would.
 **Honorable Mentions:** the button at the bottom of the main screen
 slides the whole page up and out, replaced by a second scene sliding
 up from below (see `body.honorable-open` in `style.css` for the
-transition). That scene has the same 9 class icons in a vertical
-column down the center — click one to populate a list of names on
-each side ("Fun" on the left, "Skill" on the right), all sharing one
-uniform box width across both lists together (sized to whichever name,
-on either side, is longest). This data lives separately from the main
-`CLASS_DATA`, in `HONORABLE_MENTIONS` further down in `script.js`:
-each class has a `skill` and `fun` array, and you can add or remove
-entries freely — each is just `{ name: "...", lore: "...", video: "..." }`
-(use `video: null` if there's no video for that entry yet).
+transition). That scene has the same 9 class icons in a horizontal row
+near the bottom, centered — click one to populate a list of names on
+each side ("Fun" on the left, "Skill" on the right; those two badges
+themselves now sit at the bottom corners, just above the volume
+button), all sharing one uniform box width across both lists together
+(sized to whichever name, on either side, is longest). This data lives
+separately from the main `CLASS_DATA`, in `HONORABLE_MENTIONS` further
+down in `script.js`: each class has a `skill` and `fun` array, and you
+can add or remove entries freely — each is just
+`{ name: "...", lore: "...", video: "..." }` (use `video: null` if
+there's no video for that entry yet).
 
 Clicking a name only ever controls the video: if that entry has one,
-it appears in a single shared, unstyled floating slot (no border or
-background of its own, sized the same as the main screen's video
-player) positioned next to whichever entry was clicked — to the right
-for a Fun entry, to the left for a Skill entry, both opening toward
-the center. It's a top-level element rather than nested inside either
-list, so it can never be clipped by a list's scroll area, and it never
-affects any entry's position or width.
+it appears in a single shared, unstyled slot centered on screen (no
+border or background of its own, sized bigger than the main screen's
+player since it now has the middle of the scene to itself). It's a
+top-level element rather than nested inside either list, so it can
+never be clipped by a list's scroll area, and it never affects any
+entry's position or width.
 
 `lore` on an individual entry currently does nothing on its own —
 lore only ever shows via a class's own `note` field (a sibling of
-`skill` and `fun`, not inside them): free-flowing text shown next to
-the lists the moment you click a class icon, typed out
-letter-by-letter, and vertically aligned with that class's own icon in
-the column. Only Rogue and Mage have one set right now; any class
-without a `note` just shows nothing there. If you want a class's
-honorable-mention lore to actually appear, write (or move) it into
-that class's `note` field.
+`skill` and `fun`, not inside them): free-flowing text shown centered
+just above the icon row, with a slight dark backdrop for legibility,
+typed out letter-by-letter the moment you click a class icon. Only
+Rogue and Mage have one set right now; any class without a `note` just
+shows nothing there. If you want a class's honorable-mention lore to
+actually appear, write (or move) it into that class's `note` field.
 
-The "Back" button at the top returns to the main scene, and the icon
-column's left edge is kept aligned with the Back button's left edge
-(computed in JS, since the button's width depends on its own
-text/padding).
+The "Back" button stays at the top and returns to the main scene.
 
 The Honorable Mentions scene has its own background, separate from the
 main screen's per-class ones — search `style.css` for `.honorable-scene`
@@ -194,9 +235,10 @@ in `index.html` if you rename it).
 ## Deploying to GitHub Pages
 
 1. Create a new GitHub repository (or use an existing one).
-2. Add `index.html`, `style.css`, `script.js`, and the `models/`,
-   `icons/`, `images/`, and `fonts/` folders to the repo root — or into
-   a `/docs` folder if you prefer.
+2. Add `index.html`, `home.css`, `home.js`, `character-select.html`,
+   `style.css`, `script.js`, and the `models/`, `icons/`, `images/`
+   (including its `expansions/` subfolder), `fonts/`, and `audio/`
+   folders to the repo root — or into a `/docs` folder if you prefer.
 3. Commit and push.
 4. In the repo, go to **Settings → Pages**.
 5. Under "Build and deployment", set **Source** to "Deploy from a

@@ -838,14 +838,17 @@ body.honorable-open .honorable-scene {
 
 .honorable-header {
   position: absolute;
-  top: 4vh;
+  bottom: 9vh;
   margin: 0;
   font-family: "Jost", sans-serif;
   font-weight: 700;
-  font-size: clamp(2rem, 3vw, 2.75rem);
-  letter-spacing: 0.04em;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
   color: var(--gold-bright);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+  background: rgba(20, 16, 11, 0.55);
+  border: 1px solid var(--gold);
+  border-radius: 3px;
+  padding: 8px 20px;
 }
 
 .honorable-header-fun {
@@ -858,22 +861,24 @@ body.honorable-open .honorable-scene {
 
 .honorable-icon-column {
   position: absolute;
-  top: 50%;
+  bottom: 15vh;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
   z-index: 2;
 }
 
 .honorable-class-btn {
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 13px;
-  padding: 5px 13px 5px 5px;
+  gap: 6px;
+  padding: 5px;
   cursor: pointer;
   opacity: 0.6;
   appearance: none;
@@ -915,7 +920,7 @@ body.honorable-open .honorable-scene {
 
 .honorable-class-btn .class-label {
   font-size: 0.85rem;
-  text-align: left;
+  text-align: center;
 }
 
 .honorable-list {
@@ -953,27 +958,28 @@ body.honorable-open .honorable-scene {
   opacity: 0.8;
 }
 
-/* Free-flowing text next to the lists, for classes with a "note" set
-   in HONORABLE_MENTIONS (currently Rogue and Mage). "top" and "left"
-   are set as inline styles by script.js to match the icon's own row
-   in the vertical column (see alignNoteWithIcon()) -- top-anchored so
-   the text grows downward as it's typed rather than expanding upward
-   from a vertical center. Hidden entirely (via JS toggling
-   ".visible") for classes without a note. */
+/* Free-flowing lore text, shown for classes with a "note" set in
+   HONORABLE_MENTIONS. Sits centered, just above the icon row, with a
+   slight dark backdrop so it stays legible over any background.
+   Hidden entirely (via JS toggling ".visible") for classes without a
+   note. */
 .honorable-note {
   display: none;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: min(400px, 30vw);
+  bottom: 24vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(700px, 60vw);
   margin: 0;
-  text-align: left;
+  text-align: center;
   font-family: "Jost", sans-serif;
   font-style: italic;
-  font-size: 1.53rem;
+  font-size: 1.3rem;
   line-height: 1.6;
   color: var(--parchment);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.95);
+  background: rgba(8, 6, 4, 0.55);
+  border-radius: 6px;
+  padding: 16px 24px;
   z-index: 2;
 }
 
@@ -1023,19 +1029,17 @@ body.honorable-open .honorable-scene {
   color: var(--gold-bright);
 }
 
-/* Free-floating video slot -- genuinely unstyled (no border,
-   background, or shadow), positioned via inline "top"/"left"/"right"
-   set in JS (see showVideoOverlay in script.js) to sit right next to
-   whichever entry was clicked. Being a single top-level element
-   outside the scrollable lists means it can never be clipped by a
-   list's own overflow, and expanding/collapsing it never affects any
-   entry's position. */
-/* Same size as the main screen's .video-stage player, for visual
-   consistency between the two. */
+/* Centered on screen, sized noticeably bigger than the main page's
+   player since it now has the whole middle of the scene to itself.
+   16:9 is still the sensible aspect ratio here since these are all
+   YouTube embeds either way. */
 .honorable-video-overlay {
   display: none;
   position: fixed;
-  width: min(560px, 32vw);
+  top: 38vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(760px, 50vw);
   aspect-ratio: 16 / 9;
   z-index: 20;
 }
@@ -1079,13 +1083,14 @@ body.honorable-open .honorable-scene {
   .honorable-header {
     position: static;
     text-align: center;
-    margin-top: 12px;
+    margin: 8px auto;
+    display: inline-block;
   }
   .honorable-icon-column {
     position: static;
     transform: none;
     margin: 12px auto;
-    align-items: center;
+    justify-content: center;
   }
   .honorable-list {
     position: static;
@@ -1094,6 +1099,12 @@ body.honorable-open .honorable-scene {
     max-height: 22vh;
   }
   .honorable-note {
+    position: static;
+    transform: none;
+    width: 90vw;
+    margin: 0 auto 12px;
+  }
+  .honorable-video-overlay {
     position: static;
     transform: none;
     width: 90vw;
