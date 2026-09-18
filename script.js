@@ -21,11 +21,6 @@
   const honorableListSkill = document.getElementById("honorableListSkill");
   const honorableNote = document.getElementById("honorableNote");
   const honorableVideoOverlay = document.getElementById("honorableVideoOverlay");
-  const bgMusic = document.getElementById("bgMusic");
-  const audioControl = document.getElementById("audioControl");
-  const audioBtn = document.getElementById("audioBtn");
-  const volumeSlider = document.getElementById("volumeSlider");
-  const audioPauseBtn = document.getElementById("audioPauseBtn");
 
   // ---------------------------------------------------------------
   // PLACEHOLDER DATA -- some of this is still meant to be filled in.
@@ -38,29 +33,25 @@
   // placeholder box until you add one, no code changes needed.
   // ---------------------------------------------------------------
   const CLASS_DATA = {
-    druid: {
-      skill: { name: "Tfo", text: "", model: "models/druid-skill.glb", lore: "Very solid player, he has an exceptional grasp on how to use the utility and strengths of this versatile class. 7.5/10", video: "aX93zH6wJeM", animation: "Stand" },
-      fun:   { name: "N E V E R ", text: "", model: "models/druid-fun.glb", lore: "You thought druids were weak in vanilla? Ferahgo and Boro came together to show you otherwise.", video: "J7DN_w0LQUI", animation: "Stand" }
-    },
-    hunter: {
-      skill: { name: "Junglle", text: "", model: "models/hunter-skill.glb", lore: "Some decent kiting here, especially given that he's clicking the majority of his spells. In comparison to every hunter PvP video (sorry Dysphoria) we've come across might as well be a god. 5/10", video: "QrXL4bxtymk", animation: "Stand" },
-      fun:   { name: "Dysphoria", text: "", model: "models/hunter-fun.glb", lore: " A completely fresh soundtrack for the time and a mental that says nothing is impossible Hunter Vs. World is an all time classic series.", video: "7XgF_P9Ddjk", animation: "Stand" }
-    },
-    mage: {
-      skill: { name: "Clazzi", text: "", model: "models/mage-skill.glb", lore: "Crispy movement, cooldown management and a complete confidence in his actions. Perhaps the first known recording of a dirty pop, the opening 1vX is one of the best recorded vanilla fights of all time. 9.5/10", video: "3_Tr5aklJ6U", animation: "Stand (ID 0 variation 0)" },
-      fun:   { name: "Pathologist", text: "", model: "models/mage-fun.glb", lore: "By far the most unique and creative visual style, Pathologist (Dyf1.6) saw the potential for PvP videos to be more than crit showcases and unedited BG footage, he wanted to make art, not just in video form as half of his soundtracks are his own songs. Had God blessed him with the PvP skill of a Clazzi, he'd be the only name on this list. ", video: "0ZNAWoYEras", animation: "Stand (ID 0 variation 0)", cameraRadius: "75%" }
+    warrior: {
+      skill: { name: "Bobo", text: "", model: "models/warrior-skill.glb", lore: "The rest of the skilled section were picked for their individual skill, Bobo however was picked because the demons he chose to fight could have made it to this list on their own (one of them did). By far the cleanest and most impressive warrior at the time, you could easily believe some of these duels were recorded yesterday and not 20 years ago. 9/10", video: "23MOz4cc0Uk", animation: "Stand", cameraRadius: "85%"  },
+      fun:   { name: "S&Q Inc Group PVP", text: "", model: "models/warrior-fun.glb", lore: "One of the classiest PvP videos in all of vanilla, the editing, the soundtrack and the 2vX lens they filmed through, S&Q Inc is nothing if not fun. A shoutout to Wheeliecool & Champ for a similar vibe but for us it's gotta be S&Q Inc.", video: "sHJS1bqu6yw", animation: "Stand" }
     },
     paladin: {
       skill: { name: "Arthus", text: "", model: "models/paladin-skill.glb", lore: " Is friends with bobo 6/10", video: "S9XitQA-dkE", animation: "Stand" },
       fun:   { name: "Zalgradis", text: "", model: "models/paladin-fun.glb", lore: "Sketches, engineering, bad voice acting, and a unique playstyle come together in a love letter full of references to other videos of the era", video: "NOXrGmulbMk", animation: "Stand" }
     },
-    priest: {
-      skill: { name: "There are no good priests apparently", text: "", model: "models/priest-skill.glb", lore: "There are no good priests apparently", video: "X9737mnPejQ", animation: "Stand" },
-      fun:   { name: "Beckon", text: "", model: "models/priest-fun.glb", lore: "is the Hulksmash of holy priests, sit back, relax, and watch this man cast a 40 second holy fire to take someones head off", video: "x_EgBtUtWBM", animation: "Stand (ID 0 variation 0)" }
-    },  
+    hunter: {
+      skill: { name: "Junglle", text: "", model: "models/hunter-skill.glb", lore: "Some decent kiting here, especially given that he's clicking the majority of his spells. In comparison to every hunter PvP video (sorry Dysphoria) we've come across might as well be a god. 5/10", video: "QrXL4bxtymk", animation: "Stand" },
+      fun:   { name: "Dysphoria", text: "", model: "models/hunter-fun.glb", lore: " A completely fresh soundtrack for the time and a mental that says nothing is impossible Hunter Vs. World is an all time classic series.", video: "7XgF_P9Ddjk", animation: "Stand" }
+    },
     rogue: {
       skill: { name: "Cielz", text: "", model: "models/rogue-skill.glb", lore: "The intro promises a lot, the subsequent 19 minutes delivers on some. Early attempts at 5-8ing warriors, a healthy trigger discipline on their cooldowns and a willingness to take on 1vX's. On top of it all he's a swirly ball enjoyer. Definitely check out the rogue honourable mentions as this was an incredibly close competition. 7.5/10", video:"qN9GtoGnTxc", animation: "Stand" },
       fun:   { name: "Mute (World of Roguecraft)", text: "", model: "models/rogue-fun.glb", lore: "The most influential vanilla PvP videos of all time, if you ever saw someone trying to flex on their enemies while naked, it's probably because of mute. (Released in reverse order, episode 3 was the first in the series)", video: "bqx1CFomKMI", animation: "Stand (ID 0 variation 0)" }
+    },
+    priest: {
+      skill: { name: "There are no good priests apparently", text: "", model: "models/priest-skill.glb", lore: "There are no good priests apparently", video: "X9737mnPejQ", animation: "Stand" },
+      fun:   { name: "Beckon", text: "", model: "models/priest-fun.glb", lore: "is the Hulksmash of holy priests, sit back, relax, and watch this man cast a 40 second holy fire to take someones head off", video: "x_EgBtUtWBM", animation: "Stand (ID 0 variation 0)" }
     },
     shaman: {
       skill: { name: "Nimhabulove", text: "", model: "models/shaman-skill.glb", lore: "Between totems, shocks, healing and damaging spells shaman has a lot of tools at its disposal, our guy said nah, not enough, and added some engi to this toolkit. Grounding coils, reflecting fears and stunlocking with tidal/nades, there are definite moments in his video that earn him a spot on this page. 6/10", video: "qxMSzBxxesk", animation: "Stand" },
@@ -71,15 +62,18 @@
         ]
       }
     },
+    mage: {
+      skill: { name: "Clazzi", text: "", model: "models/mage-skill.glb", lore: "Crispy movement, cooldown management and a complete confidence in his actions. Perhaps the first known recording of a dirty pop, the opening 1vX is one of the best recorded vanilla fights of all time. 9.5/10", video: "3_Tr5aklJ6U", animation: "Stand (ID 0 variation 0)" },
+      fun:   { name: "Pathologist", text: "", model: "models/mage-fun.glb", lore: "By far the most unique and creative visual style, Pathologist (Dyf1.6) saw the potential for PvP videos to be more than crit showcases and unedited BG footage, he wanted to make art, not just in video form as half of his soundtracks are his own songs. Had God blessed him with the PvP skill of a Clazzi, he'd be the only name on this list. ", video: "0ZNAWoYEras", animation: "Stand (ID 0 variation 0)", cameraRadius: "75%"  }
+    },
     warlock: {
-      skill: { name: "Lokilo", text: "", model: "models/warlock-skill.glb", lore: "An actual time traveler, completely cool under pressure with impeccable character control and target selection. What he lacks in flashiness he makes up for in pure cleanliness. 9/10", video: "dPJf4Ocjc-8", animation: "Stand (ID 0 variation 0)", cameraRadius: "70%" },
+      skill: { name: "Lokilo", text: "", model: "models/warlock-skill.glb", lore: "An actual time traveler, completely cool under pressure with impeccable character control and target selection. What he lacks in flashiness he makes up for in pure cleanliness. 9/10", video: "dPJf4Ocjc-8", animation: "Stand (ID 0 variation 0)", cameraRadius: "70%"  },
       fun:   { name: "Drakedog", text: "", model: "models/warlock-fun.glb", lore: "Did we mention we're fans of Pathologist? Drakedog, who is probably the most beloved vanilla warlock, having Pathologist edit his video for him was a crossover that came out of nowhere and we're glad it did.", video: "I918N8wUvRs", animation: "Stand (ID 0 variation 0)", cameraRadius: "40%" }
     },
-    warrior: {
-      skill: { name: "Bobo", text: "", model: "models/warrior-skill.glb", lore: "The rest of the skilled section were picked for their individual skill, Bobo however was picked because the demons he chose to fight could have made it to this list on their own (one of them did). By far the cleanest and most impressive warrior at the time, you could easily believe some of these duels were recorded yesterday and not 20 years ago. 9/10", video: "23MOz4cc0Uk", animation: "Stand", cameraRadius: "85%" },
-      fun:   { name: "S&Q Inc Group PVP", text: "", model: "models/warrior-fun.glb", lore: "One of the classiest PvP videos in all of vanilla, the editing, the soundtrack and the 2vX lens they filmed through, S&Q Inc is nothing if not fun. A shoutout to Wheeliecool & Champ for a similar vibe but for us it's gotta be S&Q Inc.", video: "sHJS1bqu6yw", animation: "Stand" }
+    druid: {
+      skill: { name: "Tfo", text: "", model: "models/druid-skill.glb", lore: "Very solid player, he has an exceptional grasp on how to use the utility and strengths of this versatile class. 7.5/10", video: "aX93zH6wJeM", animation: "Stand" },
+      fun:   { name: "N E V E R ", text: "", model: "models/druid-fun.glb", lore: "You thought druids were weak in vanilla? Ferahgo and Boro came together to show you otherwise.", video: "J7DN_w0LQUI", animation: "Stand" }
     }
-    
   };
 
   // ---------------------------------------------------------------
@@ -121,7 +115,7 @@
       fun: [{ name: "Arashmano", lore: "", video: "8-w9Wl8v6ZA" }]
     },
     mage: {
-      skill: [{ name: "Drifting", lore: "Epac has a very bright mind and is full of great ideas", video: "VXh_kZZ-GQo" }, { name: "Zachary", lore: "", video: "ohTYLIi1ghY" }, { name: "Gameking", lore: "", video: "RfY8Egsd6C8" }, { name: "Alca", lore: "", video: "MMnmuU8mOsw" }, { name: "Vurtne", lore: "", video: "k5Wieh9MMmc" }],
+      skill: [{ name: "Drifting", lore: "", video: "VXh_kZZ-GQo" }, { name: "Zachary", lore: "", video: "ohTYLIi1ghY" }, { name: "Gameking", lore: "", video: "RfY8Egsd6C8" }, { name: "Alca", lore: "", video: "MMnmuU8mOsw" }, { name: "Vurtne", lore: "", video: "k5Wieh9MMmc" }],
       fun: [{ name: "Zelta", lore: "", video: "WYSbkW__6MI" }, { name: "Faxmonkey", lore: "", video: "3O_pNDc73MM" }, { name: "Voidim", lore: "", video: "fSn46eGGW7s" }, { name: "Otherguy(Sorrow Hill)", lore: "", video: "2FwMRW1ra0E" }],
       note: "Both Zachary and Drifiting get extra special mentions as standouts, Clazzi is just a cut above everyone else"
     },
@@ -461,7 +455,6 @@
           if (!videoStage || !window.YT) return;
           const isPlaying = event.data === YT.PlayerState.PLAYING;
           videoStage.classList.toggle("playing", isPlaying);
-          handleVideoPlayingChange(isPlaying);
         }
       }
     });
@@ -470,9 +463,7 @@
   // ---------------------------------------------------------------
   // A second, separate YouTube player for the Honorable Mentions
   // video slot -- using the real API (rather than a plain iframe)
-  // here too so its play state can drive the same music-ducking
-  // behavior as the main video player, via the shared
-  // handleVideoPlayingChange() above.
+  // here too, for consistency with the main video player.
   // ---------------------------------------------------------------
   let honorableYtPlayer = null;
   let honorablePendingVideoId = null;
@@ -493,10 +484,6 @@
             honorableYtPlayer.cueVideoById(honorablePendingVideoId);
             honorablePendingVideoId = null;
           }
-        },
-        onStateChange: (event) => {
-          if (!window.YT) return;
-          handleVideoPlayingChange(event.data === YT.PlayerState.PLAYING);
         }
       }
     });
@@ -682,54 +669,13 @@
     });
   }
 
-  let typewriterTimer = null;
-
-  function stopTypewriter() {
-    if (typewriterTimer) {
-      clearInterval(typewriterTimer);
-      typewriterTimer = null;
-    }
-  }
-
-  // Reveals text one character at a time, like it's being typed.
-  function typeWriterEffect(el, text) {
-    stopTypewriter();
-    el.textContent = "";
-    el.classList.add("typing");
-    let i = 0;
-    typewriterTimer = setInterval(() => {
-      el.textContent += text.charAt(i);
-      i++;
-      if (i >= text.length) {
-        stopTypewriter();
-        el.classList.remove("typing");
-      }
-    }, 23);
-  }
-
-  // Positions the note to start at the same row as the given class's
-  // own icon in the vertical column, immediately to its right --
-  // "next to the icon" rather than centered on screen. Top-anchored
-  // (not vertically centered) so multi-line text grows downward from
-  // that row instead of expanding upward over the icons above it.
-  // Positions the note to the right of the given class's icon -- the
-  // Shows the given class's own "note" (if it has one) in the shared
-  // note slot above the icon row -- this is the default state, shown
-  // whenever no honorable-mention entry's lore is currently
-  // overriding it (see the expand/collapse handler below). Position
-  // is fixed via CSS now (centered above the icon row), so nothing
-  // needs computing here.
-  function showClassNote(className) {
-    const data = HONORABLE_MENTIONS[className];
-    if (!honorableNote || !data) return;
-    stopTypewriter();
-    if (data.note) {
-      honorableNote.classList.add("visible");
-      typeWriterEffect(honorableNote, data.note);
-    } else {
-      honorableNote.textContent = "";
-      honorableNote.classList.remove("visible", "typing");
-    }
+  // Positions the note to the right of the given class's icon.
+  // Hides the lore note box -- shared by "no entry selected yet",
+  // "switched to a different class", and "this entry has no lore".
+  function hideLoreNote() {
+    if (!honorableNote) return;
+    honorableNote.textContent = "";
+    honorableNote.classList.remove("visible");
   }
 
   function renderHonorableLists(className) {
@@ -738,7 +684,7 @@
     renderHonorableList(honorableListFun, data.fun);
     renderHonorableList(honorableListSkill, data.skill);
     applyUniformEntryBoxWidth();
-    showClassNote(className);
+    hideLoreNote(); // no character selected yet in the newly-picked class
   }
 
   // The video slot is centered on screen via CSS now, so showing it
@@ -765,9 +711,9 @@
 
   // Expand/collapse entries via event delegation, since the list
   // contents are rebuilt from scratch every time a class is picked.
-  // Names only ever control the video slot now -- lore lives entirely
-  // in the class-level "note" (see showClassNote), shown the moment
-  // you click a class icon rather than requiring a name click too.
+  // Clicking a name controls both the video slot and the lore note
+  // box -- each entry's own "lore" field, not a class-level ambient
+  // note, drives what shows in that box now.
   [honorableListFun, honorableListSkill].forEach((list) => {
     if (!list) return;
     const sideKey = list === honorableListFun ? "fun" : "skill";
@@ -783,6 +729,7 @@
 
       if (alreadyOpen) {
         hideVideoOverlay();
+        hideLoreNote();
         return;
       }
 
@@ -795,6 +742,14 @@
         showVideoOverlay(entryData.video);
       } else {
         hideVideoOverlay();
+      }
+
+      const entryLore = entryData && entryData.lore && entryData.lore.trim();
+      if (entryLore) {
+        honorableNote.textContent = entryLore;
+        honorableNote.classList.add("visible");
+      } else {
+        hideLoreNote();
       }
     });
   });
@@ -823,210 +778,6 @@
     });
   }
 
-  // ---------------------------------------------------------------
-  // Background music. Starts silent, then fades in over a few
-  // seconds once playback actually begins. Browsers generally block
-  // audio-with-sound from autoplaying until the visitor has
-  // interacted with the page in some way, so this tries to play
-  // immediately, and if that's blocked, waits for the first click,
-  // keypress, or touch anywhere on the page and tries again then --
-  // the fade-in timing is the same either way, just measured from
-  // whenever playback actually manages to start rather than from
-  // page load.
-  // ---------------------------------------------------------------
-  const MUSIC_TARGET_VOLUME = 0.25;
-  const MUSIC_FADE_IN_DELAY_MS = 3000;
-  const MUSIC_FADE_IN_DURATION_MS = 4000;
-  const MUSIC_RESUME_DELAY_MS = 3000;
-  const MUSIC_RESUME_FADE_MS = 600;
-  let userAdjustedVolume = false;
-  let pausedForVideo = false;
-  let resumeMusicTimer = null;
-
-  // Smoothly fades back up to whatever volume the music was at before
-  // it got paused (pause doesn't change .volume, so that level is
-  // still sitting there) rather than snapping straight back to it.
-  function resumeMusicWithFade() {
-    if (!bgMusic) return;
-    const targetVolume = bgMusic.volume > 0 ? bgMusic.volume : MUSIC_TARGET_VOLUME;
-    bgMusic.volume = 0;
-    bgMusic.play().catch(() => {});
-    let start = null;
-    function step(timestamp) {
-      if (start === null) start = timestamp;
-      const progress = Math.min((timestamp - start) / MUSIC_RESUME_FADE_MS, 1);
-      bgMusic.volume = progress * targetVolume;
-      if (volumeSlider) volumeSlider.value = bgMusic.volume;
-      if (progress < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-
-  // Shared by both video players (the main one and the Honorable
-  // Mentions one) -- pauses music the instant a video starts playing,
-  // and resumes it (with a fade) a few seconds after it stops. The
-  // delay matters: skipping/seeking through a video fires brief
-  // BUFFERING/PAUSED states between seeks, and without it the music
-  // would blip back in during every one of those instead of only when
-  // playback genuinely stops.
-  function handleVideoPlayingChange(isPlaying) {
-    if (!bgMusic) return;
-    if (isPlaying) {
-      if (resumeMusicTimer) {
-        clearTimeout(resumeMusicTimer);
-        resumeMusicTimer = null;
-      }
-      if (!bgMusic.paused) {
-        bgMusic.pause();
-        pausedForVideo = true;
-      }
-    } else if (pausedForVideo) {
-      if (resumeMusicTimer) clearTimeout(resumeMusicTimer);
-      resumeMusicTimer = setTimeout(() => {
-        resumeMusicWithFade();
-        pausedForVideo = false;
-        resumeMusicTimer = null;
-      }, MUSIC_RESUME_DELAY_MS);
-    }
-  }
-
-  function fadeInMusic() {
-    if (!bgMusic) return;
-    let start = null;
-    function step(timestamp) {
-      if (userAdjustedVolume) return; // visitor took the slider -- stop overriding it
-      if (start === null) start = timestamp;
-      const progress = Math.min((timestamp - start) / MUSIC_FADE_IN_DURATION_MS, 1);
-      bgMusic.volume = progress * MUSIC_TARGET_VOLUME;
-      if (volumeSlider) volumeSlider.value = bgMusic.volume;
-      if (progress < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-
-  function startMusic() {
-    if (!bgMusic) return;
-    const playPromise = bgMusic.play();
-    if (playPromise === undefined) {
-      setTimeout(fadeInMusic, MUSIC_FADE_IN_DELAY_MS);
-      return;
-    }
-    playPromise
-      .then(() => {
-        setTimeout(fadeInMusic, MUSIC_FADE_IN_DELAY_MS);
-      })
-      .catch(() => {
-        const resumeOnInteraction = () => {
-          document.removeEventListener("click", resumeOnInteraction);
-          document.removeEventListener("keydown", resumeOnInteraction);
-          document.removeEventListener("touchstart", resumeOnInteraction);
-          bgMusic
-            .play()
-            .then(() => setTimeout(fadeInMusic, MUSIC_FADE_IN_DELAY_MS))
-            .catch(() => {});
-        };
-        document.addEventListener("click", resumeOnInteraction);
-        document.addEventListener("keydown", resumeOnInteraction);
-        document.addEventListener("touchstart", resumeOnInteraction);
-      });
-  }
-
-  if (bgMusic) {
-    bgMusic.volume = 0;
-    startMusic();
-  }
-
-  // Collapses the slider automatically 3 seconds after it was opened
-  // or last interacted with, rather than staying open indefinitely.
-  let collapseTimer = null;
-
-  function scheduleCollapse() {
-    if (collapseTimer) clearTimeout(collapseTimer);
-    collapseTimer = setTimeout(() => {
-      if (audioControl) audioControl.classList.remove("open");
-      collapseTimer = null;
-    }, 3000);
-  }
-
-  if (audioBtn && audioControl) {
-    audioBtn.addEventListener("click", () => {
-      audioControl.classList.toggle("open");
-      if (audioControl.classList.contains("open")) {
-        scheduleCollapse();
-      } else if (collapseTimer) {
-        clearTimeout(collapseTimer);
-        collapseTimer = null;
-      }
-    });
-  }
-
-  if (volumeSlider && bgMusic) {
-    volumeSlider.addEventListener("input", () => {
-      userAdjustedVolume = true;
-      bgMusic.volume = parseFloat(volumeSlider.value);
-      scheduleCollapse();
-    });
-  }
-
-  // Keeps the pause/play icon in sync with the audio element's real
-  // state regardless of what caused the change (the button itself,
-  // or music auto-pausing because a video started playing).
-  if (bgMusic && audioPauseBtn) {
-    const iconPause = audioPauseBtn.querySelector(".icon-pause");
-    const iconPlay = audioPauseBtn.querySelector(".icon-play");
-
-    function syncPauseIcon() {
-      const isPaused = bgMusic.paused;
-      if (iconPause) iconPause.style.display = isPaused ? "none" : "";
-      if (iconPlay) iconPlay.style.display = isPaused ? "" : "none";
-      audioPauseBtn.setAttribute("aria-label", isPaused ? "Play music" : "Pause music");
-    }
-
-    bgMusic.addEventListener("play", syncPauseIcon);
-    bgMusic.addEventListener("pause", syncPauseIcon);
-    syncPauseIcon();
-
-    audioPauseBtn.addEventListener("click", () => {
-      if (bgMusic.paused) {
-        bgMusic.play().catch(() => {});
-      } else {
-        bgMusic.pause();
-        pausedForVideo = false; // manual pause -- don't auto-resume this later
-        if (resumeMusicTimer) {
-          clearTimeout(resumeMusicTimer);
-          resumeMusicTimer = null;
-        }
-      }
-      scheduleCollapse();
-    });
-  }
-
   updateView();
   loadYouTubeApi();
 })();
-
-let isScrolling = false;
-const siteBody = document.body;
-
-window.addEventListener('wheel', (e) => {
-  // 1. Ignore tiny accidental movements (trackpad drift)
-  if (Math.abs(e.deltaY) < 10) return; 
-
-  // 2. Prevent the scroll from firing continuously
-  if (isScrolling) return;
-  isScrolling = true;
-
-  if (e.deltaY > 0) {
-    // Scrolling Up
-    siteBody.classList.add("honorable-open");
-  } else if (e.deltaY < 0) {
-    // Scrolling Down
-    siteBody.classList.remove("honorable-open");
-    hideVideoOverlay();
-  }
-
-  // 3. Reset the scroll lock after 500ms (adjust based on your CSS transition speed)
-  setTimeout(() => {
-    isScrolling = false;
-  }, 500);
-}, { passive: true });

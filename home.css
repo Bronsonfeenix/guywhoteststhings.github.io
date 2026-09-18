@@ -15,6 +15,12 @@ html, body {
 
 body {
   font-family: "Jost", sans-serif;
+  /* Text isn't meant to be selected/highlighted anywhere on this
+     site -- it's a visual character-select screen, not a document. */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .expansion-select {

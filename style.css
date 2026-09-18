@@ -23,6 +23,12 @@ body {
   overflow: hidden;
   background-size: cover;
   background-position: center;
+  /* Text isn't meant to be selected/highlighted anywhere on this
+     site -- it's a visual character-select screen, not a document. */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   /* Neutral placeholder backdrop -- shows until you add a real image
      for each class below. Not tied to any class color, so it won't be
      confused with the icon gradients. This still applies to body
@@ -45,85 +51,6 @@ body {
   z-index: 0;
   overflow: hidden;
   background-color: #181410;
-}
-
-/* ----- Volume control (top-left, persistent across both scenes) ----- */
-
-.audio-control {
-  position: fixed;
-  bottom: 3vh;
-  left: 3vw;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-}
-
-.audio-btn {
-  width: 38px;
-  height: 38px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  border: none;
-  background: rgba(20, 16, 11, 0.65);
-  color: var(--parchment);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 150ms ease, color 150ms ease;
-}
-
-.audio-btn:hover {
-  background: rgba(156, 122, 60, 0.28);
-  color: var(--gold-bright);
-}
-
-.audio-panel {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 6px;
-  max-width: 0;
-  white-space: nowrap;
-  opacity: 0;
-  margin-left: 0;
-  padding: 0;
-  overflow: hidden;
-  background: rgba(20, 16, 11, 0.65);
-  border-radius: 16px;
-  transition: max-width 250ms ease, opacity 200ms ease, margin-left 250ms ease, padding 250ms ease;
-}
-
-.audio-control.open .audio-panel {
-  max-width: 260px;
-  opacity: 1;
-  margin-left: 10px;
-  padding: 4px 6px 4px 12px;
-}
-
-.volume-slider {
-  width: 120px;
-  flex: 0 0 auto;
-  box-sizing: content-box;
-  accent-color: var(--gold-bright);
-}
-
-.audio-pause-btn {
-  width: 24px;
-  height: 24px;
-  flex: 0 0 auto;
-  border: none;
-  background: none;
-  color: var(--parchment);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: color 150ms ease;
-}
-
-.audio-pause-btn:hover {
-  color: var(--gold-bright);
 }
 
 .bg-layer {
@@ -925,13 +852,19 @@ body.honorable-open .honorable-scene {
 
 .honorable-list {
   position: absolute;
-  top: 14vh;
-  bottom: 8vh;
+  bottom: 15vh;
+  max-height: 55vh;
   max-width: min(450px, 27vw);
   overflow-y: auto;
   overflow-x: hidden;
+  /* column-reverse (not column) so the first entry in the data sits
+     closest to the "Fun"/"Skill" badge below, with later entries
+     stacking upward above it -- the box's own height grows to fit
+     its content (up to max-height) since only "bottom" is anchored,
+     not "top", so it genuinely grows upward from that badge rather
+     than being a fixed-height box that happens to align near it. */
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: flex-start;
   /* Each .honorable-entry-box gets an explicit width set by JS
      (see renderHonorableList in script.js) rather than relying on a
@@ -985,21 +918,6 @@ body.honorable-open .honorable-scene {
 
 .honorable-note.visible {
   display: block;
-}
-
-/* Blinking cursor at the end of the text while it's "typing" (see
-   .typing-cursor toggled in script.js) and briefly after, mimicking a
-   typewriter. */
-.honorable-note.typing::after {
-  content: "|";
-  margin-left: 2px;
-  animation: honorable-cursor-blink 0.8s step-start infinite;
-}
-
-@keyframes honorable-cursor-blink {
-  50% {
-    opacity: 0;
-  }
 }
 
 .honorable-entry-box {
@@ -1097,6 +1015,7 @@ body.honorable-open .honorable-scene {
     width: 90vw;
     margin: 0 auto 12px;
     max-height: 22vh;
+    flex-direction: column;
   }
   .honorable-note {
     position: static;
