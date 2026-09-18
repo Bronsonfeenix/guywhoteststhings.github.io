@@ -122,11 +122,12 @@ entries freely — each is just `{ name: "...", lore: "...", video: "..." }`
 
 Clicking a name only ever controls the video: if that entry has one,
 it appears in a single shared, unstyled floating slot (no border or
-background of its own) positioned next to whichever entry was clicked
-— to the right for a Fun entry, to the left for a Skill entry, both
-opening toward the center. It's a top-level element rather than
-nested inside either list, so it can never be clipped by a list's
-scroll area, and it never affects any entry's position or width.
+background of its own, sized the same as the main screen's video
+player) positioned next to whichever entry was clicked — to the right
+for a Fun entry, to the left for a Skill entry, both opening toward
+the center. It's a top-level element rather than nested inside either
+list, so it can never be clipped by a list's scroll area, and it never
+affects any entry's position or width.
 
 `lore` on an individual entry currently does nothing on its own —
 lore only ever shows via a class's own `note` field (a sibling of
@@ -174,20 +175,21 @@ and visible on both scenes, expands a horizontal slider and a
 pause/play button when clicked, and collapses again automatically 3
 seconds after the last interaction with either control. Once a
 visitor touches the slider, the auto fade-in stops adjusting the
-volume for them so their choice sticks. The music also automatically
-pauses itself while the main video player is actually playing, and
-resumes 1.5 seconds after the video stops — that short delay is
-deliberate: skipping/seeking through a video fires brief
-buffering/paused states between seeks, and without the delay the music
-would blip back in during every one of those instead of only when
-playback genuinely stops. Unless the visitor paused the music
-manually, in which case it stays paused either way. (This only applies
-to the main video player, which has real play/state detection via the
-YouTube API; the plain-iframe videos inside Honorable Mentions entries
-don't pause the music, since there's no equivalent way to detect their
-play state.) To use a different track, replace the file at that path
-(or update the `<audio>` element's `src` in `index.html` if you rename
-it).
+volume for them so their choice sticks.
+
+The music also automatically pauses itself while either video player
+is actually playing — the main one and the one inside Honorable
+Mentions, which now also uses the real YouTube IFrame API (rather than
+a plain iframe) specifically so its play state can drive this same
+behavior. It resumes 3 seconds after a video stops, fading back up to
+whatever volume it was at rather than snapping straight to it. The
+delay is deliberate: skipping/seeking through a video fires brief
+buffering/paused states between seeks, and without it the music would
+blip back in during every one of those instead of only when playback
+genuinely stops. Unless the visitor paused the music manually, in
+which case it stays paused either way. To use a different track,
+replace the file at that path (or update the `<audio>` element's `src`
+in `index.html` if you rename it).
 
 ## Deploying to GitHub Pages
 

@@ -21,7 +21,6 @@
   const honorableListSkill = document.getElementById("honorableListSkill");
   const honorableNote = document.getElementById("honorableNote");
   const honorableVideoOverlay = document.getElementById("honorableVideoOverlay");
-  const honorableVideoFrame = document.getElementById("honorableVideoFrame");
   const bgMusic = document.getElementById("bgMusic");
   const audioControl = document.getElementById("audioControl");
   const audioBtn = document.getElementById("audioBtn");
@@ -461,49 +460,60 @@
           if (!videoStage || !window.YT) return;
           const isPlaying = event.data === YT.PlayerState.PLAYING;
           videoStage.classList.toggle("playing", isPlaying);
+          handleVideoPlayingChange(isPlaying);
+        }
+      }
+    });
+  }
 
-          // Auto-pause the background music while this video plays,
-          // and resume it once the video stops -- but only if the
-          // music was actually playing (and not paused for some other
-          // reason, e.g. the visitor's own pause button) when the
-          // video started. Resuming waits a beat rather than firing
-          // immediately: skipping through a video fires brief
-          // BUFFERING/PAUSED states between seeks, and without a
-          // delay the music would blip back in during every one of
-          // those instead of only when playback actually stops.
-          if (bgMusic) {
-            if (isPlaying) {
-              if (resumeMusicTimer) {
-                clearTimeout(resumeMusicTimer);
-                resumeMusicTimer = null;
-              }
-              if (!bgMusic.paused) {
-                bgMusic.pause();
-                pausedForVideo = true;
-              }
-            } else if (pausedForVideo) {
-              if (resumeMusicTimer) clearTimeout(resumeMusicTimer);
-              resumeMusicTimer = setTimeout(() => {
-                bgMusic.play().catch(() => {});
-                pausedForVideo = false;
-                resumeMusicTimer = null;
-              }, 1500);
-            }
+  // ---------------------------------------------------------------
+  // A second, separate YouTube player for the Honorable Mentions
+  // video slot -- using the real API (rather than a plain iframe)
+  // here too so its play state can drive the same music-ducking
+  // behavior as the main video player, via the shared
+  // handleVideoPlayingChange() above.
+  // ---------------------------------------------------------------
+  let honorableYtPlayer = null;
+  let honorablePendingVideoId = null;
+
+  function initHonorableYouTubePlayer() {
+    if (!window.YT || !window.YT.Player || !document.getElementById("honorableVideoFrame")) return;
+
+    honorableYtPlayer = new YT.Player("honorableVideoFrame", {
+      host: "https://www.youtube-nocookie.com",
+      playerVars: {
+        rel: 0,
+        modestbranding: 1,
+        playsinline: 1
+      },
+      events: {
+        onReady: () => {
+          if (honorablePendingVideoId) {
+            honorableYtPlayer.cueVideoById(honorablePendingVideoId);
+            honorablePendingVideoId = null;
           }
+        },
+        onStateChange: (event) => {
+          if (!window.YT) return;
+          handleVideoPlayingChange(event.data === YT.PlayerState.PLAYING);
         }
       }
     });
   }
 
   function loadYouTubeApi() {
-    if (window.YT && window.YT.Player) {
+    function initBoth() {
       initYouTubePlayer();
+      initHonorableYouTubePlayer();
+    }
+    if (window.YT && window.YT.Player) {
+      initBoth();
       return;
     }
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
     document.head.appendChild(tag);
-    window.onYouTubeIframeAPIReady = initYouTubePlayer;
+    window.onYouTubeIframeAPIReady = initBoth;
   }
 
   if (modelViewer) {
@@ -774,7 +784,7 @@
   let currentVideoSide = null;
 
   function showVideoOverlay(entryEl, videoId, sideKey) {
-    if (!honorableVideoOverlay || !honorableVideoFrame) return;
+    if (!honorableVideoOverlay) return;
     currentVideoEntry = entryEl;
     currentVideoSide = sideKey;
     const rect = entryEl.getBoundingClientRect();
@@ -786,16 +796,23 @@
       honorableVideoOverlay.style.right = window.innerWidth - rect.left + 10 + "px";
       honorableVideoOverlay.style.left = "auto";
     }
-    honorableVideoFrame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${videoId}?rel=0" title="Honorable mention video" frameborder="0" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    if (honorableYtPlayer && typeof honorableYtPlayer.cueVideoById === "function") {
+      honorableYtPlayer.cueVideoById(videoId);
+    } else {
+      honorablePendingVideoId = videoId;
+    }
     honorableVideoOverlay.classList.add("visible");
   }
 
   function hideVideoOverlay() {
-    if (!honorableVideoOverlay || !honorableVideoFrame) return;
+    if (!honorableVideoOverlay) return;
     currentVideoEntry = null;
     currentVideoSide = null;
     honorableVideoOverlay.classList.remove("visible");
-    honorableVideoFrame.innerHTML = ""; // stops playback, not just visually hides it
+    if (honorableYtPlayer && typeof honorableYtPlayer.stopVideo === "function") {
+      honorableYtPlayer.stopVideo();
+    }
+    honorablePendingVideoId = null;
   }
 
   // Expand/collapse entries via event delegation, since the list
@@ -891,9 +908,58 @@
   const MUSIC_TARGET_VOLUME = 0.25;
   const MUSIC_FADE_IN_DELAY_MS = 3000;
   const MUSIC_FADE_IN_DURATION_MS = 4000;
+  const MUSIC_RESUME_DELAY_MS = 3000;
+  const MUSIC_RESUME_FADE_MS = 600;
   let userAdjustedVolume = false;
   let pausedForVideo = false;
   let resumeMusicTimer = null;
+
+  // Smoothly fades back up to whatever volume the music was at before
+  // it got paused (pause doesn't change .volume, so that level is
+  // still sitting there) rather than snapping straight back to it.
+  function resumeMusicWithFade() {
+    if (!bgMusic) return;
+    const targetVolume = bgMusic.volume > 0 ? bgMusic.volume : MUSIC_TARGET_VOLUME;
+    bgMusic.volume = 0;
+    bgMusic.play().catch(() => {});
+    let start = null;
+    function step(timestamp) {
+      if (start === null) start = timestamp;
+      const progress = Math.min((timestamp - start) / MUSIC_RESUME_FADE_MS, 1);
+      bgMusic.volume = progress * targetVolume;
+      if (volumeSlider) volumeSlider.value = bgMusic.volume;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Shared by both video players (the main one and the Honorable
+  // Mentions one) -- pauses music the instant a video starts playing,
+  // and resumes it (with a fade) a few seconds after it stops. The
+  // delay matters: skipping/seeking through a video fires brief
+  // BUFFERING/PAUSED states between seeks, and without it the music
+  // would blip back in during every one of those instead of only when
+  // playback genuinely stops.
+  function handleVideoPlayingChange(isPlaying) {
+    if (!bgMusic) return;
+    if (isPlaying) {
+      if (resumeMusicTimer) {
+        clearTimeout(resumeMusicTimer);
+        resumeMusicTimer = null;
+      }
+      if (!bgMusic.paused) {
+        bgMusic.pause();
+        pausedForVideo = true;
+      }
+    } else if (pausedForVideo) {
+      if (resumeMusicTimer) clearTimeout(resumeMusicTimer);
+      resumeMusicTimer = setTimeout(() => {
+        resumeMusicWithFade();
+        pausedForVideo = false;
+        resumeMusicTimer = null;
+      }, MUSIC_RESUME_DELAY_MS);
+    }
+  }
 
   function fadeInMusic() {
     if (!bgMusic) return;

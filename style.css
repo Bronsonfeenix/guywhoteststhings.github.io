@@ -308,7 +308,7 @@ body.honorable-open .scene {
   background-color: #14110d;
   background-size: cover;
   background-position: center;
-  background-image: url("images/honorablementions.png");
+  background-image: url("images/honorablementions.jpg");
   /* ---- To set a background image for this whole scene, add an
      image and point this at it, e.g.:
      .honorable-scene {
@@ -1030,11 +1030,13 @@ body.honorable-open .honorable-scene {
    outside the scrollable lists means it can never be clipped by a
    list's own overflow, and expanding/collapsing it never affects any
    entry's position. */
+/* Same size as the main screen's .video-stage player, for visual
+   consistency between the two. */
 .honorable-video-overlay {
   display: none;
   position: fixed;
-  width: 350px;
-  height: 198px;
+  width: min(560px, 32vw);
+  aspect-ratio: 16 / 9;
   z-index: 20;
 }
 
