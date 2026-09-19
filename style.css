@@ -771,6 +771,7 @@ body.honorable-open .honorable-scene {
   font-weight: 700;
   font-size: 1.15rem;
   letter-spacing: 0.05em;
+  text-align: center;
   color: var(--gold-bright);
   background: rgba(20, 16, 11, 0.55);
   border: 1px solid var(--gold);
@@ -779,11 +780,11 @@ body.honorable-open .honorable-scene {
 }
 
 .honorable-header-fun {
-  left: 4vw;
+  left: 16vw;
 }
 
 .honorable-header-skill {
-  right: 4vw;
+  right: 16vw;
 }
 
 .honorable-icon-column {
@@ -852,7 +853,7 @@ body.honorable-open .honorable-scene {
 
 .honorable-list {
   position: absolute;
-  bottom: 15vh;
+  bottom: 18vh;
   max-height: 55vh;
   max-width: min(450px, 27vw);
   overflow-y: auto;
@@ -876,11 +877,18 @@ body.honorable-open .honorable-scene {
 }
 
 .honorable-list-fun {
-  left: 4vw;
+  left: 16vw;
 }
 
 .honorable-list-skill {
-  right: 4vw;
+  /* 8px less than the fun side's matching offset to cancel out this
+     list's own padding-right (kept for scrollbar clearance): that
+     padding pads the shrink-to-fit box on its far side from the
+     right-anchor, which pushes the actual entry boxes 8px further
+     left than a right-anchored ".honorable-header-skill" of the same
+     width would sit -- shifting the anchor back by that same 8px
+     lines the two up exactly. */
+  right: calc(16vw - 8px);
 }
 
 .honorable-placeholder {
@@ -932,7 +940,8 @@ body.honorable-open .honorable-scene {
   height: 50px;
   display: flex;
   align-items: center;
-  text-align: left;
+  justify-content: center;
+  text-align: center;
   font-family: "Jost", sans-serif;
   font-weight: 600;
   font-size: 1.19rem;
@@ -945,6 +954,47 @@ body.honorable-open .honorable-scene {
 
 .honorable-entry-name:hover {
   color: var(--gold-bright);
+}
+
+/* Tint each entry name to the currently-picked class's official WoW
+   color (same palette as the main screen's body[data-class] .lore-name
+   rules), scoped to .honorable-scene rather than body so it only ever
+   reflects the class picked here, not whatever the main screen has
+   selected underneath. */
+.honorable-scene[data-class="warrior"] .honorable-entry-name {
+  color: #C69B6D;
+}
+
+.honorable-scene[data-class="paladin"] .honorable-entry-name {
+  color: #F48CBA;
+}
+
+.honorable-scene[data-class="hunter"] .honorable-entry-name {
+  color: #AAD372;
+}
+
+.honorable-scene[data-class="rogue"] .honorable-entry-name {
+  color: #FFF468;
+}
+
+.honorable-scene[data-class="priest"] .honorable-entry-name {
+  color: #FFFFFF;
+}
+
+.honorable-scene[data-class="shaman"] .honorable-entry-name {
+  color: #0070DD;
+}
+
+.honorable-scene[data-class="mage"] .honorable-entry-name {
+  color: #3FC7EB;
+}
+
+.honorable-scene[data-class="warlock"] .honorable-entry-name {
+  color: #8788EE;
+}
+
+.honorable-scene[data-class="druid"] .honorable-entry-name {
+  color: #FF7C0A;
 }
 
 /* Centered on screen, sized noticeably bigger than the main page's

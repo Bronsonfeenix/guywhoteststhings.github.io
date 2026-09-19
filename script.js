@@ -17,8 +17,11 @@
   const honorableBtn = document.getElementById("honorableBtn");
   const honorableBackBtn = document.getElementById("honorableBackBtn");
   const honorableClassButtons = document.querySelectorAll(".honorable-class-btn");
+  const honorableScene = document.getElementById("honorableScene");
   const honorableListFun = document.getElementById("honorableListFun");
   const honorableListSkill = document.getElementById("honorableListSkill");
+  const honorableHeaderFun = document.querySelector(".honorable-header-fun");
+  const honorableHeaderSkill = document.querySelector(".honorable-header-skill");
   const honorableNote = document.getElementById("honorableNote");
   const honorableVideoOverlay = document.getElementById("honorableVideoOverlay");
 
@@ -88,44 +91,44 @@
   const HONORABLE_MENTIONS = {
     warrior: {
       skill: [{ name: "Laintime", lore: "People think of Laintime as the godfather of warriors, we remember him as the lone pillar holding up the tuber industry. The people of Felwood thank you, Laintime", video: "LFkSidbQu2o" }],
-      fun: [{ name: "Swifty", lore: "", video: "HUPexEfCG7g" }, { name: "Pat", lore: "", video: "RGBnjELkgok" }, { name: "Maydie", lore: "", video: "SwSR1SHYZRI" }, { name: "Illusion", lore: "", video: "STq43Pxqgc4" }, { name: "Spinister", lore: "", video: "hW8ButI6mns" }, { name: "Hulksmash", lore: "", video: "IAR1CsAXLCw" }, { name: "Xahlior", lore: "", video: "oKQNJL5IL2s" }],
-      note: "People think of Laintime as the godfather of warriors, we remember him as the lone pillar holding up the tuber industry. The people of Felwood thank you, Laintime"
+      fun: [{ name: "Swifty", lore: "From the game-breaking charge macro exploit, to practically inventing Skull of Impending Doom to the fun 1v1 best player on the server format, Incredible Warrior Tricks is one of the most engaging vanilla videos of all time", video: "HUPexEfCG7g" }, { name: "Pat", lore: "What an extra talent point, an army of healers, and a row of buffs that would make that most hardened Naxxramas raider blush looks like.", video: "RGBnjELkgok" }, { name: "Maydie", lore: "You already know who this is, you've seen this, your brother has seen this, your neighbor's wife has seen this. It's Maydie bro. Lock in. You're disappointing me.", video: "SwSR1SHYZRI" }, { name: "Illusion", lore: "Hulksmash with worse music and a worse overall video, but he has two f***ing servo arms. so evens it out a bit.", video: "STq43Pxqgc4" }, { name: "Spinister", lore: "The less famous twin brother of laintime but not any less fun", video: "hW8ButI6mns" }, { name: "Hulksmash", lore: "Big damage, Big soundtrack, Big fury, your favorite warriors favorite PvP video.", video: "IAR1CsAXLCw" }, { name: "Xahlior", lore: "The most fun thing about this video is his gear, because damn, how is this man so geared?", video: "oKQNJL5IL2s" }],
+      note: ""
     },
     paladin: {
-      skill: [{ name: "Chipman", lore: "", video: "b2EfsrD_Mqk" }, { name: "Kirill", lore: "", video: "fhnEhZVzo3I" }],
+      skill: [{ name: "Chipman", lore: "The Maydie of ret paladin videos, Swifty's alt.", video: "b2EfsrD_Mqk" }, { name: "Kirill", lore: "Stunlocks with engi", video: "fhnEhZVzo3I" }],
       fun: []
     },
     hunter: {
-      skill: [{ name: "Biuret", lore: "", video: "m-IzBxFa8yg" }, { name: "Kishra", lore: "", video: "eIW0i5tch1E" }],
-      fun: [{ name: "Fubarius(Huntology)", lore: "Can’t really put this one into words, it’s something that just needs to be experienced. Some (most) will hate it and others will love it, for us however, we definitely believe in immersing ourselves in the dream of the hunt.", video: "k5DdYPLoItU" }],
-      note: "Can’t really put this one into words, it’s something that just needs to be experienced. Some (most) will hate it and others will love it, for us however, we definitely believe in immersing ourselves in the dream of the hunt."
+      skill: [{ name: "Biuret", lore: "After watching every hunter video that exists on the internet that could find we were left with three candidates, the clicker won between them.", video: "m-IzBxFa8yg" }, { name: "Kishra", lore: "After watching every hunter video that exists on the internet that could find we were left with three candidates, the clicker won between them.", video: "eIW0i5tch1E" }],
+      fun: [{ name: "Fubarius(Huntology)", lore: "Can't really put this one into words, it's something that just needs to be experienced. Some (most) will hate it and others will love it, for us however, we definitely believe in immersing ourselves in the dream of the hunt.", video: "k5DdYPLoItU" }],
+      note: ""
     },
     rogue: {
-      skill: [{ name: "Dahis", lore: "", video: "VMCDsXwAEK8" }, { name: "Corrupt", lore: "", video: "CkRIrlmQRYQ" }, { name: "Ming", lore: "", video: "aDXXr3ad3is" }, { name: "Happyminti", lore: "", video: "YvQoYMq8_Ng" }, { name: "Oozo", lore: "", video: "1C7Uvt_0oYs" }],
-      fun: [{ name: "Caen", lore: "", video: "CGZiwuUPFMo" }, { name: "Perkulator ", lore: "", video: "ID192rw5Whw" }, { name: "Grim", lore: "", video: "oWNt_8xcOZw" }],
+      skill: [{ name: "Dahis", lore: "Dahis is the Klay Thompson to Cielz' Curry - Splash Bros!", video: "VMCDsXwAEK8" }, { name: "Corrupt", lore: "C'thun tentacles and hunter traps", video: "CkRIrlmQRYQ" }, { name: "Ming", lore: "Humble beginnings to what would become one of the biggest names in the arena scene", video: "aDXXr3ad3is" }, { name: "Happyminti", lore: " Prevanishing paranoia, good reflectors, spacing warrior shouts for stealth, overall very clean", video: "YvQoYMq8_Ng" }, { name: "Oozo", lore: "Some of the earliest display of rogue skills that are now the mark of a good rogue (even if some ((all)) of them happened on accident)", video: "1C7Uvt_0oYs" }],
+      fun: [{ name: "Caen", lore: "Basically a movie, 41 minutes of Thunderfury slicing through people to a soundtrack that could only have been born in the early 00's", video: "CGZiwuUPFMo" }, { name: "Perkulator ", lore: "Good vibes", video: "ID192rw5Whw" }, { name: "Grim", lore: "High intensity, fun moments, same server as Zalgradis and Maydie.", video: "oWNt_8xcOZw" }],
       note: ""
     },
     priest: {
       skill: [],
-      fun: [{ name: "Keytal", lore: "", video: "zAJOrVks7Xc" }],
+      fun: [{ name: "Keytal", lore: "Ever want to see what 10 Spriests look like in a WSG? Here you go.", video: "zAJOrVks7Xc" }],
       note: "There are no honorable priests apparently"
     },
     shaman: {
       skill: [],
-      fun: [{ name: "Arashmano", lore: "", video: "8-w9Wl8v6ZA" }]
+      fun: [{ name: "Arashmano", lore: "If Unbreakable is Shaq Arashmano is Yao, same build different style", video: "8-w9Wl8v6ZA" }]
     },
     mage: {
-      skill: [{ name: "Drifting", lore: "", video: "VXh_kZZ-GQo" }, { name: "Zachary", lore: "", video: "ohTYLIi1ghY" }, { name: "Gameking", lore: "", video: "RfY8Egsd6C8" }, { name: "Alca", lore: "", video: "MMnmuU8mOsw" }, { name: "Vurtne", lore: "", video: "k5Wieh9MMmc" }],
-      fun: [{ name: "Zelta", lore: "", video: "WYSbkW__6MI" }, { name: "Faxmonkey", lore: "", video: "3O_pNDc73MM" }, { name: "Voidim", lore: "", video: "fSn46eGGW7s" }, { name: "Otherguy(Sorrow Hill)", lore: "", video: "2FwMRW1ra0E" }],
+      skill: [{ name: "Drifting", lore: "Both Drifting and Zachary are incredibly clean and could have made the top spot if it was not for the fact that Clazzi is Clazzi", video: "VXh_kZZ-GQo" }, { name: "Zachary", lore: "Both Zachary and Drifting are incredibly clean and could have made the top spot if it was not for the fact that Clazzi is Clazzi.", video: "ohTYLIi1ghY" }, { name: "Gameking", lore: "Very fast in both decision making and execution, crispy ice blocks.", video: "RfY8Egsd6C8" }, { name: "Alca", lore: "Great movement, a lot of heads up small plays, and he's ele so that's fun.", video: "MMnmuU8mOsw" }, { name: "Vurtne", lore: "When you think warlock, you think Drakedog. When you think mage, it's Vurtne", video: "k5Wieh9MMmc" }],
+      fun: [{ name: "Zelta", lore: "Fire. Fun. Ignite. Invis pyro. Fun. Crit. Boom. Ignite.", video: "WYSbkW__6MI" }, { name: "Faxmonkey", lore: "Made you envious of mages PvE ability, Dysphoria and him were cut from the same cloth", video: "3O_pNDc73MM" }, { name: "Voidim", lore: "The worlds first vanilla video that doesn't include Rammstein or P.O.D - Boom, this soundtrack is F R E S H", video: "fSn46eGGW7s" }, { name: "Otherguy(Sorrow Hill)", lore: "Everyone who played in vanilla knew his name, very well respected player from way back when.", video: "2FwMRW1ra0E" }],
       note: "Both Zachary and Drifiting get extra special mentions as standouts, Clazzi is just a cut above everyone else"
     },
     warlock: {
-      skill: [{ name: "Shining", lore: "Coiling intercepts and smart use of spellstones, Shining is a strong contender for top spot", video: "SqlJUxRd9WU" }, { name: "May", lore: "", video: "fwvpcN72K98" }, { name: "Diivil", lore: "", video: "BV5iAVmiqF8" }],
+      skill: [{ name: "Shining", lore: "Coiling intercepts and smart use of spellstones, Shining is a strong contender for top spot", video: "SqlJUxRd9WU" }, { name: "May", lore: "Knows what banish does", video: "fwvpcN72K98" }, { name: "Diivil", lore: "Who needs 3k soulfires when you can tank your enemies to death, the rare vanilla soullink warlock here to prove you don't need skill when you don't take damage", video: "BV5iAVmiqF8" }],
       fun: [],
-      note: "Coiling intercepts and smart use of spellstones, Shining is a strong contender for top spot"
+      note: ""
     },
     druid: {
-      skill: [{ name: "Unstoppable", lore: "", video: "_QLmuHDy0Qs" }, { name: "Azgaz", lore: "", video: "xlXOnYi5tAU" }],
+      skill: [{ name: "Unstoppable", lore: "Even if he weren't as capable as he is, deserves a spot for the model/spell editing.", video: "_QLmuHDy0Qs" }, { name: "Azgaz", lore: "Druid enjoyers would kill us if we didn't include Azgaz on the list", video: "xlXOnYi5tAU" }],
       fun: []
     }
   };
@@ -667,6 +670,13 @@
     boxes.forEach((box) => {
       box.style.width = width + "px";
     });
+    // Fun/Skill headers share the boxes' exact width and left/right
+    // anchor (see .honorable-header-fun/-skill in style.css), so
+    // giving them this same width centers them under the name boxes
+    // rather than just aligning a shared edge.
+    [honorableHeaderFun, honorableHeaderSkill].forEach((header) => {
+      if (header) header.style.width = width + "px";
+    });
   }
 
   // Positions the note to the right of the given class's icon.
@@ -760,6 +770,7 @@
     btn.addEventListener("click", () => {
       honorableClassButtons.forEach((b) => b.classList.toggle("active", b === btn));
       currentHonorableClass = btn.dataset.class;
+      if (honorableScene) honorableScene.dataset.class = currentHonorableClass;
       hideVideoOverlay();
       renderHonorableLists(currentHonorableClass);
     });
@@ -768,6 +779,10 @@
   if (honorableBtn) {
     honorableBtn.addEventListener("click", () => {
       body.classList.add("honorable-open");
+      // Sizes the Fun/Skill headers up front, rather than leaving them
+      // at their tiny text-only default width until the first class
+      // click renders entries and triggers this same sizing.
+      applyUniformEntryBoxWidth();
     });
   }
 
