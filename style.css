@@ -260,6 +260,17 @@ body.honorable-open .honorable-scene {
   top: 4vh;
   left: 50%;
   transform: translateX(-50%);
+  /* Without an explicit width, an absolutely-positioned width:auto
+     element with only "left" set (not "right") gets its shrink-to-fit
+     available width capped at (containing block width - left offset)
+     by spec -- at left:50% that's exactly half the viewport, however
+     wide its content actually wants to be, regardless of the
+     translateX(-50%) used to center it (transforms don't affect this
+     calculation). Below ~1252px wide that's less than the 9 class
+     icons need in one row, wrapping them into two rows that then
+     collide with .lore-panel below. max-content sizes this to its
+     content's actual preferred width instead. */
+  width: max-content;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -495,8 +506,17 @@ body.honorable-open .honorable-scene {
   /* Fixed position rather than tied to the model box -- once the
      model got much bigger and bottom-anchored, aligning to its top
      edge pushed this panel up into the icon row. This value places
-     it comfortably below the icon row instead. */
-  top: 17vh;
+     it comfortably below the icon row instead.
+     A flat vh value only clears the icon row on tall viewports: the
+     row's own height (~124px: mode-toggle + gap + one 72px icon row)
+     barely changes with viewport height, but 17vh does, so on
+     anything shorter than ~940px tall (most 1024x768/1366x768/
+     1440x900 laptop screens) a flat vh value ends up smaller than
+     .control-column's actual rendered height and the two overlap.
+     Matching .control-column's own "top: 4vh" and adding a fixed
+     pixel allowance for its height instead keeps this tied to where
+     that row actually ends, regardless of viewport height. */
+  top: calc(4vh + 150px);
   right: 4vw;
   width: min(560px, 34vw);
   min-width: 320px;
@@ -641,7 +661,12 @@ body.honorable-open .honorable-scene {
     position: static;
     bottom: auto;
     width: 85vw;
-    margin: 12px auto 0;
+    /* The desktop rule's min-width: 320px doesn't shrink with the
+       viewport -- left as-is, it forces this panel (and everything
+       inside it) wider than the screen on any phone narrower than
+       320px, which overflow-x: hidden above then just silently clips. */
+    min-width: 0;
+    margin: 0 auto;
     text-align: center;
   }
   .lore-rating {
@@ -652,11 +677,11 @@ body.honorable-open .honorable-scene {
     align-items: center;
     gap: 6px;
   }
-  .video-stage {
-    position: static;
-    width: min(400px, 85vw);
-    margin: 14px auto 0;
-  }
+  /* .video-stage's own mobile override lives in the later "Small
+     screens" media query instead of here: its base (desktop) rule
+     below is declared AFTER this block in the file, so with equal
+     specificity the base rule would win the cascade regardless of
+     viewport if this query tried to override it here too. */
 }
 
 /* ----- Embedded video (left side) -----------------------------------
@@ -792,6 +817,11 @@ body.honorable-open .honorable-scene {
   bottom: 15vh;
   left: 50%;
   transform: translateX(-50%);
+  /* See .control-column's own comment: width:auto here would get
+     shrink-to-fit-capped at half the viewport width (from left:50%
+     with no matching "right"), wrapping these 9 icons into two rows
+     well before the viewport is actually too narrow for one. */
+  width: max-content;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -853,7 +883,15 @@ body.honorable-open .honorable-scene {
 
 .honorable-list {
   position: absolute;
-  bottom: 18vh;
+  /* Needs to clear .honorable-icon-column's own bottom edge, which is
+     its "bottom: 15vh" anchor plus its actual rendered height (~86px:
+     padding + 50px icon + gap + label, mostly fixed px, not vh). A
+     flat vh value here (18vh) only clears that on tall viewports --
+     at 768px tall, 18vh is 138px vs. the icon row's real ~201px
+     (115px anchor + 86px height), so the list renders behind the
+     icons instead of above them. Tying this to the icon column's own
+     terms instead keeps the gap correct at any viewport height. */
+  bottom: calc(15vh + 130px);
   max-height: 55vh;
   max-width: min(450px, 27vw);
   overflow-y: auto;
@@ -1059,46 +1097,114 @@ body.honorable-open .honorable-scene {
     transform: none;
     margin: 12px auto;
     justify-content: center;
+    order: 1;
   }
   .honorable-list {
     position: static;
     width: 90vw;
+    /* The desktop rule's max-width: min(450px, 27vw) doesn't relax on
+       its own -- left in place, 27vw caps this well below the 90vw
+       just set above (e.g. ~86px on a 320px phone against ~205px-wide
+       entry boxes), and overflow-x: hidden then silently clips every
+       name down to its first character or two. */
+    max-width: none;
     margin: 0 auto 12px;
     max-height: 22vh;
     flex-direction: column;
+  }
+  .honorable-list-fun {
+    order: 3;
+  }
+  .honorable-list-skill {
+    order: 5;
   }
   .honorable-note {
     position: static;
     transform: none;
     width: 90vw;
     margin: 0 auto 12px;
+    order: 6;
   }
   .honorable-video-overlay {
     position: static;
     transform: none;
     width: 90vw;
     margin: 0 auto 12px;
+    order: 7;
+  }
+  /* Desktop pairs each header with its list purely via matching
+     absolute-position anchors, so they can sit anywhere in the
+     markup; both headers just happen to come first (see
+     character-select.html). Stacked in that same raw DOM order on
+     mobile, both headers would end up in one clump above both lists
+     instead of each one leading its own list -- ordering them here
+     interleaves header/list/header/list to match. */
+  .honorable-header-fun {
+    order: 2;
+  }
+  .honorable-header-skill {
+    order: 4;
   }
   .honorable-scene {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    padding: 12px 0 70px;
+    align-items: center;
+    /* Extra top clearance for the fixed Back button below -- without
+       it, the first stacked item (the class icons) starts right under
+       the scene's own padding and sits behind the button instead of
+       below it. Matched to the button's own fixed top (10px) + its
+       rendered height + a small gap, not the button's desktop "top:
+       4vh", since 4vh swings anywhere from ~20px to ~70px across
+       actual phone heights and a vh-based gap here would just as
+       easily under- or over-shoot it again. */
+    padding: 56px 0 70px;
   }
   .honorable-back-btn {
     position: fixed;
+    top: 10px;
   }
 }
 
 /* ----- Small screens ----- */
 
 @media (max-width: 860px) {
-  .control-column {
-    left: 50%;
-    top: 2vh;
-    transform: translateX(-50%);
-    align-items: center;
+  html, body {
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
+
+  /* Desktop overlaps everything via absolute positioning, which only
+     works when the viewport is tall/wide enough for it all to fit
+     without colliding. Below this width, every direct child of
+     .scene stacks in normal document order instead -- .control-column
+     and .model-stage need this same position:static treatment that
+     .lore-panel/.video-stage already get above, otherwise those two
+     stay absolutely positioned near the top of a now-scrollable page
+     and sit on top of the stacked content instead of leading it. */
+  .scene {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 3vh 0 24px;
+  }
+
+  .control-column,
+  .model-stage,
+  .identity-panel {
+    position: static;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    transform: none;
+  }
+
   .class-btn {
     width: 52px;
     height: 60px;
@@ -1109,14 +1215,33 @@ body.honorable-open .honorable-scene {
   }
   .model-stage {
     width: min(640px, 92vw);
-    height: min(640px, 68vh);
-    min-width: 300px;
-    min-height: 300px;
-    bottom: 0;
+    height: min(640px, 62vh);
+    min-width: 240px;
+    min-height: 240px;
   }
   .identity-panel {
-    bottom: 22vh;
     width: 85vw;
+  }
+
+  .video-stage {
+    position: static;
+    width: min(400px, 85vw);
+    margin: 0 auto;
+  }
+
+  /* Static, not fixed: this scene's total stacked height often lands
+     close to one viewport, so a fixed bottom bar and the last couple
+     of stacked items (.lore-panel's rating line especially) end up
+     sharing the same on-screen band with no scrolling involved to
+     separate them -- unlike .honorable-back-btn on the Honorable
+     Mentions scene, where the list being reliably much taller than
+     the viewport makes "always reachable while scrolling" worth that
+     same tradeoff. Static here just makes it the last stacked item. */
+  .honorable-btn {
+    position: static;
+    left: auto;
+    bottom: auto;
+    transform: none;
   }
 }
 
